@@ -1,8 +1,8 @@
 <?php
 
-namespace Http\Server;
+namespace Swiftly\Http\Server;
 
-use Http\Headers;
+use Swiftly\Http\Headers;
 
 /**
  * Class used to redirect the client to a new resource

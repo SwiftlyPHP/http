@@ -1,8 +1,8 @@
 <?php
 
-namespace Http\Server;
+namespace Swiftly\Http\Server;
 
-use Http\{
+use Swiftly\Http\{
     Headers,
     Parameters,
     Url

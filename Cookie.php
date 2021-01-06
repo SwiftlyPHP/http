@@ -1,6 +1,6 @@
 <?php
 
-namespace Http;
+namespace Swiftly\Http;
 
 /**
  * Class used to represent and manage a single HTTP cookie

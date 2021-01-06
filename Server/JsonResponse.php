@@ -1,8 +1,8 @@
 <?php
 
-namespace Http\Server;
+namespace Swiftly\Http\Server;
 
-use Http\Headers;
+use Swiftly\Http\Headers;
 
 /**
  * Class used to send JSON responses to the client

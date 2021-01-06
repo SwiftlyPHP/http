@@ -1,8 +1,8 @@
 <?php
 
-namespace Http;
+namespace Swiftly\Http;
 
-use Http\Cookie;
+use Swiftly\Http\Cookie;
 
 /**
  * Utility container for managing HTTP cookies
