@@ -2,6 +2,11 @@
 
 namespace Swiftly\Http;
 
+use function array_key_exists;
+use function is_scalar;
+use function is_numeric;
+use function is_array;
+
 /**
  * Utility container for managing HTTP parameters
  *
@@ -58,7 +63,7 @@ Class Parameters
      */
     public function has( string $name ) : bool
     {
-        return \array_key_exists( $name, $this->parameters );
+        return array_key_exists( $name, $this->parameters );
     }
 
     /**
@@ -82,7 +87,7 @@ Class Parameters
      */
     public function asString( string $name ) : string
     {
-        return ( isset( $this->parameters[$name] ) && \is_scalar( $this->parameters[$name] )
+        return ( isset( $this->parameters[$name] ) && is_scalar( $this->parameters[$name] )
             ? (string)$this->parameters[$name]
             : ''
         );
@@ -99,7 +104,7 @@ Class Parameters
      */
     public function asInt( string $name ) : int
     {
-        return ( isset( $this->parameters[$name] ) && \is_numeric( $this->parameters[$name] )
+        return ( isset( $this->parameters[$name] ) && is_numeric( $this->parameters[$name] )
             ? (int)$this->parameters[$name]
             : 0
         );
@@ -116,7 +121,7 @@ Class Parameters
      */
     public function asArray( string $name ) : array
     {
-        return ( isset( $this->parameters[$name] ) && \is_array( $this->parameters[$name] )
+        return ( isset( $this->parameters[$name] ) && is_array( $this->parameters[$name] )
             ? $this->parameters[$name]
             : []
         );

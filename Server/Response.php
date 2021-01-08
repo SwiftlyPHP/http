@@ -4,6 +4,9 @@ namespace Swiftly\Http\Server;
 
 use Swiftly\Http\Headers;
 
+use function http_response_code;
+use function header;
+
 /**
  * Class used to send HTTP responses to the client
  *
@@ -87,11 +90,11 @@ Class Response
      */
     public function send() : void
     {
-        \http_response_code( $this->status );
+        http_response_code( $this->status );
 
         foreach ( $this->headers->all() as $name => $values ) {
             foreach ( $values as $index => $value ) {
-                \header( "$name: $value", $index === 0 );
+                header( "$name: $value", $index === 0 );
             }
         }
 

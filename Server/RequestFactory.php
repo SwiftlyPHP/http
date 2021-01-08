@@ -8,6 +8,8 @@ use Swiftly\Http\{
     Url
 };
 
+use function getallheaders;
+
 /**
  * Factory used to create Request objects
  *
@@ -48,7 +50,7 @@ Class RequestFactory
         return new Request(
             $_SERVER['REQUEST_METHOD'] ?? 'GET',
             Url::fromString( $this->getAbsoluteUrl() ),
-            new Headers( \getallheaders() ),
+            new Headers( getallheaders() ),
             new Parameters( $_GET ),
             new Parameters( $_POST )
         );

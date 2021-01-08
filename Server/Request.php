@@ -8,6 +8,8 @@ use Swiftly\Http\{
     Url
 };
 
+use function in_array;
+
 /**
  * Class used to represent HTTP requests coming into the server
  *
@@ -90,7 +92,7 @@ Class Request
      */
     public function __construct( string $method, Url $url, Headers $headers, Parameters $query, Parameters $post )
     {
-        $this->method  = \in_array( $method, static::ALLOWED_METHODS ) ? $method : 'GET';
+        $this->method  = in_array( $method, static::ALLOWED_METHODS ) ? $method : 'GET';
         $this->url     = $url;
         $this->headers = $headers;
         $this->query   = $query;

@@ -2,12 +2,16 @@
 
 namespace Swiftly\Http;
 
+use Stringable;
+
+use function parse_url;
+
 /**
  * Utility class for managing URLs
  *
  * @author C Varley <clvarley>
  */
-Class Url Implements \Stringable
+Class Url Implements Stringable
 {
 
     /**
@@ -73,7 +77,7 @@ Class Url Implements \Stringable
      */
     public static function fromString( string $url ) : ?Url
     {
-        $parts = \parse_url( $url );
+        $parts = parse_url( $url );
 
         if ( empty( $parts ) ) {
             return null;

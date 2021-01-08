@@ -4,6 +4,14 @@ namespace Swiftly\Http\Server;
 
 use Swiftly\Http\Headers;
 
+use function json_encode;
+use function strlen;
+
+use const JSON_HEX_AMP;
+use const JSON_HEX_TAG;
+use const JSON_HEX_APOS;
+use const JSON_HEX_QUOT;
+
 /**
  * Class used to send JSON responses to the client
  *
@@ -24,7 +32,7 @@ Class JsonResponse Extends Response
      *
      * @var int $encoding Encoding options
      */
-    protected $encoding = \JSON_HEX_AMP | \JSON_HEX_TAG | \JSON_HEX_APOS | \JSON_HEX_QUOT;
+    protected $encoding = JSON_HEX_AMP | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT;
 
     /**
      * Creates a new JSON HTTP response using the values provided
@@ -67,8 +75,9 @@ Class JsonResponse Extends Response
      */
     public function send() : void
     {
+        $this->content = json_encode( $this->json, $this->encoding );
         $this->headers->set( 'Content-Type', 'application/json' );
-        $this->content = \json_encode( $this->json, $this->encoding );
+        $this->headers->set( 'Content-Length', strlen( $this->content ) );
 
         parent::send();
     }

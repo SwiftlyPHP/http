@@ -2,6 +2,9 @@
 
 namespace Swiftly\Http;
 
+use function strtolower;
+use function array_key_exists;
+
 /**
  * Utility container for managing HTTP headers
  *
@@ -39,7 +42,7 @@ Class Headers
      */
     public function set( string $name, string $value, bool $replace = true ) : void
     {
-        $name = \strtolower( $name );
+        $name = strtolower( $name );
 
         if ( $replace || !isset( $this->headers[$name] ) ) {
             $this->headers[$name] = [ $value ];
@@ -58,7 +61,7 @@ Class Headers
      */
     public function get( string $name ) : ?string
     {
-        $name = \strtolower( $name );
+        $name = strtolower( $name );
 
         return $this->headers[$name][0] ?? null;
     }
@@ -71,9 +74,9 @@ Class Headers
      */
     public function has( string $name ) : bool
     {
-        $name = \strtolower( $name );
+        $name = strtolower( $name );
 
-        return \array_key_exists( $name, $this->headers );
+        return array_key_exists( $name, $this->headers );
     }
 
     /**
@@ -91,7 +94,7 @@ Class Headers
             return $this->headers;
         }
 
-        $name = \strtolower( $name );
+        $name = strtolower( $name );
 
         return $this->headers[$name] ?? [];
     }
