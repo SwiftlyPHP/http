@@ -10,7 +10,7 @@ use function header;
 /**
  * Class used to send HTTP responses to the client
  *
- * @author C Varley <clvarley>
+ * @author clvarley
  */
 Class Response
 {

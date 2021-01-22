@@ -10,7 +10,7 @@ use function is_array;
 /**
  * Utility container for managing HTTP parameters
  *
- * @author C Varley <clvarley>
+ * @author clvarley
  */
 Class Parameters
 {

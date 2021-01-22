@@ -9,7 +9,7 @@ use function parse_url;
 /**
  * Utility class for managing URLs
  *
- * @author C Varley <clvarley>
+ * @author clvarley
  */
 Class Url Implements Stringable
 {

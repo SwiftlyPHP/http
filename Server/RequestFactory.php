@@ -13,7 +13,7 @@ use function getallheaders;
 /**
  * Factory used to create Request objects
  *
- * @author C Varley <clvarley>
+ * @author clvarley
  */
 Class RequestFactory
 {

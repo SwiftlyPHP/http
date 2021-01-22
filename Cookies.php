@@ -7,7 +7,7 @@ use Swiftly\Http\Cookie;
 /**
  * Utility container for managing HTTP cookies
  *
- * @author C Varley <clvarley>
+ * @author clvarley
  */
 Class Cookies
 {

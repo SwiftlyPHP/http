@@ -5,7 +5,7 @@ namespace Swiftly\Http;
 /**
  * Class used to represent and manage a single HTTP cookie
  *
- * @author C Varley <clvarley>
+ * @author clvarley
  */
 Class Cookie
 {

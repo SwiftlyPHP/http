@@ -8,7 +8,7 @@ use function array_key_exists;
 /**
  * Utility container for managing HTTP headers
  *
- * @author C Varley <clvarley>
+ * @author clvarley
  */
 Class Headers
 {
