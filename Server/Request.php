@@ -36,6 +36,13 @@ Class Request
     ];
 
     /**
+     * Current user session
+     *
+     * @var Session|null $session User session
+     */
+    public $session;
+
+    /**
      * Request HTTP headers
      *
      * @var Headers $headers HTTP headers
