@@ -138,6 +138,8 @@ Class Request
 
     /**
      * Checks if this request was made via a secure protocol
+     *
+     * @return bool Secure protocol
      */
     public function isSecure() : bool
     {
