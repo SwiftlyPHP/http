@@ -92,4 +92,25 @@ Class Url Implements Stringable
 
         return $url;
     }
+
+    /**
+     * Creates a Url object from the global $_SERVER variable
+     *
+     * @return Url Url object
+     */
+    public static function fromGlobals() : Url
+    {
+        // Connection protocol
+        if ( !empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) {
+            $scheme = 'https';
+        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ) {
+            $scheme = 'https';
+        } else {
+            $scheme = 'http';
+        }
+
+        return self::fromString(
+            "$scheme://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"
+        );
+    }
 }
