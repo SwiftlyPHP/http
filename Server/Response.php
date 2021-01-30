@@ -111,7 +111,7 @@ Class Response
             }
         }
 
-        foreach ( $this->cookies->all() as $name => $cookie ) {
+        foreach ( $this->cookies->all() as $cookie ) {
             setcookie(
                 $cookie->name,
                 $cookie->value,
