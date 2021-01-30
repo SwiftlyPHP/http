@@ -3,6 +3,8 @@
 namespace Swiftly\Http\Server;
 
 use Swiftly\Http\{
+    Cookie,
+    Cookies,
     Headers,
     Parameters,
     Url
@@ -48,6 +50,13 @@ Class Request
      * @var Headers $headers HTTP headers
      */
     public $headers;
+
+    /**
+     * Request HTTP cookies
+     *
+     * @var Cookies $headers HTTP cookies
+     */
+    public $cookies;
 
     /**
      * HTTP query string parameters

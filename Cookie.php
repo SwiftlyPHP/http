@@ -53,7 +53,7 @@ Class Cookie
     protected $secure;
 
     /**
-     * Only readable via HTTP (no js)
+     * Only readable via HTTP (and not js)
      *
      * @var bool $httponly HTTP only
      */
