@@ -64,6 +64,16 @@ Class Response
     }
 
     /**
+     * Gets the status code of this response
+     *
+     * @return int Status code
+     */
+    public function getStatus() : void
+    {
+        return $this->status;
+    }
+
+    /**
      * Sets the status code of this response
      *
      * @param int $status Status code
@@ -72,6 +82,16 @@ Class Response
     public function setStatus( int $status ) : void
     {
         $this->status = $status;
+    }
+
+    /**
+     * Gets the content of this response
+     *
+     * @return string Response body
+     */
+    public function getContent() : string
+    {
+        return $this->content;
     }
 
     /**
