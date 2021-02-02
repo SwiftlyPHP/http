@@ -68,7 +68,7 @@ Class Response
      *
      * @return int Status code
      */
-    public function getStatus() : void
+    public function getStatus() : int
     {
         return $this->status;
     }
