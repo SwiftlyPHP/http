@@ -11,5 +11,13 @@
     },
     "require-dev": {
         "vimeo/psalm": "^4.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Swiftly\\Http\\": "src/"
+        },
+        "files": [
+            "src/polyfills.php"
+        ]
     }
 }
