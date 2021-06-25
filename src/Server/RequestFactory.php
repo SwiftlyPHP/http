@@ -2,11 +2,9 @@
 
 namespace Swiftly\Http\Server;
 
-use Swiftly\Http\{
-    Headers,
-    Parameters,
-    Url
-};
+use Swiftly\Http\Headers;
+use Swiftly\Http\Parameters;
+use Swiftly\Http\Url;
 
 use function getallheaders;
 
@@ -34,6 +32,7 @@ Class RequestFactory
             $method,
             Url::fromString( $url ),
             new Headers( $headers ),
+            new Cookies(), // TODO
             new Parameters( $query ),
             new Parameters( $post )
         );
@@ -48,7 +47,7 @@ Class RequestFactory
     public function fromGlobals() : Request
     {
         return new Request(
-            $_SERVER['REQUEST_METHOD'],
+            $_SERVER['REQUEST_METHOD'] ?? 'GET',
             Url::fromGlobals(),
             new Headers( apache_request_headers() ),
             new Parameters( $_GET ),

@@ -16,14 +16,14 @@ Class Headers
     /**
      * Array of HTTP headers
      *
-     * @var array[] $headers Http headers
+     * @var array<string, string[]> $headers Http headers
      */
     protected $headers = [];
 
     /**
      * Creates a new header bag from the (optionally) provided headers
      *
-     * @param array $headers (Optional) Http headers
+     * @param string[] $headers (Optional) Http headers
      */
     public function __construct( array $headers = [] )
     {
@@ -86,7 +86,7 @@ Class Headers
      * returned.
      *
      * @param string|null $name (Optional) Header name
-     * @return array            Header values
+     * @return mixed[]          Header values
      */
     public function all( string $name = null ) : array
     {

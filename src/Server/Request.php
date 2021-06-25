@@ -2,13 +2,11 @@
 
 namespace Swiftly\Http\Server;
 
-use Swiftly\Http\{
-    Cookie,
-    Cookies,
-    Headers,
-    Parameters,
-    Url
-};
+use Swiftly\Http\Cookie;
+use Swiftly\Http\Cookies;
+use Swiftly\Http\Headers;
+use Swiftly\Http\Parameters;
+use Swiftly\Http\Url;
 
 use function in_array;
 
@@ -103,14 +101,16 @@ Class Request
      * @param string $method    HTTP verb
      * @param Url $url          Request URL
      * @param Headers $headers  HTTP headers
+     * @param Cookies $cookies  Http cookies
      * @param Parameters $query Query parameters
      * @param Parameters $post  Post parameters
      */
-    public function __construct( string $method, Url $url, Headers $headers, Parameters $query, Parameters $post )
+    public function __construct( string $method, Url $url, Headers $headers, Cookies $cookies, Parameters $query, Parameters $post )
     {
         $this->method  = in_array( $method, static::ALLOWED_METHODS ) ? $method : 'GET';
         $this->url     = $url;
         $this->headers = $headers;
+        $this->cookies = $cookies;
         $this->query   = $query;
         $this->post    = $post;
     }

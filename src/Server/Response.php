@@ -2,11 +2,9 @@
 
 namespace Swiftly\Http\Server;
 
-use Swiftly\Http\{
-    Cookie,
-    Cookies,
-    Headers
-};
+use Swiftly\Http\Cookie;
+use Swiftly\Http\Cookies;
+use Swiftly\Http\Headers;
 
 use function http_response_code;
 use function header;
@@ -54,6 +52,7 @@ Class Response
      * @param string $content (Optional) Response body
      * @param int $status     (Optional) Status code
      * @param array $headers  (Optional) Http headers
+     * @param array $cookies  (Optional) Http cookies
      */
     public function __construct( string $content = '', int $status = 200, array $headers = [], array $cookies = [] )
     {
@@ -125,6 +124,7 @@ Class Response
     {
         http_response_code( $this->status );
 
+        /** @var string[] $values */
         foreach ( $this->headers->all() as $name => $values ) {
             foreach ( $values as $index => $value ) {
                 header( "$name: $value", $index === 0 );

@@ -77,7 +77,7 @@ Class JsonResponse Extends Response
     {
         $this->content = json_encode( $this->json, $this->encoding );
         $this->headers->set( 'Content-Type', 'application/json' );
-        $this->headers->set( 'Content-Length', strlen( $this->content ) );
+        $this->headers->set( 'Content-Length', (string)strlen( $this->content ) );
 
         parent::send();
     }

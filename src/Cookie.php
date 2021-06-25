@@ -15,48 +15,48 @@ Class Cookie
      *
      * @var string $name Cookie name
      */
-    protected $name;
+    public $name;
 
     /**
      * The value of this cookie
      *
      * @var string $value Cookie value
      */
-    protected $value;
+    public $value;
 
     /**
      * Expiry date of this cookie
      *
      * @var int $expires Unix timestamp
      */
-    protected $expires;
+    public $expires;
 
     /**
      * Allowed URL path
      *
      * @var string $path URL path
      */
-    protected $path;
+    public $path;
 
     /**
      * Allowed (sub)domains
      *
      * @var string $domain Allowed domains
      */
-    protected $domain;
+    public $domain;
 
     /**
      * Only transmitt over HTTPS
      *
      * @var bool $secure HTTPS only
      */
-    protected $secure;
+    public $secure;
 
     /**
      * Only readable via HTTP (and not js)
      *
      * @var bool $httponly HTTP only
      */
-    protected $httponly;
-
+    public $httponly;
+    
 }
