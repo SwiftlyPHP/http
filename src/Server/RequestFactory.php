@@ -2,11 +2,13 @@
 
 namespace Swiftly\Http\Server;
 
-use Swiftly\Http\Headers;
-use Swiftly\Http\Parameters;
+use Swiftly\Http\Server\Request;
 use Swiftly\Http\Url;
+use Swiftly\Http\Headers;
+use Swiftly\Http\Cookies;
+use Swiftly\Http\Parameters;
 
-use function getallheaders;
+use function apache_request_headers;
 
 /**
  * Factory used to create Request objects
@@ -19,12 +21,12 @@ Class RequestFactory
     /**
      * Creates a Request object from the values provided
      *
-     * @param string $method HTTP method
-     * @param string $url    Request URL
-     * @param array $headers HTTP headers
-     * @param array $query   Query parameters
-     * @param array $post    POST parameters
-     * @return Request       Request object
+     * @param string $method                 HTTP method
+     * @param string $url                    Request URL
+     * @param array<string, string> $headers HTTP headers
+     * @param array $query                   Query parameters
+     * @param array $post                    POST parameters
+     * @return Request                       Request object
      */
     public function create( string $method = 'GET', string $url = '', array $headers = [], array $query = [], array $post = [] ) : Request
     {
@@ -47,9 +49,10 @@ Class RequestFactory
     public function fromGlobals() : Request
     {
         return new Request(
-            $_SERVER['REQUEST_METHOD'] ?? 'GET',
+            (string)$_SERVER['REQUEST_METHOD'],
             Url::fromGlobals(),
             new Headers( apache_request_headers() ),
+            new Cookies(), // TODO
             new Parameters( $_GET ),
             new Parameters( $_POST )
         );

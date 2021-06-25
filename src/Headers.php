@@ -23,7 +23,7 @@ Class Headers
     /**
      * Creates a new header bag from the (optionally) provided headers
      *
-     * @param string[] $headers (Optional) Http headers
+     * @param array<string, string> $headers (Optional) Http headers
      */
     public function __construct( array $headers = [] )
     {

@@ -2,6 +2,7 @@
 
 namespace Swiftly\Http\Server;
 
+use Swiftly\Http\Session;
 use Swiftly\Http\Cookie;
 use Swiftly\Http\Cookies;
 use Swiftly\Http\Headers;
@@ -107,7 +108,7 @@ Class Request
      */
     public function __construct( string $method, Url $url, Headers $headers, Cookies $cookies, Parameters $query, Parameters $post )
     {
-        $this->method  = in_array( $method, static::ALLOWED_METHODS ) ? $method : 'GET';
+        $this->method  = in_array( $method, self::ALLOWED_METHODS ) ? $method : 'GET';
         $this->url     = $url;
         $this->headers = $headers;
         $this->cookies = $cookies;

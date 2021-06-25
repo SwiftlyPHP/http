@@ -49,17 +49,16 @@ Class Response
     /**
      * Creates a new HTTP response using the values provided
      *
-     * @param string $content (Optional) Response body
-     * @param int $status     (Optional) Status code
-     * @param array $headers  (Optional) Http headers
-     * @param array $cookies  (Optional) Http cookies
+     * @param string $content                (Optional) Response body
+     * @param int $status                    (Optional) Status code
+     * @param array<string, string> $headers (Optional) Http headers
      */
-    public function __construct( string $content = '', int $status = 200, array $headers = [], array $cookies = [] )
+    public function __construct( string $content = '', int $status = 200, array $headers = [] )
     {
         $this->status  = $status;
         $this->content = $content;
         $this->headers = new Headers( $headers );
-        $this->cookies = new Cookies( $cookies );
+        $this->cookies = new Cookies();
     }
 
     /**
