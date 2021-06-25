@@ -1,0 +1,15 @@
+{
+    "name": "swiftly/http",
+    "description": "Utility for handling HTTP requests and responses.",
+    "homepage": "https://github.com/SwiftlyPHP/http",
+    "readme": "README.md",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "vimeo/psalm": "^4.8"
+    }
+}
