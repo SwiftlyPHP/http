@@ -21,12 +21,12 @@ Class RequestFactory
     /**
      * Creates a Request object from the values provided
      *
-     * @param string $method                 HTTP method
-     * @param string $url                    Request URL
-     * @param array<string, string> $headers HTTP headers
-     * @param array $query                   Query parameters
-     * @param array $post                    POST parameters
-     * @return Request                       Request object
+     * @param string $method                HTTP method
+     * @param string $url                   Request URL
+     * @param array<string,string> $headers HTTP headers
+     * @param array $query                  Query parameters
+     * @param array $post                   POST parameters
+     * @return Request                      Request object
      */
     public function create( string $method = 'GET', string $url = '', array $headers = [], array $query = [], array $post = [] ) : Request
     {

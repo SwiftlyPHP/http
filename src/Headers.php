@@ -16,14 +16,14 @@ Class Headers
     /**
      * Array of HTTP headers
      *
-     * @var array<string, string[]> $headers Http headers
+     * @var array<string,string[]> $headers Http headers
      */
     protected $headers = [];
 
     /**
      * Creates a new header bag from the (optionally) provided headers
      *
-     * @param array<string, string> $headers (Optional) Http headers
+     * @param array<string,string> $headers (Optional) Http headers
      */
     public function __construct( array $headers = [] )
     {

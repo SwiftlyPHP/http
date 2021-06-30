@@ -7,7 +7,7 @@ use Stringable;
 use function parse_url;
 
 /**
- * Utility class for managing URLs
+ * Utility class for representing URLs
  *
  * @author clvarley
  */

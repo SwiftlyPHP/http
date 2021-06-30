@@ -22,9 +22,9 @@ Class RedirectResponse Extends Response
     /**
      * Creates a new redirect toward the given location
      *
-     * @param string $location               Redirect destination
-     * @param int $status                    (Optional) Status code
-     * @param array<string, string> $headers (Optional) Http headers
+     * @param string $location              Redirect destination
+     * @param int $status                   (Optional) Status code
+     * @param array<string,string> $headers (Optional) Http headers
      */
     public function __construct( string $location, int $status = 303, array $headers = [] )
     {

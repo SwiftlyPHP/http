@@ -37,9 +37,9 @@ Class JsonResponse Extends Response
     /**
      * Creates a new JSON HTTP response using the values provided
      *
-     * @param array $json                    (Optional) Response content
-     * @param int $status                    (Optional) Status code
-     * @param array<string, string> $headers (Optional) Http headers
+     * @param array $json                   (Optional) Response content
+     * @param int $status                   (Optional) Status code
+     * @param array<string,string> $headers (Optional) Http headers
      */
     public function __construct( array $json = [], int $status = 200, array $headers = [] )
     {
