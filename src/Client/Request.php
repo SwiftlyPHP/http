@@ -36,7 +36,7 @@ Class Request
     public function __construct( string $domain = '', array $headers = [] )
     {
         $this->headers = new Headers( $headers );
-        $this->url = $domain ? Url::fromString( $domain ) : new Url;
+        $this->url = empty( $domain ) ? new Url : Url::fromString( $domain );
     }
 
     /**
