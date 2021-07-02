@@ -16,16 +16,16 @@ Class BasicAuthenticator Implements AuthenticationInterface
 {
 
     /**
-     * Username to use for this request
+     * Username to use for the request
      *
-     * @var string $username Auth username
+     * @var string $username Plaintext username
      */
     private $username;
 
     /**
-     * Password to use for this request
+     * Password to use for the request
      *
-     * @var string $password Auth password
+     * @var string $password Plaintext password
      */
     private $password;
 
@@ -42,7 +42,7 @@ Class BasicAuthenticator Implements AuthenticationInterface
     }
 
     /**
-     * Authenticates the request by adding the required credentials header
+     * Authenticates the request by adding the required header
      *
      * @param Request $request Outgoing request
      * @return Request         Authenticated request
