@@ -97,6 +97,8 @@ Class Url Implements Stringable
         }
 
         $url = new Url;
+
+        // Always assume the least secure!
         $url->scheme   = $parts['scheme']   ?? 'http';
         $url->domain   = $parts['host']     ?? '';
         $url->path     = $parts['path']     ?? '';
