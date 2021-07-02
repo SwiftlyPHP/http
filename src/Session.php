@@ -2,7 +2,7 @@
 
 namespace Swiftly\Http;
 
-use Swiftly\Http\Session\SessionInterface;
+use Swiftly\Http\SessionInterface;
 
 /**
  * Class used to wrap underlying session adapter

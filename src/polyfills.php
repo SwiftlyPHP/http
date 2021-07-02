@@ -17,7 +17,7 @@ if ( !function_exists( 'apache_request_headers' ) ) {
     /**
      * Fetch all HTTP request headers from the current request
      *
-     * @return array HTTP headers
+     * @return array<string,string> HTTP headers
      */
     function apache_request_headers() : array
     {
