@@ -5,6 +5,8 @@ namespace Swiftly\Http\Authentication;
 use Swiftly\Http\AuthenticationInterface;
 use Swiftly\Http\Client\Request;
 
+use function base64_encode;
+
 /**
  * Handles basic access authentication using a username and password
  *
@@ -47,8 +49,10 @@ Class BasicAuthenticator Implements AuthenticationInterface
      */
     public function authenticate( Request $request ) : Request
     {
-        // TODO:
+        $auth = base64_encode( "{$this->username}:{$this->password}" );
 
-        return;
+        $request->headers->set( 'Authorization', "Basic $auth" );
+
+        return $request;
     }
 }
