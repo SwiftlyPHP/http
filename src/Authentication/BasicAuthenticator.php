@@ -3,6 +3,7 @@
 namespace Swiftly\Http\Authentication;
 
 use Swiftly\Http\AuthenticationInterface;
+use Swiftly\Http\Client\Request;
 
 /**
  * Handles basic access authentication using a username and password
@@ -38,5 +39,16 @@ Class BasicAuthenticator Implements AuthenticationInterface
         $this->password = $password;
     }
 
-    
+    /**
+     * Authenticates the request by adding the required credentials header
+     *
+     * @param Request $request Outgoing request
+     * @return void            N/a
+     */
+    public function authenticate( Request $request ) : void
+    {
+        // TODO:
+
+        return;
+    }
 }
