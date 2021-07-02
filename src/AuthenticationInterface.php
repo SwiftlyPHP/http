@@ -16,8 +16,8 @@ Interface AuthenticationInterface
      * Authenticate the given HTTP request
      *
      * @param Request $request Outgoing request
-     * @return void            N/a
+     * @return Request         Authenticated request
      */
-    public function authenticate( Request $request ) : void;
+    public function authenticate( Request $request ) : Request;
 
 }

@@ -43,9 +43,9 @@ Class BasicAuthenticator Implements AuthenticationInterface
      * Authenticates the request by adding the required credentials header
      *
      * @param Request $request Outgoing request
-     * @return void            N/a
+     * @return Request         Authenticated request
      */
-    public function authenticate( Request $request ) : void
+    public function authenticate( Request $request ) : Request
     {
         // TODO:
 
