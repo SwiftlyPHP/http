@@ -85,14 +85,15 @@ Class Url Implements Stringable
      * Attempt to parse the given string into a Url object
      *
      * @param string $url Subject string
-     * @return Url|null   Url object
+     * @return Url        Url object
      */
-    public static function fromString( string $url ) : ?Url
+    public static function fromString( string $url ) : Url
     {
         $parts = parse_url( $url );
 
-        if ( empty( $parts ) ) {
-            return null;
+        // NOTE: Possibly throw exception?
+        if ( $parts === false ) {
+            $parts = [];
         }
 
         $url = new Url;
