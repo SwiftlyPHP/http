@@ -4,6 +4,7 @@ namespace Swiftly\Http;
 
 use Stringable;
 
+use function in_array;
 use function parse_url;
 
 /**
@@ -67,6 +68,17 @@ Class Url Implements Stringable
         }
 
         return $url;
+    }
+
+    /**
+     * Determine whether this URL is valid
+     *
+     * @return bool Is valid?
+     */
+    public function valid() : bool
+    {
+        return ( in_array( $this->scheme, [ 'http', 'https' ] )
+            && !empty( $this->domain ) );
     }
 
     /**
