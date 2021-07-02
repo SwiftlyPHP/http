@@ -1,6 +1,6 @@
 <?php
 
-namespace Swiftly\Http\Session;
+namespace Swiftly\Http;
 
 /**
  * Interface for session adapters
