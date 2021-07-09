@@ -25,7 +25,7 @@ Class Request
      *
      * @var Url $url Request URL
      */
-    public $url;
+    private $url;
 
     /**
      * Creates a new outgoing HTTP request
