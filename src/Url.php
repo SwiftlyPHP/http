@@ -118,7 +118,9 @@ Class Url Implements Stringable
         // Connection protocol
         if ( !empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) {
             $scheme = 'https';
-        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ) {
+        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] )
+            && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'
+        ) {
             $scheme = 'https';
         } else {
             $scheme = 'http';

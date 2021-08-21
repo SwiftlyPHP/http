@@ -96,7 +96,7 @@ Class Request
      * Creates a new Request object from the provided values
      *
      * We do not recommend creating this object directly, instead please use the
-     * RequestFactory class to instantiate new instances of this class.
+     * RequestFactory to instantiate new instances of this class.
      *
      * @internal
      * @param string $method    HTTP verb
