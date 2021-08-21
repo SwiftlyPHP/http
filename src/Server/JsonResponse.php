@@ -2,7 +2,7 @@
 
 namespace Swiftly\Http\Server;
 
-use Swiftly\Http\Headers;
+use Swiftly\Http\Status;
 
 use function json_encode;
 use function strlen;
@@ -41,7 +41,7 @@ Class JsonResponse Extends Response
      * @param int $status                   (Optional) Status code
      * @param array<string,string> $headers (Optional) Http headers
      */
-    public function __construct( array $json = [], int $status = 200, array $headers = [] )
+    public function __construct( array $json = [], int $status = Status::OK, array $headers = [] )
     {
         $this->json = $json;
 

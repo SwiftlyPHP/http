@@ -2,7 +2,7 @@
 
 namespace Swiftly\Http\Server;
 
-use Swiftly\Http\Headers;
+use Swiftly\Http\Status;
 
 /**
  * Class used to redirect the client to a new resource
@@ -26,7 +26,7 @@ Class RedirectResponse Extends Response
      * @param int $status                   (Optional) Status code
      * @param array<string,string> $headers (Optional) Http headers
      */
-    public function __construct( string $location, int $status = 303, array $headers = [] )
+    public function __construct( string $location, int $status = Status::SEE_OTHER, array $headers = [] )
     {
         $this->location = $location;
 

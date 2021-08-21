@@ -2,7 +2,7 @@
 
 namespace Swiftly\Http\Server;
 
-use Swiftly\Http\Cookie;
+use Swiftly\Http\Status;
 use Swiftly\Http\Cookies;
 use Swiftly\Http\Headers;
 
@@ -53,7 +53,7 @@ Class Response
      * @param int $status                   (Optional) Status code
      * @param array<string,string> $headers (Optional) Http headers
      */
-    public function __construct( string $content = '', int $status = 200, array $headers = [] )
+    public function __construct( string $content = '', int $status = Status::OK, array $headers = [] )
     {
         $this->status  = $status;
         $this->content = $content;
