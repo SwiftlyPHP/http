@@ -16,18 +16,11 @@ Class BasicAuthenticator Implements AuthenticationInterface
 {
 
     /**
-     * Username to use for the request
+     * Auth value to be used in the request header
      *
-     * @var string $username Plaintext username
+     * @var string $auth Auth header value
      */
-    private $username;
-
-    /**
-     * Password to use for the request
-     *
-     * @var string $password Plaintext password
-     */
-    private $password;
+    private $auth;
 
     /**
      * Authenticates requests using the basic access auth scheme
@@ -37,8 +30,7 @@ Class BasicAuthenticator Implements AuthenticationInterface
      */
     public function __construct( string $username, string $password )
     {
-        $this->username = $username;
-        $this->password = $password;
+        $this->auth = base64_encode( "$username:$password" );
     }
 
     /**
@@ -49,9 +41,7 @@ Class BasicAuthenticator Implements AuthenticationInterface
      */
     public function authenticate( Request $request ) : Request
     {
-        $auth = base64_encode( "{$this->username}:{$this->password}" );
-
-        $request->headers->set( 'Authorization', "Basic $auth" );
+        $request->headers->set( 'Authorization', "Basic {$this->auth}" );
 
         return $request;
     }
