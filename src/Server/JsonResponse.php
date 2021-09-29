@@ -37,6 +37,8 @@ Class JsonResponse Extends Response
     /**
      * Creates a new JSON HTTP response using the values provided
      *
+     * @psalm-param Status::* $status
+     *
      * @param array $json                   (Optional) Response content
      * @param int $status                   (Optional) Status code
      * @param array<string,string> $headers (Optional) Http headers

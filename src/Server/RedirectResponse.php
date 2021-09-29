@@ -23,6 +23,8 @@ Class RedirectResponse Extends Response
     /**
      * Creates a new redirect toward the given location
      *
+     * @psalm-param Status::* $status
+     *
      * @param string $location              Redirect destination
      * @param int $status                   (Optional) Status code
      * @param array<string,string> $headers (Optional) Http headers

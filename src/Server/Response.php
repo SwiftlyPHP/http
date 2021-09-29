@@ -37,6 +37,8 @@ Class Response
     /**
      * Response status code
      *
+     * @psalm-var Status::* $status
+     *
      * @var int $status Status code
      */
     protected $status;
@@ -50,6 +52,8 @@ Class Response
 
     /**
      * Creates a new HTTP response using the values provided
+     *
+     * @psalm-param Status::* $status
      *
      * @param string $content               (Optional) Response body
      * @param int $status                   (Optional) Status code
@@ -66,6 +70,8 @@ Class Response
     /**
      * Gets the status code of this response
      *
+     * @psalm-return Status::*
+     *
      * @return int Status code
      */
     public function getStatus() : int
@@ -75,6 +81,8 @@ Class Response
 
     /**
      * Sets the status code of this response
+     *
+     * @psalm-param Status::* $status
      *
      * @param int $status Status code
      * @return void       N/a
