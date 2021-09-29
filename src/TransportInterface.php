@@ -15,8 +15,7 @@ Interface TransportInterface
      *
      * @param string $url       Target URL
      * @param string[] $headers (Optional) HTTP headers
-     * @return string           Response content
-     * @return Response
+     * @return Response         Response
      */
     public function get( string $url, array $headers = [] ) : Response;
 
@@ -26,8 +25,7 @@ Interface TransportInterface
      * @param string $url       Target URL
      * @param string[] $headers (Optional) HTTP headers
      * @param string $body      (Optional) Request body
-     * @return string           Response content
-     * @return Response
+     * @return Response         Response
      */
     public function post( string $url, array $headers = [], string $body = '' ) : Response;
 

@@ -44,6 +44,7 @@ Class Request
      *
      * @param string $url                 Target URL
      * @param array<string,string> $query (Optional) Query args
+     * @return Response                   Response
      */
     public function get( string $url, array $query = [] ) : Response
     {
@@ -55,6 +56,7 @@ Class Request
      *
      * @param string $url  Target URL
      * @param string $body (Optional) POST payload
+     * @return Response    Response
      */
     public function post( string $url, string $body = '' ) : Response
     {
