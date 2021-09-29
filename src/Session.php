@@ -13,6 +13,7 @@ Class Session
     /**
      * Underlying store/adapter for this session
      *
+     * @readonly
      * @var SessionInterface $adapter Session adapter
      */
     private $adapter;

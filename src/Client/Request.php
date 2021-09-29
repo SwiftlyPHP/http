@@ -16,6 +16,7 @@ Class Request
     /**
      * Request HTTP headers
      *
+     * @readonly
      * @var Headers $headers HTTP headers
      */
     public $headers;
@@ -23,6 +24,7 @@ Class Request
     /**
      * URL of this request
      *
+     * @readonly
      * @var Url $url Request URL
      */
     private $url;

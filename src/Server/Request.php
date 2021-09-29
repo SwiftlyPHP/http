@@ -46,6 +46,7 @@ Class Request
     /**
      * Request HTTP headers
      *
+     * @readonly
      * @var Headers $headers HTTP headers
      */
     public $headers;
@@ -53,6 +54,7 @@ Class Request
     /**
      * Request HTTP cookies
      *
+     * @readonly
      * @var Cookies $headers HTTP cookies
      */
     public $cookies;
@@ -60,6 +62,7 @@ Class Request
     /**
      * HTTP query string parameters
      *
+     * @readonly
      * @var Parameters $query Query parameters
      */
     public $query;
@@ -67,6 +70,7 @@ Class Request
     /**
      * HTTP POST parameters
      *
+     * @readonly
      * @var Parameters $post POST parameters
      */
     public $post;
@@ -74,6 +78,7 @@ Class Request
     /**
      * HTTP method used
      *
+     * @readonly
      * @var string $method HTTP verb
      */
     protected $method;
@@ -81,6 +86,7 @@ Class Request
     /**
      * URL used to generate this request
      *
+     * @readonly
      * @var Url $url Requested URL
      */
     protected $url;

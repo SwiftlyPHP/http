@@ -16,6 +16,7 @@ Class BearerAuthenticator Implements AuthenticationInterface
     /**
      * Bearer token for the request
      *
+     * @readonly
      * @var string $token Bearer token
      */
     private $token;

@@ -18,6 +18,7 @@ Class BasicAuthenticator Implements AuthenticationInterface
     /**
      * Auth value to be used in the request header
      *
+     * @readonly
      * @var string $auth Auth header value
      */
     private $auth;

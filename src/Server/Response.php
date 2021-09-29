@@ -21,6 +21,7 @@ Class Response
     /**
      * Response HTTP headers
      *
+     * @readonly
      * @var Headers $headers HTTP headers
      */
     public $headers;
@@ -28,6 +29,7 @@ Class Response
     /**
      * Response HTTP cookie
      *
+     * @readonly
      * @var Cookies $cookies HTTP cookies
      */
     public $cookies;

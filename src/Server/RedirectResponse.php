@@ -15,6 +15,7 @@ Class RedirectResponse Extends Response
     /**
      * Location the client is to be redirected to
      *
+     * @readonly
      * @var string $location Redirect destination
      */
     protected $location;
