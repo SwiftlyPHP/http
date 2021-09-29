@@ -31,6 +31,16 @@ Class ParametersTest Extends TestCase
         self::assertNull( $this->parameters->get( 'unknown' ) );
     }
 
+    public function testCanGetAllParameters() : void
+    {
+        self::assertSame([
+            'key' => 'value',
+            'life' => 42,
+            'float' => 42.1,
+            'array' => [2, 3, 4]
+        ], $this->parameters->all() );
+    }
+
     public function testCanSetParameter() : void
     {
         $this->parameters->set( 'test', 'example_value' );
