@@ -18,6 +18,8 @@ Class Parameters
     /**
      * Array of HTTP parameters
      *
+     * @psalm-var array<string,mixed> $parameters
+     *
      * @var mixed[] $parameters Http parameters
      */
     protected $parameters;
@@ -68,6 +70,8 @@ Class Parameters
 
     /**
      * Gets all parameters
+     *
+     * @psalm-return array<string,mixed>
      *
      * @return array Parameter values
      */
