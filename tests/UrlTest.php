@@ -7,11 +7,17 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group Shared
+ * @backupGlobals enabled
  */
 Class UrlTest Extends TestCase
 {
 
-    public function testCanCreateUrlFromString() : void
+    public static function setUpBeforeClass() : void
+    {
+        $_SERVER['HTTP_HOST'] = 'localhost'; $_SERVER['REQUEST_URI'] = '/';
+    }
+
+    public function testCanCreateUrlFromValidString() : void
     {
         $url = Url::fromString( 'http://test.co.uk/example?page=1#id' );
 
@@ -22,11 +28,19 @@ Class UrlTest Extends TestCase
         self::assertSame( 'id',         $url->fragment );
     }
 
-    /** @backupGlobals enabled */
+    public function testCanCreateUrlFromMalformedString() : void
+    {
+        $url = Url::fromString( 'i:///@bad' );
+
+        self::assertSame( 'http', $url->scheme );
+        self::assertSame( '', $url->domain );
+        self::assertSame( '', $url->path );
+        self::assertSame( '', $url->query );
+        self::assertSame( '', $url->fragment );
+    }
+
     public function testCanCreateUrlFromGlobals() : void
     {
-        $_SERVER['HTTP_HOST'] = 'localhost'; $_SERVER['REQUEST_URI'] = '/';
-
         $url = Url::fromGlobals();
 
         self::assertSame( 'http', $url->scheme );
@@ -36,7 +50,33 @@ Class UrlTest Extends TestCase
         self::assertSame( '', $url->fragment );
     }
 
-    public function testCanCreateStringFromUrl() : void
+    public function testCanCreateUrlFromGlobalsBehindProxy() : void
+    {
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+
+        $url = Url::fromGlobals();
+
+        self::assertSame( 'https', $url->scheme );
+        self::assertSame( 'localhost', $url->domain );
+        self::assertSame( '/', $url->path );
+        self::assertSame( '', $url->query );
+        self::assertSame( '', $url->fragment );
+    }
+
+    public function testCanCreateUrlFromGlobalsOnIss() : void
+    {
+        $_SERVER['HTTPS'] = 'on';
+
+        $url = Url::fromGlobals();
+
+        self::assertSame( 'https', $url->scheme );
+        self::assertSame( 'localhost', $url->domain );
+        self::assertSame( '/', $url->path );
+        self::assertSame( '', $url->query );
+        self::assertSame( '', $url->fragment );
+    }
+
+    public function testCanCastUrlIntoString() : void
     {
         $url = new Url;
         $url->scheme = 'http';
