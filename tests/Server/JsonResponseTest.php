@@ -91,5 +91,6 @@ Class JsonResponseTest Extends TestCase
 
         self::assertSame( Status::OK, http_response_code() );
         self::assertContains( 'cache-control: no-cache', $headers );
+        self::assertContains( 'content-type: application/json', $headers );
     }
 }
