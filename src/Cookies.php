@@ -29,20 +29,19 @@ Class Cookies
     public function __construct( array $cookies = [] )
     {
         foreach ( $cookies as $cookie ) {
-            $this->set( $cookie->name, $cookie );
+            $this->set( $cookie );
         }
     }
 
     /**
      * Sets a named cookie
      *
-     * @param string $name   Cookie name
      * @param Cookie $cookie Cookie
      * @return void          N/a
      */
-    public function set( string $name, Cookie $cookie ) : void
+    public function set( Cookie $cookie ) : void
     {
-        $this->cookies[$name] = $cookie;
+        $this->cookies[$cookie->name] = $cookie;
     }
 
     /**
@@ -102,6 +101,8 @@ Class Cookies
 
     /**
      * Gets all cookies
+     *
+     * @psalm-return array<string,Cookie>
      *
      * @return Cookie[] Cookies
      */
