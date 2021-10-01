@@ -2,8 +2,8 @@
 
 namespace Swiftly\Http\Tests;
 
-use Swiftly\Http\Cookie;
 use Swiftly\Http\Cookies;
+use Swiftly\Http\Cookie;
 use PHPUnit\Framework\TestCase;
 
 /**
