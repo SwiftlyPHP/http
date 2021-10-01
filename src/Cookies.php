@@ -72,7 +72,7 @@ Class Cookies
         string $domain = '',
         bool $secure = false,
         bool $httponly = false
-    ) : Cooke {
+    ) : Cookie {
         $cookie = new Cookie;
         $cookie->name = $name;
         $cookie->value = $value;
