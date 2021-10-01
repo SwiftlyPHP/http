@@ -15,9 +15,11 @@ Class Cookies
     /**
      * Array of HTTP cookies
      *
+     * @psalm-var array<string,Cookie> $cookies
+     *
      * @var Cookie[] $cookies Http cookies
      */
-    protected $cookies;
+    protected $cookies = [];
 
     /**
      * Creates a new cookie holder from the (optionally) provided cookies
@@ -26,7 +28,9 @@ Class Cookies
      */
     public function __construct( array $cookies = [] )
     {
-        $this->cookies = $cookies;
+        foreach ( $cookies as $cookie ) {
+            $this->set( $cookie->name, $cookie );
+        }
     }
 
     /**
