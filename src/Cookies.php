@@ -53,6 +53,41 @@ Class Cookies
     }
 
     /**
+     * Add a new cookie to the bag (with the given attributes)
+     *
+     * @param string $name   Cookie name
+     * @param string $value  (Optional) Cookie value
+     * @param int $expires   (Optional) Unix timestamp
+     * @param string $path   (Optional) URL path
+     * @param string $domain (Optional) Allowed domains
+     * @param bool $secure   (Optional) HTTPS only
+     * @param bool $httponly (Optional) HTTP only
+     * @return Cookie        Created cookie
+     */
+    public function add(
+        string $name,
+        string $value = '',
+        int $expires = 0,
+        string $path = '',
+        string $domain = '',
+        bool $secure = false,
+        bool $httponly = false
+    ) : Cooke {
+        $cookie = new Cookie;
+        $cookie->name = $name;
+        $cookie->value = $value;
+        $cookie->expires = 0;
+        $cookie->path = $path;
+        $cookie->domain = $domain;
+        $cookie->secure = $secure;
+        $cookie->httponly = $httponly;
+
+        $this->cookies[$name] = $cookie;
+
+        return $this->cookies[$name];
+    }
+
+    /**
      * Checks to see if the named cookie exists
      *
      * @param string $name Cookie name
