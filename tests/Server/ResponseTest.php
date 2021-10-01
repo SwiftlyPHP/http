@@ -25,6 +25,8 @@ Class ResponseTest Extends TestCase
             'Cache-Control' => 'no-cache',
             'Content-Length' => '13'
         ]);
+
+        $this->response->cookies->add( 'session_id', '123456' );
     }
 
     public function testCanGetStatusCode() : void
@@ -76,5 +78,6 @@ Class ResponseTest Extends TestCase
         self::assertSame( Status::OK, http_response_code() );
         self::assertContains( 'cache-control: no-cache', $headers );
         self::assertContains( 'content-length: 13', $headers );
+        self::assertContains( 'Set-Cookie:·session_id=123456', $headers );
     }
 }
