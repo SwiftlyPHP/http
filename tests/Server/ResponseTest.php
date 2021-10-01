@@ -78,6 +78,6 @@ Class ResponseTest Extends TestCase
         self::assertSame( Status::OK, http_response_code() );
         self::assertContains( 'cache-control: no-cache', $headers );
         self::assertContains( 'content-length: 13', $headers );
-        self::assertContains( 'Set-Cookie:·session_id=123456', $headers );
+        self::assertContains( 'Set-Cookie: session_id=123456', $headers );
     }
 }
