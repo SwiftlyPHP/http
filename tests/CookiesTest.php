@@ -44,13 +44,15 @@ Class CookiesTest Extends TestCase
 
     public function testCanSetCookie() : void
     {
-        $cookie = $this->exampleCookie();
+        $this->cookies->set(
+            $this->exampleCookie()
+        );
 
-        $this->cookies->set( $cookie );
+        $cookie = $this->cookies->get( 'example' );
 
         self::assertInstanceOf( Cookie::class, $cookie );
-
-        // TODO
+        self::assertSame( 'example', $cookie->name );
+        self::assertSame( 'value', $cookie->value );
     }
 
     public function testCanAddNewCookie() : void
@@ -66,6 +68,17 @@ Class CookiesTest Extends TestCase
 
     public function testCanCheckCookieExists() : void
     {
-        // TODO
+        self::assertTrue( $this->cookies->has( 'test_id' ) );
+        self::assertFalse( $this->cookies->has( 'unknown' ) );
+    }
+
+    public function testCanGetAllCookies() : void
+    {
+        $cookies = $this->cookies->all();
+
+        self::assertArrayHasKey( 'test_id', $cookies );
+        self::assertInstanceOf( Cookie::class, $cookies['test_id'] );
+        self::assertSame( 'test_id', $cookies['test_id']->name );
+        self::assertSame( '42', $cookies['test_id']->value );
     }
 }
