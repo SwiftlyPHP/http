@@ -15,6 +15,8 @@ Class Cookies
     /**
      * Array of HTTP cookies
      *
+     * @psalm-var array<string,Cookie>
+     *
      * @var Cookie[] $cookies Http cookies
      */
     protected $cookies;
@@ -82,9 +84,7 @@ Class Cookies
         $cookie->secure = $secure;
         $cookie->httponly = $httponly;
 
-        $this->cookies[$name] = $cookie;
-
-        return $this->cookies[$name];
+        return $this->cookies[$name] = $cookie;
     }
 
     /**
