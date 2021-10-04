@@ -39,7 +39,7 @@ Class BearerAuthenticator Implements AuthenticationInterface
      */
     public function authenticate( Request $request ) : Request
     {
-        $request->headers->set( 'Authentication', "Bearer {$this->token}" );
+        $request->headers->set( 'Authorization', "Bearer {$this->token}" );
 
         return $request;
     }
