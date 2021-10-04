@@ -14,6 +14,9 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <file>src/polyfills.php</file>
+        </exclude>
         <report>
             <clover outputFile="reports/coverage.xml"/>
             <html outputDirectory="reports/html"/>
