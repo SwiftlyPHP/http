@@ -27,4 +27,24 @@ Class Session
     {
         $this->adapter = $adapter;
     }
+
+    /**
+     * Open this session
+     *
+     * @return bool Session opened?
+     */
+    public function open() : bool
+    {
+        $this->adapter->open();
+    }
+
+    /**
+     * Close this session
+     *
+     * @return bool Session closed?
+     */
+    public function close() : bool
+    {
+        $this->adapter->close();
+    }
 }
