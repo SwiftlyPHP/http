@@ -11,7 +11,6 @@ if ( !interface_exists( 'Stringable', false ) ) {
     }
 }
 
-
 if ( !function_exists( 'apache_request_headers' ) ) {
 
     /**
@@ -41,6 +40,9 @@ if ( !function_exists( 'apache_request_headers' ) ) {
 
         return $headers;
     }
+}
+
+if ( !function_exists( 'getallheaders' ) ) {
 
     /**
      * Alias of apache_request_headers
