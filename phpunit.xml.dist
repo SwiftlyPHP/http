@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
     bootstrap="vendor/autoload.php"
-    colors="true"
     cacheResult="false"
-    testdox="true"
     noInteraction="true">
     <testsuites>
         <testsuite name="unit">
@@ -18,7 +16,7 @@
             <file>src/polyfills.php</file>
         </exclude>
         <report>
-            <html outputDirectory="reports/html"/>
+            <clover outputFile="reports/clover.xml"/>
         </report>
     </coverage>
 </phpunit>
