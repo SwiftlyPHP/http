@@ -22,8 +22,9 @@ Class SessionTest Extends TestCase
 
     public function testCanStartSession() : void
     {
-        $adapter = $this->createMock( SessionInterface::class )
-            ->expects( $this->once() )
+        $adapter = $this->createMock( SessionInterface::class );
+
+        $adapter->expects( $this->once() )
             ->method( 'open' )
             ->willReturn( true );
 
@@ -35,8 +36,9 @@ Class SessionTest Extends TestCase
 
     public function testCanStopSession() : void
     {
-        $adapter = $this->createMock( SessionInterface::class )
-            ->expects( $this->once() )
+        $adapter = $this->createMock( SessionInterface::class );
+
+        $adapter->expects( $this->once() )
             ->method( 'close' )
             ->willReturn( true );
 
