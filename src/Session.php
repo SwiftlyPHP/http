@@ -19,6 +19,13 @@ Class Session
     private $adapter;
 
     /**
+     * Is this session currently open?
+     *
+     * @var bool $is_open Session open?
+     */
+    private $is_open = false;
+
+    /**
      * Create a new session using the given adapter
      *
      * @param SessionInterface $adapter Session adapter
@@ -35,7 +42,11 @@ Class Session
      */
     public function open() : bool
     {
-        $this->adapter->open();
+        if ( !$this->is_open ) {
+            $this->is_open = $this->adapter->open();
+        }
+
+        return $this->is_open;
     }
 
     /**
@@ -45,6 +56,20 @@ Class Session
      */
     public function close() : bool
     {
-        $this->adapter->close();
+        if ( $this->is_open ) {
+            $this->is_open =! $this->adapter->close();
+        }
+
+        return $this->is_open;
+    }
+
+    /**
+     * Return the current status of the session
+     *
+     * @return bool Session opened?
+     */
+    public function isOpen() : bool
+    {
+        return $this->is_open;
     }
 }
