@@ -2,6 +2,8 @@
 
 namespace Swiftly\Http;
 
+use Swiftly\Http\Client\Response;
+
 /**
  * Interface for HTTP capable network adapters
  *

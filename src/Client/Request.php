@@ -4,6 +4,7 @@ namespace Swiftly\Http\Client;
 
 use Swiftly\Http\Headers;
 use Swiftly\Http\Url;
+use Swiftly\Http\Client\Response;
 
 /**
  * Class used to make HTTP requests
@@ -51,6 +52,8 @@ Class Request
     public function get( string $url, array $query = [] ) : Response
     {
         // TODO
+
+        return new Response();
     }
 
     /**
@@ -63,5 +66,7 @@ Class Request
     public function post( string $url, string $body = '' ) : Response
     {
         // TODO:
+
+        return new Response();
     }
 }
