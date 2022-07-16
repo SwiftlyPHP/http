@@ -17,7 +17,7 @@ use const JSON_HEX_APOS;
 use const JSON_HEX_QUOT;
 
 /**
- * @group Shared
+ * @group Unit
  */
 Class JsonResponseTest Extends TestCase
 {

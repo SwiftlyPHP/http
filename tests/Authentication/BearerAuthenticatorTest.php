@@ -8,7 +8,7 @@ use Swiftly\Http\Headers;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Shared
+ * @group Unit
  */
 Class BearerAuthenticatorTest Extends TestCase
 {

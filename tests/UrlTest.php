@@ -6,7 +6,7 @@ use Swiftly\Http\Url;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Shared
+ * @group Unit
  * @backupGlobals enabled
  */
 Class UrlTest Extends TestCase

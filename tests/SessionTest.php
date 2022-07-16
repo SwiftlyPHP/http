@@ -7,7 +7,7 @@ use Swiftly\Http\SessionInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Shared
+ * @group Unit
  */
 Class SessionTest Extends TestCase
 {

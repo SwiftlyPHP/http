@@ -10,7 +10,7 @@ use function xdebug_get_headers;
 use function http_response_code;
 
 /**
- * @group Shared
+ * @group Unit
  */
 Class ResponseTest Extends TestCase
 {

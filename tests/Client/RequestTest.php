@@ -7,7 +7,7 @@ use Swiftly\Http\Client\Response;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Shared
+ * @group Unit
  */
 Class RequestTest Extends TestCase
 {

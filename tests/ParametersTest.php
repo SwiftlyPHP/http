@@ -6,7 +6,7 @@ use Swiftly\Http\Parameters;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Shared
+ * @group Unit
  */
 Class ParametersTest Extends TestCase
 {

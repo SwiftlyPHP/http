@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 use function time;
 
 /**
- * @group Shared
+ * @group Unit
  */
 Class CookiesTest Extends TestCase
 {

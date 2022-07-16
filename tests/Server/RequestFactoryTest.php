@@ -7,7 +7,7 @@ use Swiftly\Http\Server\Request;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group Shared
+ * @group Unit
  * @backupGlobals enabled
  */
 Class RequestFactoryTest Extends TestCase
