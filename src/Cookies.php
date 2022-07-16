@@ -104,6 +104,11 @@ Class Cookies
     /**
      * Removes the named cookie
      *
+     * Because we (presumably) want to delete the cookie from the client as
+     * well, we set the expiry date an hour into the past and wipe the value.
+     *
+     * Most spec conforming browsers treat this as an invalidation.
+     *
      * @param string $name Cookie name
      * @return void        N/a
      */
