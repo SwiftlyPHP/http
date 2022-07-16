@@ -4,37 +4,28 @@ namespace Swiftly\Http\Tests\Authentication;
 
 use Swiftly\Http\Authentication\BasicAuthenticator;
 use Swiftly\Http\Client\Request;
+use Swiftly\Http\Headers;
 use PHPUnit\Framework\TestCase;
-
-use function base64_encode;
 
 /**
  * @group Shared
  */
 Class BasicAuthenticatorTest Extends TestCase
 {
-
-    /** @var BasicAuthenticator $authenticator */
-    private $authenticator;
-
-    /** @var Request $request */
-    private $request;
-
-    protected function setUp() : void
+    public function testCanSetHeaderValue() : void
     {
-        $this->authenticator = new BasicAuthenticator( 'username', 'password' );
-        $this->request = new Request();
-    }
+        $request = $this->createMock(Request::class);
+        $headers = $this->createMock(Headers::class);
+        $headers->expects($this->once())
+            ->method('set')
+            ->with(
+                $this->equalTo('Authorization'),
+                $this->equalTo('Basic bXlfdXNlcm5hbWU6bXlfcGFzc3dvcmQ=')
+            );
 
-    public function testSetsCorrectHttpHeader() : void
-    {
-        $this->authenticator->authenticate( $this->request );
+        $request->headers = $headers;
 
-        $expected = base64_encode( 'username:password' );
-
-        self::assertTrue( $this->request->headers->has( 'Authorization' ) );
-        self::assertSame( "Basic $expected",
-            $this->request->headers->get( 'Authorization' )
-        );
+        $auth = new BasicAuthenticator('my_username', 'my_password');
+        $auth->authenticate($request);
     }
 }

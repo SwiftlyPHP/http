@@ -4,6 +4,7 @@ namespace Swiftly\Http\Tests\Authentication;
 
 use Swiftly\Http\Authentication\BearerAuthenticator;
 use Swiftly\Http\Client\Request;
+use Swiftly\Http\Headers;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -11,26 +12,20 @@ use PHPUnit\Framework\TestCase;
  */
 Class BearerAuthenticatorTest Extends TestCase
 {
-
-    /** @var BearerAuthenticator $authenticator */
-    private $authenticator;
-
-    /** @var Request $request */
-    private $request;
-
-    protected function setUp() : void
+    public function testCanSetHeaderValue() : void
     {
-        $this->authenticator = new BearerAuthenticator( 'some_api_token' );
-        $this->request = new Request();
-    }
+        $request = $this->createMock(Request::class);
+        $headers = $this->createMock(Headers::class);
+        $headers->expects($this->once())
+            ->method('set')
+            ->with(
+                $this->equalTo('Authorization'),
+                $this->equalTo('Bearer MY_COOL_API_KEY')
+            );
 
-    public function testSetsCorrectHttpHeader() : void
-    {
-        $this->authenticator->authenticate( $this->request );
+        $request->headers = $headers;
 
-        self::assertTrue( $this->request->headers->has( 'Authorization' ) );
-        self::assertSame( "Bearer some_api_token",
-            $this->request->headers->get( 'Authorization' )
-        );
+        $auth = new BearerAuthenticator('MY_COOL_API_KEY');
+        $auth->authenticate($request);
     }
 }
