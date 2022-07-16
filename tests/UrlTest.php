@@ -14,7 +14,8 @@ Class UrlTest Extends TestCase
 
     public static function setUpBeforeClass() : void
     {
-        $_SERVER['HTTP_HOST'] = 'localhost'; $_SERVER['REQUEST_URI'] = '/';
+        $_SERVER['HTTP_HOST'] = 'localhost';
+        $_SERVER['REQUEST_URI'] = '/';
     }
 
     public function testCanCreateUrlFromValidString() : void
