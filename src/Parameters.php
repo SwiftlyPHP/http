@@ -10,6 +10,8 @@ use function is_array;
 /**
  * Utility container for managing HTTP parameters
  *
+ * @template TVal
+ *
  * @author clvarley
  */
 Class Parameters
@@ -18,7 +20,7 @@ Class Parameters
     /**
      * Array of HTTP parameters
      *
-     * @psalm-var Array<string,mixed> $parameters
+     * @psalm-var Array<string,TVal> $parameters
      *
      * @var mixed[] $parameters Http parameters
      */
@@ -27,7 +29,7 @@ Class Parameters
     /**
      * Creates a new parameter bag from the (optionally) provided parameters
      *
-     * @psalm-param Array<string,mixed> $parameters
+     * @psalm-param Array<string,TVal> $parameters
      *
      * @param array $parameters (Optional) Http parameters
      */
@@ -38,6 +40,8 @@ Class Parameters
 
     /**
      * Sets the value for the named parameter
+     *
+     * @psalm-param TVal $value
      *
      * @param string $name Parameter name
      * @param mixed $value Parameter value
@@ -50,6 +54,8 @@ Class Parameters
 
     /**
      * Gets the value for the named parameter
+     *
+     * @psalm-return TVal|null
      *
      * @param string $name Parameter name
      * @return mixed|null  Parameter value
@@ -72,6 +78,8 @@ Class Parameters
 
     /**
      * Gets all parameters
+     *
+     * @psalm-return Array<string,TVal>
      *
      * @return array Parameter values
      */
