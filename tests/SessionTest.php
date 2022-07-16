@@ -12,41 +12,35 @@ use PHPUnit\Framework\TestCase;
 Class SessionTest Extends TestCase
 {
 
-    /** @var Session $session */
-    private $session;
-
-    protected function setUp() : void
-    {
-
-    }
-
-    public function testCanStartSession() : void
+    public function testCanStartSession() : array
     {
         $adapter = $this->createMock( SessionInterface::class );
+        $session = new Session( $adapter );
 
         $adapter->expects( $this->once() )
             ->method( 'open' )
             ->willReturn( true );
 
-        $session = new Session( $adapter );
         $session->open();
 
         self::assertTrue( $session->isOpen() );
+
+        return [$session, $adapter];
     }
 
-    public function testCanStopSession() : void
+    /**
+     * @depends testCanStartSession
+     */
+    public function testCanStopSession(array $open) : void
     {
-        $adapter = $this->createMock( SessionInterface::class );
+        list($session, $adapter) = $open;
 
         $adapter->expects( $this->once() )
             ->method( 'close' )
             ->willReturn( true );
 
-        $session = new Session( $adapter );
         $session->close();
 
         self::assertFalse( $session->isOpen() );
     }
-
-    // TODO:
 }

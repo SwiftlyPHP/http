@@ -57,7 +57,7 @@ Class Session
     public function close() : bool
     {
         if ( $this->is_open ) {
-            $this->is_open =! $this->adapter->close();
+            $this->is_open = !$this->adapter->close();
         }
 
         return $this->is_open;
