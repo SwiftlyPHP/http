@@ -6,6 +6,8 @@ use Swiftly\Http\Cookies;
 use Swiftly\Http\Cookie;
 use PHPUnit\Framework\TestCase;
 
+use function time;
+
 /**
  * @group Shared
  */
@@ -70,6 +72,21 @@ Class CookiesTest Extends TestCase
     {
         self::assertTrue( $this->cookies->has( 'test_id' ) );
         self::assertFalse( $this->cookies->has( 'unknown' ) );
+    }
+
+    public function testCanRemoveCookie() : void
+    {
+        $this->cookies->remove( 'test_id' );
+
+        $cookie = $this->cookies->get( 'test_id' );
+
+        // To invalidate cookies, we set them to expire in the past
+        $expires = time() - 3600;
+
+        self::assertInstanceOf( Cookie::class, $cookie );
+        self::assertSame( 'test_id', $cookie->name );
+        self::assertSame( '', $cookie->value );
+        self::assertLessThanOrEqual( $expires, $cookie->expires );
     }
 
     public function testCanGetAllCookies() : void
