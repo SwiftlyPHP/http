@@ -18,12 +18,16 @@ Class Parameters
     /**
      * Array of HTTP parameters
      *
+     * @psalm-var Array<string,mixed> $parameters
+     *
      * @var mixed[] $parameters Http parameters
      */
     protected $parameters;
 
     /**
      * Creates a new parameter bag from the (optionally) provided parameters
+     *
+     * @psalm-param Array<string,mixed> $parameters
      *
      * @param array $parameters (Optional) Http parameters
      */

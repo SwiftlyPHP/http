@@ -21,12 +21,16 @@ Class RequestFactory
     /**
      * Creates a Request object from the values provided
      *
-     * @param string $method                HTTP method
-     * @param string $url                   Request URL
-     * @param array<string,string> $headers HTTP headers
-     * @param array $query                  Query parameters
-     * @param array $post                   POST parameters
-     * @return Request                      Request object
+     * @psalm-param array<string,string> $headers
+     * @psalm-param array<string,mixed> $query
+     * @psalm-param array<string,mixed> $post
+     *
+     * @param string $method    HTTP method
+     * @param string $url       Request URL
+     * @param string[] $headers HTTP headers
+     * @param array $query      Query parameters
+     * @param array $post       POST parameters
+     * @return Request          Request object
      */
     public static function create(
         string $method = 'GET',
@@ -47,6 +51,8 @@ Class RequestFactory
 
     /**
      * Creates a Request object from the global request values
+     *
+     * @psalm-suppress MixedArgumentTypeCoercion
      *
      * @global array $_SERVER
      * @return Request Request object

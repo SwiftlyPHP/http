@@ -94,7 +94,7 @@ Class Request
     /**
      * Request payload
      *
-     * @var mixed $content Request body
+     * @var string|null $content Request body
      */
     protected $content;
 
