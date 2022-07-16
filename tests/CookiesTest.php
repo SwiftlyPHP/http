@@ -89,6 +89,16 @@ Class CookiesTest Extends TestCase
         self::assertLessThanOrEqual( $expires, $cookie->expires );
     }
 
+    public function testCanRemoveNonExistantCookie() : void
+    {
+        $this->cookies->remove( 'nothing' );
+
+        $cookie = $this->cookies->get( 'nothing' );
+
+        // Cookie doesn't exist, remove() should have quit silently
+        self::assertNull( $cookie );
+    }
+
     public function testCanGetAllCookies() : void
     {
         $cookies = $this->cookies->all();
