@@ -3,7 +3,7 @@
 if ( !interface_exists( 'Stringable', false ) ) {
 
     /**
-     * Indicates the implementing class can be represented as a string
+     * Indicates the implementing class has a __toString method
      */
     interface Stringable
     {
