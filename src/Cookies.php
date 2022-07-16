@@ -4,6 +4,8 @@ namespace Swiftly\Http;
 
 use Swiftly\Http\Cookie;
 
+use function time;
+
 /**
  * Utility container for managing HTTP cookies
  *
@@ -97,6 +99,25 @@ Class Cookies
     public function has( string $name ) : bool
     {
         return isset( $this->cookies[$name] );
+    }
+
+    /**
+     * Removes the named cookie
+     *
+     * @param string $name Cookie name
+     * @return void        N/a
+     */
+    public function remove( string $name ) : void
+    {
+        if ( !isset( $this->cookies[$name] ) ) {
+            return;
+        }
+
+        // We actually want to invalidate it on the client
+        $this->cookies[$name]->expires = ( time() - 3600 );
+        $this->cookies[$name]->value = '';
+
+        return;
     }
 
     /**
