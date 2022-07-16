@@ -13,14 +13,6 @@ use PHPUnit\Framework\TestCase;
 Class RequestFactoryTest Extends TestCase
 {
 
-    /** @var RequestFactory $factory */
-    private $factory;
-
-    protected function setUp() : void
-    {
-        $this->factory = new RequestFactory();
-    }
-
     private function exampleGlobals() : void
     {
         $_SERVER['REQUEST_METHOD'] = 'POST';
@@ -34,7 +26,7 @@ Class RequestFactoryTest Extends TestCase
 
     public function testCanCreateRequestFromArgs() : void
     {
-        $request = $this->factory->create(
+        $request = RequestFactory::create(
             'POST',
             'https://localhost/index.php',
             [
@@ -59,7 +51,7 @@ Class RequestFactoryTest Extends TestCase
     {
         $this->exampleGlobals();
 
-        $request = $this->factory->fromGlobals();
+        $request = RequestFactory::fromGlobals();
 
         self::assertInstanceOf( Request::class, $request );
         self::assertSame( 'POST', $request->getMethod() );

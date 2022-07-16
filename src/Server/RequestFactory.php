@@ -28,8 +28,13 @@ Class RequestFactory
      * @param array $post                   POST parameters
      * @return Request                      Request object
      */
-    public function create( string $method = 'GET', string $url = '', array $headers = [], array $query = [], array $post = [] ) : Request
-    {
+    public static function create(
+        string $method = 'GET',
+        string $url = '',
+        array $headers = [],
+        array $query = [],
+        array $post = []
+    ) : Request {
         return new Request(
             $method,
             Url::fromString( $url ),
@@ -46,7 +51,7 @@ Class RequestFactory
      * @global array $_SERVER
      * @return Request Request object
      */
-    public function fromGlobals() : Request
+    public static function fromGlobals() : Request
     {
         return new Request(
             (string)$_SERVER['REQUEST_METHOD'],
