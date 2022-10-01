@@ -4,3 +4,6 @@
 
 # PHPUnit
 /reports
+
+# Misc
+.DS_Store
