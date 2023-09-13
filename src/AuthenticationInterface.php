@@ -9,7 +9,7 @@ use Swiftly\Http\Client\Request;
  *
  * @author clvarley
  */
-Interface AuthenticationInterface
+interface AuthenticationInterface
 {
 
     /**
@@ -18,6 +18,6 @@ Interface AuthenticationInterface
      * @param Request $request Outgoing request
      * @return Request         Authenticated request
      */
-    public function authenticate( Request $request ) : Request;
+    public function authenticate(Request $request): Request;
 
 }

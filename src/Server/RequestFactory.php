@@ -15,9 +15,8 @@ use function apache_request_headers;
  *
  * @author clvarley
  */
-Class RequestFactory
+class RequestFactory
 {
-
     /**
      * Creates a Request object from the values provided
      *
@@ -38,14 +37,14 @@ Class RequestFactory
         array $headers = [],
         array $query = [],
         array $post = []
-    ) : Request {
+    ): Request {
         return new Request(
             $method,
-            Url::fromString( $url ),
-            new Headers( $headers ),
+            Url::fromString($url),
+            new Headers($headers),
             new Cookies(), // TODO
-            new Parameters( $query ),
-            new Parameters( $post )
+            new Parameters($query),
+            new Parameters($post)
         );
     }
 
@@ -57,15 +56,15 @@ Class RequestFactory
      * @global array $_SERVER
      * @return Request Request object
      */
-    public static function fromGlobals() : Request
+    public static function fromGlobals(): Request
     {
         return new Request(
             (string)$_SERVER['REQUEST_METHOD'],
             Url::fromGlobals(),
-            new Headers( apache_request_headers() ),
+            new Headers(apache_request_headers()),
             new Cookies(), // TODO
-            new Parameters( $_GET ),
-            new Parameters( $_POST )
+            new Parameters($_GET),
+            new Parameters($_POST)
         );
     }
 }

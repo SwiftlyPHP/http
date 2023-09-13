@@ -17,9 +17,8 @@ use const JSON_HEX_QUOT;
  *
  * @author clvarley
  */
-Class JsonResponse Extends Response
+class JsonResponse extends Response
 {
-
     /**
      * Array representation of JSON content
      *
@@ -43,8 +42,11 @@ Class JsonResponse Extends Response
      * @param int $status                   (Optional) Status code
      * @param array<string,string> $headers (Optional) Http headers
      */
-    public function __construct( array $json = [], int $status = Status::OK, array $headers = [] )
-    {
+    public function __construct(
+        array $json = [],
+        int $status = Status::OK,
+        array $headers = []
+    ) {
         $this->json = $json;
 
         parent::__construct( '', $status, $headers );
@@ -56,7 +58,7 @@ Class JsonResponse Extends Response
      * @param array $json Response content
      * @return void       N/a
      */
-    public function setJson( array $json ) : void
+    public function setJson(array $json): void
     {
         $this->json = $json;
     }
@@ -67,7 +69,7 @@ Class JsonResponse Extends Response
      * @param int $encoding Encoding options
      * @return void         N/a
      */
-    public function setEncoding( int $encoding ) : void
+    public function setEncoding(int $encoding): void
     {
         $this->encoding = $encoding;
     }
@@ -75,11 +77,11 @@ Class JsonResponse Extends Response
     /**
      * {@inheritdoc}
      */
-    public function send() : void
+    public function send(): void
     {
-        $this->content = json_encode( $this->json, $this->encoding );
-        $this->headers->set( 'Content-Type', 'application/json' );
-        $this->headers->set( 'Content-Length', (string)strlen( $this->content ) );
+        $this->content = json_encode($this->json, $this->encoding);
+        $this->headers->set('Content-Type', 'application/json');
+        $this->headers->set('Content-Length', (string)strlen($this->content));
 
         parent::send();
     }

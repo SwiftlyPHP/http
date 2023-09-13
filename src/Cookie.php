@@ -8,56 +8,26 @@ namespace Swiftly\Http;
  * @internal
  * @author clvarley
  */
-Class Cookie
+class Cookie
 {
+    /** @var non-empty-string $name Cookie name */
+    public string $name = '';
 
-    /**
-     * The name of this cookie
-     *
-     * @var string $name Cookie name
-     */
-    public $name = '';
+    /** @var non-empty-string $value Cookie value */
+    public string $value = '';
 
-    /**
-     * The value of this cookie
-     *
-     * @var string $value Cookie value
-     */
-    public $value = '';
+    /** Expiry time as unix timestamp */
+    public int $expires = 0;
 
-    /**
-     * Expiry date of this cookie
-     *
-     * @var int $expires Unix timestamp
-     */
-    public $expires = 0;
+    /** Allowed (sub)path */
+    public string $path = '';
 
-    /**
-     * Allowed URL path
-     *
-     * @var string $path URL path
-     */
-    public $path = '';
+    /** Allowed (sub)domain */
+    public string $domain = '';
 
-    /**
-     * Allowed (sub)domains
-     *
-     * @var string $domain Allowed domains
-     */
-    public $domain = '';
+    /** Requires HTTPS connection? */
+    public bool $secure = true;
 
-    /**
-     * Only transmitt over HTTPS
-     *
-     * @var bool $secure HTTPS only
-     */
-    public $secure = false;
-
-    /**
-     * Only readable via HTTP (and not js)
-     *
-     * @var bool $httponly HTTP only
-     */
-    public $httponly = false;
-
+    /** Only readable via HTTP (and not js) */
+    public bool $httponly = false;
 }

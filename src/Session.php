@@ -7,9 +7,8 @@ use Swiftly\Http\SessionInterface;
 /**
  * Class used to wrap underlying session adapter
  */
-Class Session
+class Session
 {
-
     /**
      * Underlying store/adapter for this session
      *
@@ -30,7 +29,7 @@ Class Session
      *
      * @param SessionInterface $adapter Session adapter
      */
-    public function __construct( SessionInterface $adapter )
+    public function __construct(SessionInterface $adapter)
     {
         $this->adapter = $adapter;
     }
@@ -40,9 +39,9 @@ Class Session
      *
      * @return bool Session opened?
      */
-    public function open() : bool
+    public function open(): bool
     {
-        if ( !$this->is_open ) {
+        if (!$this->is_open) {
             $this->is_open = $this->adapter->open();
         }
 
@@ -54,9 +53,9 @@ Class Session
      *
      * @return bool Session closed?
      */
-    public function close() : bool
+    public function close(): bool
     {
-        if ( $this->is_open ) {
+        if ($this->is_open) {
             $this->is_open = !$this->adapter->close();
         }
 
@@ -68,7 +67,7 @@ Class Session
      *
      * @return bool Session opened?
      */
-    public function isOpen() : bool
+    public function isOpen(): bool
     {
         return $this->is_open;
     }

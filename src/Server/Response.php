@@ -15,9 +15,8 @@ use function setcookie;
  *
  * @author clvarley
  */
-Class Response
+class Response
 {
-
     /**
      * Response HTTP headers
      *
@@ -59,11 +58,14 @@ Class Response
      * @param int $status                   (Optional) Status code
      * @param array<string,string> $headers (Optional) Http headers
      */
-    public function __construct( string $content = '', int $status = Status::OK, array $headers = [] )
-    {
+    public function __construct(
+        string $content = '',
+        int $status = Status::OK,
+        array $headers = []
+    ) {
         $this->status  = $status;
         $this->content = $content;
-        $this->headers = new Headers( $headers );
+        $this->headers = new Headers($headers);
         $this->cookies = new Cookies();
     }
 
@@ -74,7 +76,7 @@ Class Response
      *
      * @return int Status code
      */
-    public function getStatus() : int
+    public function getStatus(): int
     {
         return $this->status;
     }
@@ -87,7 +89,7 @@ Class Response
      * @param int $status Status code
      * @return void       N/a
      */
-    public function setStatus( int $status ) : void
+    public function setStatus(int $status): void
     {
         $this->status = $status;
     }
@@ -97,7 +99,7 @@ Class Response
      *
      * @return string Response body
      */
-    public function getContent() : string
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -108,7 +110,7 @@ Class Response
      * @param string $content Response body
      * @return void           N/a
      */
-    public function setContent( string $content ) : void
+    public function setContent(string $content): void
     {
         $this->content = $content;
     }
@@ -119,9 +121,9 @@ Class Response
      * @param string $type Content type
      * @return void        N/a
      */
-    public function setContentType( string $type ) : void
+    public function setContentType(string $type): void
     {
-        $this->headers->set( 'Content-Type', $type );
+        $this->headers->set('Content-Type', $type);
     }
 
     /**
@@ -129,18 +131,18 @@ Class Response
      *
      * @return void N/a
      */
-    public function send() : void
+    public function send(): void
     {
-        http_response_code( $this->status );
+        http_response_code($this->status);
 
         /** @var string[] $values */
-        foreach ( $this->headers->all() as $name => $values ) {
-            foreach ( $values as $index => $value ) {
-                header( "$name: $value", $index === 0 );
+        foreach ($this->headers->all() as $name => $values) {
+            foreach ($values as $index => $value) {
+                header("$name: $value", $index === 0);
             }
         }
 
-        foreach ( $this->cookies->all() as $cookie ) {
+        foreach ($this->cookies->all() as $cookie) {
             setcookie(
                 $cookie->name,
                 $cookie->value,

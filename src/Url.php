@@ -13,9 +13,8 @@ use function parse_url;
  * @internal
  * @author clvarley
  */
-Class Url Implements Stringable
+class Url implements Stringable
 {
-
     /**
      * The protocol being used
      *
@@ -56,15 +55,15 @@ Class Url Implements Stringable
      *
      * @return string Url
      */
-    public function __toString() : string
+    public function __toString(): string
     {
         $url = "{$this->scheme}://{$this->domain}{$this->path}";
 
-        if ( !empty( $this->query ) ) {
+        if (!empty($this->query)) {
             $url .= "?{$this->query}";
         }
 
-        if ( !empty( $this->fragment ) ) {
+        if (!empty($this->fragment)) {
             $url .= "#{$this->fragment}";
         }
 
@@ -76,10 +75,11 @@ Class Url Implements Stringable
      *
      * @return bool Is valid?
      */
-    public function valid() : bool
+    public function valid(): bool
     {
-        return ( in_array( $this->scheme, [ 'http', 'https' ] )
-            && !empty( $this->domain ) );
+        return (in_array($this->scheme, ['http', 'https'])
+            && !empty($this->domain)
+        );
     }
 
     /**
@@ -88,12 +88,12 @@ Class Url Implements Stringable
      * @param string $url Subject string
      * @return Url        Url object
      */
-    public static function fromString( string $url ) : Url
+    public static function fromString(string $url): Url
     {
-        $parts = parse_url( $url );
+        $parts = parse_url($url);
 
         // NOTE: Possibly throw exception?
-        if ( $parts === false ) {
+        if ($parts === false) {
             $parts = [];
         }
 
@@ -114,12 +114,12 @@ Class Url Implements Stringable
      *
      * @return Url Url object
      */
-    public static function fromGlobals() : Url
+    public static function fromGlobals(): Url
     {
         // Connection protocol
-        if ( !empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) {
+        if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
             $scheme = 'https';
-        } elseif ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] )
+        } else if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
             && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'
         ) {
             $scheme = 'https';

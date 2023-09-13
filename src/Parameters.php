@@ -14,9 +14,8 @@ use function is_array;
  *
  * @author clvarley
  */
-Class Parameters
+class Parameters
 {
-
     /**
      * Array of HTTP parameters
      *
@@ -33,7 +32,7 @@ Class Parameters
      *
      * @param array $parameters (Optional) Http parameters
      */
-    public function __construct( array $parameters = [] )
+    public function __construct(array $parameters = [])
     {
         $this->parameters = $parameters;
     }
@@ -47,7 +46,7 @@ Class Parameters
      * @param mixed $value Parameter value
      * @return void        N/a
      */
-    public function set( string $name, /* mixed */ $value ) : void
+    public function set(string $name, /* mixed */ $value): void
     {
         $this->parameters[$name] = $value;
     }
@@ -60,7 +59,7 @@ Class Parameters
      * @param string $name Parameter name
      * @return mixed|null  Parameter value
      */
-    public function get( string $name ) // : mixed
+    public function get(string $name) // : mixed
     {
         return $this->parameters[$name] ?? null;
     }
@@ -71,9 +70,9 @@ Class Parameters
      * @param string $name Parameter name
      * @return bool        Parameter set?
      */
-    public function has( string $name ) : bool
+    public function has(string $name): bool
     {
-        return array_key_exists( $name, $this->parameters );
+        return array_key_exists($name, $this->parameters);
     }
 
     /**
@@ -83,7 +82,7 @@ Class Parameters
      *
      * @return array Parameter values
      */
-    public function all() : array
+    public function all(): array
     {
         return $this->parameters;
     }
@@ -97,9 +96,9 @@ Class Parameters
      * @param string $name Parameter name
      * @return string      Parameter value
      */
-    public function asString( string $name ) : string
+    public function asString(string $name): string
     {
-        return ( isset( $this->parameters[$name] ) && is_scalar( $this->parameters[$name] )
+        return (isset($this->parameters[$name]) && is_scalar($this->parameters[$name])
             ? (string)$this->parameters[$name]
             : ''
         );
@@ -114,9 +113,9 @@ Class Parameters
      * @param string $name Parameter name
      * @return int         Parameter value
      */
-    public function asInt( string $name ) : int
+    public function asInt(string $name): int
     {
-        return ( isset( $this->parameters[$name] ) && is_numeric( $this->parameters[$name] )
+        return (isset($this->parameters[$name]) && is_numeric($this->parameters[$name])
             ? (int)$this->parameters[$name]
             : 0
         );
@@ -131,9 +130,9 @@ Class Parameters
      * @param string $name Parameter name
      * @return array       Parameter value
      */
-    public function asArray( string $name ) : array
+    public function asArray(string $name): array
     {
-        return ( isset( $this->parameters[$name] ) && is_array( $this->parameters[$name] )
+        return (isset($this->parameters[$name]) && is_array($this->parameters[$name])
             ? $this->parameters[$name]
             : []
         );

@@ -10,9 +10,8 @@ use function array_key_exists;
  *
  * @author clvarley
  */
-Class Headers
+class Headers
 {
-
     /**
      * Array of HTTP headers
      *
@@ -25,10 +24,10 @@ Class Headers
      *
      * @param array<string,string> $headers (Optional) Http headers
      */
-    public function __construct( array $headers = [] )
+    public function __construct(array $headers = [])
     {
-        foreach ( $headers as $name => $value ) {
-            $this->set( $name, $value, false );
+        foreach ($headers as $name => $value) {
+            $this->set($name, $value, false);
         }
     }
 
@@ -40,12 +39,12 @@ Class Headers
      * @param bool $replace (Optional) Replace existing
      * @return void         N/a
      */
-    public function set( string $name, string $value, bool $replace = true ) : void
+    public function set(string $name, string $value, bool $replace = true): void
     {
-        $name = strtolower( $name );
+        $name = strtolower($name);
 
-        if ( $replace || !isset( $this->headers[$name] ) ) {
-            $this->headers[$name] = [ $value ];
+        if ($replace || !isset($this->headers[$name])) {
+            $this->headers[$name] = [$value];
         } else {
             $this->headers[$name][] = $value;
         }
@@ -59,9 +58,9 @@ Class Headers
      * @param string $name Header name
      * @return string|null Header value
      */
-    public function get( string $name ) : ?string
+    public function get(string $name): ?string
     {
-        $name = strtolower( $name );
+        $name = strtolower($name);
 
         return $this->headers[$name][0] ?? null;
     }
@@ -72,11 +71,11 @@ Class Headers
      * @param string $name Header name
      * @return bool        Header set?
      */
-    public function has( string $name ) : bool
+    public function has(string $name): bool
     {
-        $name = strtolower( $name );
+        $name = strtolower($name);
 
-        return array_key_exists( $name, $this->headers );
+        return array_key_exists($name, $this->headers);
     }
 
     /**
@@ -88,13 +87,13 @@ Class Headers
      * @param string|null $name (Optional) Header name
      * @return mixed[]          Header values
      */
-    public function all( string $name = null ) : array
+    public function all(string $name = null): array
     {
-        if ( $name === null ) {
+        if ($name === null) {
             return $this->headers;
         }
 
-        $name = strtolower( $name );
+        $name = strtolower($name);
 
         return $this->headers[$name] ?? [];
     }

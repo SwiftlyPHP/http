@@ -9,9 +9,8 @@ use Swiftly\Http\Status;
  *
  * @author clvarley
  */
-Class RedirectResponse Extends Response
+class RedirectResponse extends Response
 {
-
     /**
      * Location the client is to be redirected to
      *
@@ -29,22 +28,25 @@ Class RedirectResponse Extends Response
      * @param int $status                   (Optional) Status code
      * @param array<string,string> $headers (Optional) Http headers
      */
-    public function __construct( string $location, int $status = Status::SEE_OTHER, array $headers = [] )
-    {
+    public function __construct(
+        string $location,
+        int $status = Status::SEE_OTHER,
+        array $headers = []
+    ) {
         $this->location = $location;
 
-        parent::__construct( '', $status, $headers );
+        parent::__construct('', $status, $headers);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function send() : void
+    public function send(): void
     {
-        $this->headers->set( "Location", $this->location );
+        $this->headers->set("Location", $this->location);
 
         // Not required, but good practice
-        if ( empty( $this->content ) ) {
+        if (empty($this->content)) {
             $this->content = "Redirecting to: {$this->location}";
         }
 

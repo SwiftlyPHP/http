@@ -11,9 +11,8 @@ use function time;
  *
  * @author clvarley
  */
-Class Cookies
+class Cookies
 {
-
     /**
      * Array of HTTP cookies
      *
@@ -28,10 +27,10 @@ Class Cookies
      *
      * @param Cookie[] $cookies (Optional) Http cookies
      */
-    public function __construct( array $cookies = [] )
+    public function __construct(array $cookies = [])
     {
-        foreach ( $cookies as $cookie ) {
-            $this->set( $cookie );
+        foreach ($cookies as $cookie) {
+            $this->set($cookie);
         }
     }
 
@@ -41,7 +40,7 @@ Class Cookies
      * @param Cookie $cookie Cookie
      * @return void          N/a
      */
-    public function set( Cookie $cookie ) : void
+    public function set(Cookie $cookie): void
     {
         $this->cookies[$cookie->name] = $cookie;
     }
@@ -66,7 +65,7 @@ Class Cookies
         string $domain = '',
         bool $secure = false,
         bool $httponly = false
-    ) : Cookie {
+    ): Cookie {
         $cookie = new Cookie;
         $cookie->name = $name;
         $cookie->value = $value;
@@ -85,7 +84,7 @@ Class Cookies
      * @param string $name Cookie name
      * @return Cookie|null Cookie
      */
-    public function get( string $name ) : ?Cookie
+    public function get(string $name): ?Cookie
     {
         return $this->cookies[$name] ?? null;
     }
@@ -96,9 +95,9 @@ Class Cookies
      * @param string $name Cookie name
      * @return bool        Cookie set?
      */
-    public function has( string $name ) : bool
+    public function has(string $name): bool
     {
-        return isset( $this->cookies[$name] );
+        return isset($this->cookies[$name]);
     }
 
     /**
@@ -112,14 +111,14 @@ Class Cookies
      * @param string $name Cookie name
      * @return void        N/a
      */
-    public function remove( string $name ) : void
+    public function remove(string $name): void
     {
-        if ( !isset( $this->cookies[$name] ) ) {
+        if (!isset($this->cookies[$name])) {
             return;
         }
 
         // We actually want to invalidate it on the client
-        $this->cookies[$name]->expires = ( time() - 3600 );
+        $this->cookies[$name]->expires = (time() - 3600);
         $this->cookies[$name]->value = '';
 
         return;
@@ -132,7 +131,7 @@ Class Cookies
      *
      * @return Cookie[] Cookies
      */
-    public function all() : array
+    public function all(): array
     {
         return $this->cookies;
     }

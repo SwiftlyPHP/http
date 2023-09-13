@@ -5,12 +5,10 @@ namespace Swiftly\Http;
 /**
  * Used to represent HTTP status codes
  *
- * When we get to PHP 8.1 we can swap to enums, but until then, this class will
- * have to do!
- *
- * @author clvarley
+ * @php:8.1 Possibly swap to using an enum
+ * @api
  */
-Final Class Status
+final class Status
 {
 
     /* Informational */

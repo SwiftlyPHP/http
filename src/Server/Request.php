@@ -16,9 +16,8 @@ use function in_array;
  *
  * @author clvarley
  */
-Class Request
+class Request
 {
-
     /**
      * Recognised HTTP methods we can respond to
      *
@@ -112,9 +111,15 @@ Class Request
      * @param Parameters $query Query parameters
      * @param Parameters $post  Post parameters
      */
-    public function __construct( string $method, Url $url, Headers $headers, Cookies $cookies, Parameters $query, Parameters $post )
-    {
-        $this->method  = in_array( $method, self::ALLOWED_METHODS ) ? $method : 'GET';
+    public function __construct(
+        string $method,
+        Url $url,
+        Headers $headers,
+        Cookies $cookies,
+        Parameters $query,
+        Parameters $post
+    ) {
+        $this->method  = in_array($method, self::ALLOWED_METHODS) ? $method : 'GET';
         $this->url     = $url;
         $this->headers = $headers;
         $this->cookies = $cookies;
@@ -127,7 +132,7 @@ Class Request
      *
      * @return string HTTP verb
      */
-    public function getMethod() : string
+    public function getMethod(): string
     {
         return $this->method;
     }
@@ -137,7 +142,7 @@ Class Request
      *
      * @return string Request protocol
      */
-    public function getProtocol() : string
+    public function getProtocol(): string
     {
         return $this->url->scheme;
     }
@@ -147,7 +152,7 @@ Class Request
      *
      * @return string Request path
      */
-    public function getPath() : string
+    public function getPath(): string
     {
         return $this->url->path;
     }
@@ -157,7 +162,7 @@ Class Request
      *
      * @return bool Secure protocol
      */
-    public function isSecure() : bool
+    public function isSecure(): bool
     {
         return $this->url->scheme === 'https';
     }

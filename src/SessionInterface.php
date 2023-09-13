@@ -7,21 +7,19 @@ namespace Swiftly\Http;
  *
  * @author clvarley
  */
-Interface SessionInterface
+interface SessionInterface
 {
-
     /**
      * Attempt to open a new (or existing) session
      *
      * @return bool Session opened?
      */
-    public function open() : bool;
+    public function open(): bool;
 
     /**
      * Attempt to close the current session
      *
      * @return bool Session closed?
      */
-    public function close() : bool;
-
+    public function close(): bool;
 }
