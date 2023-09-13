@@ -16,10 +16,7 @@
     "autoload": {
         "psr-4": {
             "Swiftly\\Http\\": "src/"
-        },
-        "files": [
-            "src/polyfills.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {
