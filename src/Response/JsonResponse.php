@@ -3,6 +3,7 @@
 namespace Swiftly\Http\Response;
 
 use Swiftly\Http\Response\Response;
+use Swiftly\Http\Status;
 
 use function json_encode;
 use function strlen;

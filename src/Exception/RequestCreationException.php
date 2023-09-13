@@ -10,6 +10,7 @@ use function sprintf;
  * Exception to indicate a failure when creating a new `Request` instance
  * 
  * @see \Swiftly\Http\Request\Request::fromGlobals()
+ *
  * @api
  */
 final class RequestCreationException extends LogicException

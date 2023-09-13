@@ -4,8 +4,6 @@ namespace Swiftly\Http;
 
 /**
  * Interface for session adapters
- *
- * @author clvarley
  */
 interface SessionInterface
 {

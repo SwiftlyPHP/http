@@ -2,9 +2,9 @@
 
 namespace Swiftly\Http\Response;
 
-use Swiftly\Http\Status;
-use Swiftly\Http\CookieCollection;
 use Swiftly\Http\HeaderCollection;
+use Swiftly\Http\CookieCollection;
+use Swiftly\Http\Status;
 
 use function http_response_code;
 use function header;

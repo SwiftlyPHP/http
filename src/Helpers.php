@@ -13,6 +13,7 @@ use function ucwords;
  * Utility class containing library specific helper functions
  *
  * @internal
+ * @psalm-immutable
  */
 abstract class Helpers
 {
@@ -24,6 +25,8 @@ abstract class Helpers
      * designed to:
      * * Provide a way of fetching headers that works across all installations
      * * Ensure the return type is one we're expecting
+     *
+     * @psalm-pure
      *
      * @return array<non-empty-string,string> Header values
      */
@@ -52,6 +55,7 @@ abstract class Helpers
     /**
      * Convert the subject string to `PascalCase`
      *
+     * @psalm-pure
      * @psalm-return ($subject is non-empty-string ? non-empty-string : string)
      *
      * @param string $subject   Subject string

@@ -10,6 +10,7 @@ use function sprintf;
  * Exception to indicate a failure when creating a new `Url` instance
  *
  * @see \Swiftly\Http\Url::fromGlobals()
+ *
  * @api
  */
 final class UrlCreationException extends LogicException

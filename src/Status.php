@@ -5,12 +5,12 @@ namespace Swiftly\Http;
 /**
  * Used to represent HTTP status codes
  *
- * @php:8.1 Possibly swap to using an enum
  * @api
+ * @php:8.1 Possibly swap to using an enum
+ * @psalm-immutable
  */
-final class Status
+abstract class Status
 {
-
     /* Informational */
     const CONTINUE = 100;
     const SWITCHING_PROTOCOLS = 101;
@@ -83,5 +83,4 @@ final class Status
     const NOT_EXTENDED = 510;
     const NETWORK_AUTHENTICATION_REQUIRED = 511;
     const NETWORK_CONNECT_TIMEOUT_ERROR = 599;
-
 }
