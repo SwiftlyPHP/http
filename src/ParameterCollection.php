@@ -8,7 +8,9 @@ use function is_numeric;
 /**
  * Stores HTTP parameters passed via query string or POST payload
  *
+ * @api
  * @php:8.0 Add union type hints
+ * @php:8.0 Add readonly attribute
  * @psalm-immutable
  * @psalm-type ParameterKey = int|non-empty-string
  * @psalm-type ParameterValue = string|array<ParameterKey,string|array>
