@@ -4,28 +4,20 @@ namespace Swiftly\Http;
 
 use Swiftly\Http\Cookie;
 
-use function time;
-
 /**
  * Utility container for managing HTTP cookies
  *
  * @author clvarley
  */
-class Cookies
+class CookieCollection
 {
-    /**
-     * Array of HTTP cookies
-     *
-     * @psalm-var array<string,Cookie> $cookies
-     *
-     * @var Cookie[] $cookies Http cookies
-     */
+    /** @var array<non-empty-string,Cookie> $cookies Stored HTTP cookies */
     protected $cookies = [];
 
     /**
-     * Creates a new cookie holder from the (optionally) provided cookies
+     * Creates a new collection around the given cookies
      *
-     * @param Cookie[] $cookies (Optional) Http cookies
+     * @param Cookie[] $cookies HTTP cookies
      */
     public function __construct(array $cookies = [])
     {
@@ -35,10 +27,9 @@ class Cookies
     }
 
     /**
-     * Sets a named cookie
+     * Store a cookie in the collection
      *
      * @param Cookie $cookie Cookie
-     * @return void          N/a
      */
     public function set(Cookie $cookie): void
     {
@@ -46,30 +37,28 @@ class Cookies
     }
 
     /**
-     * Add a new cookie to the bag (with the given attributes)
+     * Create a new cookie within this collection
      *
-     * @param string $name   Cookie name
-     * @param string $value  (Optional) Cookie value
-     * @param int $expires   (Optional) Unix timestamp
-     * @param string $path   (Optional) URL path
-     * @param string $domain (Optional) Allowed domains
-     * @param bool $secure   (Optional) HTTPS only
-     * @param bool $httponly (Optional) HTTP only
-     * @return Cookie        Created cookie
+     * @param non-empty-string $name Cookie name
+     * @param string $value          Cookie value
+     * @param int $expires           Unix timestamp
+     * @param string $path           URL path
+     * @param string $domain         Allowed domains
+     * @param bool $secure           HTTPS only
+     * @param bool $httponly         HTTP only
+     * @return Cookie                Created cookie
      */
     public function add(
         string $name,
-        string $value = '',
+        string $value,
         int $expires = 0,
         string $path = '',
         string $domain = '',
-        bool $secure = false,
+        bool $secure = true,
         bool $httponly = false
     ): Cookie {
-        $cookie = new Cookie;
-        $cookie->name = $name;
-        $cookie->value = $value;
-        $cookie->expires = 0;
+        $cookie = new Cookie($name, $value);
+        $cookie->expires = $expires;
         $cookie->path = $path;
         $cookie->domain = $domain;
         $cookie->secure = $secure;
@@ -79,10 +68,10 @@ class Cookies
     }
 
     /**
-     * Gets the named cookie
+     * Return a named cookie from the collection
      *
-     * @param string $name Cookie name
-     * @return Cookie|null Cookie
+     * @param non-empty-string $name Cookie name
+     * @return null|Cookie           Cookie object
      */
     public function get(string $name): ?Cookie
     {
@@ -92,8 +81,10 @@ class Cookies
     /**
      * Checks to see if the named cookie exists
      *
-     * @param string $name Cookie name
-     * @return bool        Cookie set?
+     * @psalm-assert-if-true Cookie $this->get($name)
+     *
+     * @param non-empty-string $name Cookie name
+     * @return bool                  Cookie in collection?
      */
     public function has(string $name): bool
     {
@@ -108,8 +99,7 @@ class Cookies
      *
      * Most spec conforming browsers treat this as an invalidation.
      *
-     * @param string $name Cookie name
-     * @return void        N/a
+     * @param non-empty-string $name Cookie name
      */
     public function remove(string $name): void
     {
@@ -117,19 +107,14 @@ class Cookies
             return;
         }
 
-        // We actually want to invalidate it on the client
-        $this->cookies[$name]->expires = (time() - 3600);
-        $this->cookies[$name]->value = '';
-
-        return;
+        // Make sure we invalidate on the client
+        $this->cookies[$name]->invalidate();
     }
 
     /**
-     * Gets all cookies
+     * Returns all cookies in this collection
      *
-     * @psalm-return array<string,Cookie>
-     *
-     * @return Cookie[] Cookies
+     * @return array<non-empty-string,Cookie>
      */
     public function all(): array
     {
