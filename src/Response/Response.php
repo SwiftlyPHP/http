@@ -1,10 +1,10 @@
 <?php
 
-namespace Swiftly\Http\Server;
+namespace Swiftly\Http\Response;
 
 use Swiftly\Http\Status;
-use Swiftly\Http\Cookies;
-use Swiftly\Http\Headers;
+use Swiftly\Http\CookieCollection;
+use Swiftly\Http\HeaderCollection;
 
 use function http_response_code;
 use function header;
@@ -13,7 +13,8 @@ use function setcookie;
 /**
  * Class used to send HTTP responses to the client
  *
- * @author clvarley
+ * @api
+ * @php:8.1 Swap to readonly properties
  */
 class Response
 {
@@ -21,42 +22,36 @@ class Response
      * Response HTTP headers
      *
      * @readonly
-     * @var Headers $headers HTTP headers
      */
-    public $headers;
+    public HeaderCollection $headers;
 
     /**
      * Response HTTP cookie
      *
      * @readonly
-     * @var Cookies $cookies HTTP cookies
      */
-    public $cookies;
+    public CookieCollection $cookies;
 
     /**
      * Response status code
      *
      * @psalm-var Status::* $status
-     *
-     * @var int $status Status code
      */
-    protected $status;
+    protected int $status;
 
     /**
      * Response payload
-     *
-     * @var string $content Response body
      */
-    protected $content;
+    protected string $content;
 
     /**
      * Creates a new HTTP response using the values provided
      *
      * @psalm-param Status::* $status
      *
-     * @param string $content               (Optional) Response body
-     * @param int $status                   (Optional) Status code
-     * @param array<string,string> $headers (Optional) Http headers
+     * @param string $content                         Response body
+     * @param int $status                             Status code
+     * @param array<non-empty-string,string> $headers HTTP header values
      */
     public function __construct(
         string $content = '',
@@ -65,8 +60,8 @@ class Response
     ) {
         $this->status  = $status;
         $this->content = $content;
-        $this->headers = new Headers($headers);
-        $this->cookies = new Cookies();
+        $this->headers = new HeaderCollection($headers);
+        $this->cookies = new CookieCollection();
     }
 
     /**
@@ -87,7 +82,6 @@ class Response
      * @psalm-param Status::* $status
      *
      * @param int $status Status code
-     * @return void       N/a
      */
     public function setStatus(int $status): void
     {
@@ -108,7 +102,6 @@ class Response
      * Sets the content of this response
      *
      * @param string $content Response body
-     * @return void           N/a
      */
     public function setContent(string $content): void
     {
@@ -119,7 +112,6 @@ class Response
      * Sets the content type of this response
      *
      * @param string $type Content type
-     * @return void        N/a
      */
     public function setContentType(string $type): void
     {
@@ -128,8 +120,6 @@ class Response
 
     /**
      * Sends this HTTP response to the client
-     *
-     * @return void N/a
      */
     public function send(): void
     {

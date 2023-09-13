@@ -1,8 +1,8 @@
 <?php
 
-namespace Swiftly\Http\Server;
+namespace Swiftly\Http\Response;
 
-use Swiftly\Http\Status;
+use Swiftly\Http\Response\Response;
 
 use function json_encode;
 use function strlen;
@@ -15,7 +15,7 @@ use const JSON_HEX_QUOT;
 /**
  * Class used to send JSON responses to the client
  *
- * @author clvarley
+ * @api
  */
 class JsonResponse extends Response
 {
@@ -24,23 +24,23 @@ class JsonResponse extends Response
      *
      * @var array $json JSON content
      */
-    protected $json;
+    protected array $json;
 
     /**
      * Encoding options used during json_encode
      *
      * @var int $encoding Encoding options
      */
-    protected $encoding = JSON_HEX_AMP | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT;
+    protected int $encoding = JSON_HEX_AMP | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT;
 
     /**
      * Creates a new JSON HTTP response using the values provided
      *
      * @psalm-param Status::* $status
      *
-     * @param array $json                   (Optional) Response content
-     * @param int $status                   (Optional) Status code
-     * @param array<string,string> $headers (Optional) Http headers
+     * @param array $json                             Response content
+     * @param int $status                             Status code
+     * @param array<non-empty-string,string> $headers HTTP header values
      */
     public function __construct(
         array $json = [],
@@ -56,7 +56,6 @@ class JsonResponse extends Response
      * Sets the JSON content of this response
      *
      * @param array $json Response content
-     * @return void       N/a
      */
     public function setJson(array $json): void
     {
@@ -67,16 +66,13 @@ class JsonResponse extends Response
      * Sets the encoding options used during json_encode
      *
      * @param int $encoding Encoding options
-     * @return void         N/a
      */
     public function setEncoding(int $encoding): void
     {
         $this->encoding = $encoding;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function send(): void
     {
         $this->content = json_encode($this->json, $this->encoding);
