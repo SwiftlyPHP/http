@@ -3,61 +3,65 @@
 namespace Swiftly\Http;
 
 use Stringable;
+use Swiftly\Http\Exception\UrlParseException;
+use Swiftly\Http\Exception\UrlCreationException;
 
-use function in_array;
 use function parse_url;
 
 /**
  * Utility class for representing URLs
  *
  * @internal
- * @author clvarley
+ * @psalm-immutable
  */
-class Url implements Stringable
+final class Url implements Stringable
 {
-    /**
-     * The protocol being used
-     *
-     * @var string $scheme Url scheme
-     */
-    public $scheme = '';
+    /** @var non-empty-string $protocol The protocol being used */
+    public string $protocol;
+
+    /** @var non-empty-string $domain The requested domain */
+    public string $domain;
+
+    /** @var non-empty-string $path Path component */
+    public string $path;
+
+    /** Optional query parameters */
+    public string $query;
+
+    /** Resource fragment */
+    public string $fragment;
 
     /**
-     * The requested authority/domain
+     * Create a new URL with the given components
      *
-     * @var string $domain Domain component
+     * @param non-empty-string $protocol URL protocol/scheme
+     * @param non-empty-string $domain   Target domain
+     * @param non-empty-string $path     Requested path
+     * @param string $query              Query component
+     * @param string $fragment           Fragment identifier
      */
-    public $domain = '';
-
-    /**
-     * Path to resource
-     *
-     * @var string $path Path component
-     */
-    public $path = '';
-
-    /**
-     * Additional query parameters
-     *
-     * @var string $query Query string
-     */
-    public $query = '';
-
-    /**
-     * Resource fragment
-     *
-     * @var string $fragment Fragment identifier
-     */
-    public $fragment = '';
+    public function __construct(
+        string $protocol,
+        string $domain,
+        string $path,
+        string $query = '',
+        string $fragment = ''
+    ) {
+        $this->protocol = $protocol;
+        $this->domain = $domain;
+        $this->path = $path;
+        $this->query = $query;
+        $this->fragment = $fragment;
+    }
 
     /**
      * Returns the string representation of this URL
      *
-     * @return string Url
+     * @return non-empty-string URL string
      */
     public function __toString(): string
     {
-        $url = "{$this->scheme}://{$this->domain}{$this->path}";
+        $url = "{$this->protocol}://{$this->domain}{$this->path}";
 
         if (!empty($this->query)) {
             $url .= "?{$this->query}";
@@ -71,51 +75,52 @@ class Url implements Stringable
     }
 
     /**
-     * Determine whether this URL is valid
+     * Attempt to parse URL information from the given string
      *
-     * @return bool Is valid?
-     */
-    public function valid(): bool
-    {
-        return (in_array($this->scheme, ['http', 'https'])
-            && !empty($this->domain)
-        );
-    }
-
-    /**
-     * Attempt to parse the given string into a Url object
+     * @throws UrlParseException If the given string cannot be parsed
      *
-     * @param string $url Subject string
-     * @return Url        Url object
+     * @param string $url URL like string
+     * @return Url        URL object
      */
     public static function fromString(string $url): Url
     {
-        $parts = parse_url($url);
-
-        // NOTE: Possibly throw exception?
-        if ($parts === false) {
-            $parts = [];
+        if (($parts = parse_url($url)) === false) {
+            throw new UrlParseException($url);
         }
 
-        $url = new Url;
+        // Check required components
+        if (empty($parts['host'])) {
+            throw new UrlParseException($url, 'lacks hostname');
+        }
 
-        // Always assume the least secure!
-        $url->scheme   = $parts['scheme']   ?? 'http';
-        $url->domain   = $parts['host']     ?? '';
-        $url->path     = $parts['path']     ?? '';
-        $url->query    = $parts['query']    ?? '';
-        $url->fragment = $parts['fragment'] ?? '';
+        if (empty($parts['path'])) {
+            throw new UrlParseException($url, 'lacks path component');
+        }
 
-        return $url;
+        // Never assume HTTPS (has to be explicitly set)
+        return new self(
+            !empty($parts['scheme']) ? $parts['scheme'] : 'http',
+            $parts['host'],
+            $parts['path'],
+            $parts['query'] ?? '',
+            $parts['fragment'] ?? ''
+        );
     }
 
     /**
      * Creates a Url object from the global $_SERVER variable
      *
-     * @return Url Url object
+     * @throws UrlCreationException
+     *          If PHP global `HTTP_HOST` or `REQUEST_URI` values are undefined
+     *
+     * @return self Url object
      */
-    public static function fromGlobals(): Url
+    public static function fromGlobals(): self
     {
+        if (empty($_SERVER['HTTP_HOST']) || empty($_SERVER['REQUEST_URI'])) {
+            throw new UrlCreationException("required \$_SERVER values missing");
+        }
+
         // Connection protocol
         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
             $scheme = 'https';
