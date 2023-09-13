@@ -2,8 +2,8 @@
 /vendor
 /composer.lock
 
-# PHPUnit
+# CI/CD
 /reports
 
-# Misc
+# Mac
 .DS_Store

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
     bootstrap="vendor/autoload.php"
+    forceCoversAnnotation="true"
+    beStrictAboutCoversAnnotation="true"
     colors="true"
     cacheResult="false"
     testdox="true"
@@ -14,11 +16,8 @@
         <include>
             <directory suffix=".php">src</directory>
         </include>
-        <exclude>
-            <file>src/polyfills.php</file>
-        </exclude>
         <report>
-            <html outputDirectory="reports/html"/>
+            <html outputDirectory="reports"/>
         </report>
     </coverage>
 </phpunit>

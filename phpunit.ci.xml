@@ -6,15 +6,13 @@
     <testsuites>
         <testsuite name="unit">
             <directory suffix=".php">tests</directory>
+            <exclude>tests/example</exclude>
         </testsuite>
     </testsuites>
     <coverage>
         <include>
             <directory suffix=".php">src</directory>
         </include>
-        <exclude>
-            <file>src/polyfills.php</file>
-        </exclude>
         <report>
             <clover outputFile="reports/clover.xml"/>
         </report>
