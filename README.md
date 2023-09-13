@@ -11,7 +11,7 @@ Object-oriented interface for working with HTTP requests and responses.
 To install the library use [Composer](https://getcomposer.org/):
 
 ```sh
-composer require swiftly/dependency
+composer require swiftly/http
 ```
 
 ## Usage
