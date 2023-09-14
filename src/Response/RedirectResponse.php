@@ -34,21 +34,15 @@ class RedirectResponse extends Response
         int $status = Status::SEE_OTHER,
         array $headers = []
     ) {
+        parent::__construct(
+            $status,
+            // Not required but good practice
+            "Redirecting to: {$location}",
+            $headers
+        );
+        
         $this->location = $location;
-
-        parent::__construct('', $status, $headers);
-    }
-
-    /** {@inheritdoc} */
-    public function send(): void
-    {
-        $this->headers->set("Location", $this->location);
-
-        // Not required, but good practice
-        if (empty($this->content)) {
-            $this->content = "Redirecting to: {$this->location}";
-        }
-
-        parent::send();
+        $this->headers->set('Location', $location);
+        $this->setContentType('text/plain');
     }
 }

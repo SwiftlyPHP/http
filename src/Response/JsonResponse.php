@@ -6,7 +6,6 @@ use Swiftly\Http\Response\Response;
 use Swiftly\Http\Status;
 
 use function json_encode;
-use function strlen;
 
 use const JSON_HEX_AMP;
 use const JSON_HEX_TAG;
@@ -48,9 +47,14 @@ class JsonResponse extends Response
         int $status = Status::OK,
         array $headers = []
     ) {
-        $this->json = $json;
+        parent::__construct(
+            $status,
+            json_encode($json, $this->encoding),
+            $headers
+        );
 
-        parent::__construct( '', $status, $headers );
+        $this->json = $json;
+        $this->setContentType('application/json');
     }
 
     /**
@@ -61,25 +65,19 @@ class JsonResponse extends Response
     public function setJson(array $json): void
     {
         $this->json = $json;
+        $this->content = json_encode($json, $this->encoding);
     }
 
     /**
      * Sets the encoding options used during json_encode
+     *
+     * Re-encodes any existing JSON content that has been set.
      *
      * @param int $encoding Encoding options
      */
     public function setEncoding(int $encoding): void
     {
         $this->encoding = $encoding;
-    }
-
-    /** {@inheritdoc} */
-    public function send(): void
-    {
-        $this->content = json_encode($this->json, $this->encoding);
-        $this->headers->set('Content-Type', 'application/json');
-        $this->headers->set('Content-Length', (string)strlen($this->content));
-
-        parent::send();
+        $this->content = json_encode($this->json, $encoding);
     }
 }

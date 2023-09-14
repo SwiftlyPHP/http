@@ -8,6 +8,7 @@ use Swiftly\Http\CookieCollection;
 use Swiftly\Http\ParameterCollection;
 use Swiftly\Http\Url;
 use Swiftly\Http\Method;
+use Swiftly\Http\Exception\UrlParseException;
 use Swiftly\Http\Exception\EnvironmentException;
 use Swiftly\Http\Helpers;
 
@@ -199,6 +200,9 @@ class Request
 
     /**
      * Create a new HTTP request with the provided details
+     *
+     * @throws UrlParseException
+     *          If the value given for `$url` cannot be parsed
      *
      * @param non-empty-string $method                HTTP verb
      * @param non-empty-string $url                   Requested URL

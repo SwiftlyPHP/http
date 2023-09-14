@@ -95,7 +95,7 @@ class CookieCollection
      * Removes the named cookie
      *
      * Because we (presumably) want to delete the cookie from the client as
-     * well, we set the expiry date an hour into the past and wipe the value.
+     * well, we set the expiry date a day into the past and wipe the value.
      *
      * Most spec conforming browsers treat this as an invalidation.
      *
@@ -103,12 +103,9 @@ class CookieCollection
      */
     public function remove(string $name): void
     {
-        if (!isset($this->cookies[$name])) {
-            return;
+        if (isset($this->cookies[$name])) {
+            $this->cookies[$name]->invalidate();
         }
-
-        // Make sure we invalidate on the client
-        $this->cookies[$name]->invalidate();
     }
 
     /**

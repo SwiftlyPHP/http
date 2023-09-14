@@ -48,8 +48,8 @@ class Cookie
      * Invalidate this cookie
      *
      * We want to remove this from the client, so we clear the value and set the
-     * expiry date in the past. Most spec conforming browsers will then
-     * invalidate the local copy.
+     * expiry date in the past. Most spec conforming browsers will then delete
+     * their local copy.
      */
     public function invalidate(): void
     {

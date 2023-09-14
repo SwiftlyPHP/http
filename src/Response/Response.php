@@ -39,9 +39,7 @@ class Response
      */
     protected int $status;
 
-    /**
-     * Response payload
-     */
+    /** Response payload */
     protected string $content;
 
     /**
@@ -49,13 +47,13 @@ class Response
      *
      * @psalm-param Status::* $status
      *
-     * @param string $content                         Response body
      * @param int $status                             Status code
+     * @param string $content                         Response body
      * @param array<non-empty-string,string> $headers HTTP header values
      */
     public function __construct(
-        string $content = '',
         int $status = Status::OK,
+        string $content = '',
         array $headers = []
     ) {
         $this->status  = $status;
@@ -119,31 +117,12 @@ class Response
     }
 
     /**
-     * Sends this HTTP response to the client
+     * Returns the content type of this response
+     *
+     * @return string $type Content type
      */
-    public function send(): void
+    public function getContentType(): string
     {
-        http_response_code($this->status);
-
-        /** @var string[] $values */
-        foreach ($this->headers->all() as $name => $values) {
-            foreach ($values as $index => $value) {
-                header("$name: $value", $index === 0);
-            }
-        }
-
-        foreach ($this->cookies->all() as $cookie) {
-            setcookie(
-                $cookie->name,
-                $cookie->value,
-                $cookie->expires,
-                $cookie->path,
-                $cookie->domain,
-                $cookie->secure,
-                $cookie->httponly
-            );
-        }
-
-        echo $this->content;
+        return $this->headers->get('Content-Type') ?? 'text/plain';
     }
 }
