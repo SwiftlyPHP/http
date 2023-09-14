@@ -7,6 +7,7 @@ use Swiftly\Http\HeaderCollection;
 use Swiftly\Http\CookieCollection;
 use Swiftly\Http\ParameterCollection;
 use Swiftly\Http\Url;
+use Swiftly\Http\Method;
 use Swiftly\Http\Exception\RequestCreationException;
 use Swiftly\Http\Helpers;
 
@@ -18,29 +19,19 @@ use function in_array;
  * @api
  * @php:8.1 Swap to readonly properties
  * @psalm-import-type ParameterArray from ParameterCollection
+ * @psalm-import-type HttpMethod from Method
  */
 class Request
 {
-    /** Recognised HTTP verbs */
-    public const ALLOWED_METHODS = [
-        'OPTIONS',
-        'HEAD',
-        'GET',
-        'POST',
-        'PUT',
-        'PATCH',
-        'DELETE'
-    ];
-
     /**
-     * Request HTTP headers
+     * Client provided HTTP headers
      *
      * @readonly
      */
     public HeaderCollection $headers;
 
     /**
-     * Request HTTP cookies
+     * Client provided HTTP cookies
      *
      * @readonly
      */
@@ -108,7 +99,7 @@ class Request
         ParameterCollection $query,
         ParameterCollection $post
     ) {
-        $this->method  = in_array($method, self::ALLOWED_METHODS) ? $method : 'GET';
+        $this->method  = $method;
         $this->url     = $url;
         $this->headers = $headers;
         $this->cookies = $cookies;
@@ -121,6 +112,8 @@ class Request
     /**
      * Returns the HTTP method used for this request
      *
+     * @psalm-mutation-free
+     *
      * @return non-empty-string HTTP verb
      */
     public function getMethod(): string
@@ -130,6 +123,8 @@ class Request
 
     /**
      * Returns the protocol of this request
+     *
+     * @psalm-mutation-free
      *
      * @return non-empty-string Request protocol
      */
@@ -141,6 +136,8 @@ class Request
     /**
      * Returns the URL path of this request
      *
+     * @psalm-mutation-free
+     *
      * @return non-empty-string Request path
      */
     public function getPath(): string
@@ -151,11 +148,55 @@ class Request
     /**
      * Checks if this request was made via a secure protocol
      *
+     * @psalm-mutation-free
+     *
      * @return bool Secure protocol
      */
     public function isSecure(): bool
     {
         return $this->url->protocol === 'https';
+    }
+
+    /**
+     * Checks if this request was made using a known HTTP method
+     *
+     * @psalm-mutation-free
+     * @psalm-assert-if-true HttpMethod $this->method
+     * @psalm-assert-if-true HttpMethod $this->getMethod()
+     *
+     * @return bool Known HTTP method
+     */
+    public function isKnownMethod(): bool
+    {
+        return Method::isKnownMethod($this->method);
+    }
+
+    /**
+     * Checks if this request was made using a safe HTTP method
+     *
+     * @psalm-mutation-free
+     * @psalm-assert-if-true "GET"|"HEAD"|"OPTIONS"|"TRACE" $this->method
+     * @psalm-assert-if-true "GET"|"HEAD"|"OPTIONS"|"TRACE" $this->getMethod()
+     *
+     * @return bool Safe HTTP method
+     */
+    public function isSafeMethod(): bool
+    {
+        return Method::isSafeMethod($this->method);
+    }
+
+    /**
+     * Check if cached responses are allowed to be returned for this request
+     *
+     * @psalm-mutation-free
+     * @psalm-assert-if-true "GET"|"HEAD" $this->method
+     * @psalm-assert-if-true "GET"|"HEAD" $this->getMethod()
+     *
+     * @return bool Allows cached responses
+     */
+    public function allowsCachedResponses(): bool
+    {
+        return Method::isCacheableMethod($this->method);
     }
 
     /**
