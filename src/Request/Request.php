@@ -8,10 +8,8 @@ use Swiftly\Http\CookieCollection;
 use Swiftly\Http\ParameterCollection;
 use Swiftly\Http\Url;
 use Swiftly\Http\Method;
-use Swiftly\Http\Exception\RequestCreationException;
+use Swiftly\Http\Exception\EnvironmentException;
 use Swiftly\Http\Helpers;
-
-use function in_array;
 
 /**
  * Class used to represent HTTP requests coming into the server
@@ -229,7 +227,7 @@ class Request
     /**
      * Create a new HTTP request using the current PHP globals
      *
-     * @throws RequestCreationException
+     * @throws EnvironmentException
      *          If PHP global `REQUEST_METHOD` value is undefined
      *
      * @return self Request instance
@@ -237,8 +235,8 @@ class Request
     public static function fromGlobals(): self
     {
         if (!isset($_SERVER['REQUEST_METHOD'])) {
-            throw new RequestCreationException(
-                "required \$_SERVER value missing"
+            throw new EnvironmentException(
+                "\$_SERVER['REQUEST_METHOD'] is undefined"
             );
         }
 

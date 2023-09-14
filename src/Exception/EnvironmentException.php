@@ -7,13 +7,14 @@ use LogicException;
 use function sprintf;
 
 /**
- * Exception to indicate a failure when creating a new `Request` instance
- * 
+ * Exception used to indicate a problem with the environment PHP is running on
+ *
  * @see \Swiftly\Http\Request\Request::fromGlobals()
+ * @see \Swiftly\Http\Url::fromGlobals()
  *
  * @api
  */
-final class RequestCreationException extends LogicException
+class EnvironmentException extends LogicException
 {
     /**
      * @param non-empty-string $reason Failure reason
@@ -22,11 +23,9 @@ final class RequestCreationException extends LogicException
     {
         parent::__construct(
             sprintf(
-                "Failed tp create a new Request instance because %s",
+                "Failed due to a problem with the environment: %s",
                 $reason
             )
         );
     }
 }
-
-

@@ -4,7 +4,7 @@ namespace Swiftly\Http;
 
 use Stringable;
 use Swiftly\Http\Exception\UrlParseException;
-use Swiftly\Http\Exception\UrlCreationException;
+use Swiftly\Http\Exception\EnvironmentException;
 
 use function parse_url;
 
@@ -108,9 +108,9 @@ final class Url implements Stringable
     }
 
     /**
-     * Creates a Url object from the global $_SERVER variable
+     * Creates a URL object from the current PHP globals
      *
-     * @throws UrlCreationException
+     * @throws EnvironmentException
      *          If PHP global `HTTP_HOST` or `REQUEST_URI` values are undefined
      *
      * @return self Url object
@@ -118,7 +118,7 @@ final class Url implements Stringable
     public static function fromGlobals(): self
     {
         if (empty($_SERVER['HTTP_HOST']) || empty($_SERVER['REQUEST_URI'])) {
-            throw new UrlCreationException("required \$_SERVER values missing");
+            throw new EnvironmentException("required \$_SERVER values missing");
         }
 
         // Connection protocol
