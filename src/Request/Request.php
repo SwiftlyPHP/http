@@ -2,12 +2,14 @@
 
 namespace Swiftly\Http\Request;
 
-use Swiftly\Http\Session;
 use Swiftly\Http\HeaderCollection;
 use Swiftly\Http\CookieCollection;
+use Swiftly\Http\SessionHandler;
+use Swiftly\Http\SessionStorageInterface;
 use Swiftly\Http\ParameterCollection;
 use Swiftly\Http\Url;
 use Swiftly\Http\Method;
+use Swiftly\Http\Exception\SessionException;
 use Swiftly\Http\Exception\UrlParseException;
 use Swiftly\Http\Exception\EnvironmentException;
 use Swiftly\Http\Helpers;
@@ -36,12 +38,8 @@ class Request
      */
     public CookieCollection $cookies;
 
-    /**
-     * Current user session
-     *
-     * @var null|Session $session User session
-     */
-    public ?Session $session;
+    /** Current user session */
+    protected ?SessionHandler $session;
 
     /**
      * HTTP query string parameters
@@ -196,6 +194,68 @@ class Request
     public function allowsCachedResponses(): bool
     {
         return Method::isCacheableMethod($this->method);
+    }
+
+    /**
+     * Checks to see is a user session is attached to this request
+     *
+     * @psalm-mutation-free
+     * @psalm-assert-if-true SessionHandler $this->session
+     * @psalm-assert-if-true SessionHandler $this->getSession()
+     */
+    public function hasSession(): bool
+    {
+        return $this->session !== null;
+    }
+
+    /**
+     * Get the current session handler
+     *
+     * @throws SessionException
+     *          If no session has been attached to this request
+     *
+     * @psalm-assert SessionHandler $this->session
+     * @return SessionHandler Session handler
+     */
+    public function getSession(): SessionHandler
+    {
+        if ($this->session === null) {
+            throw new SessionException(
+                'fetch',
+                'request has no attached session'
+            );
+        }
+
+        return $this->session;
+    }
+
+    /**
+     * Attach a session to this request
+     *
+     * @throws SessionException
+     *          If a session has already been attached to this request
+     *
+     * @php:8.0 Use union type hint
+     * @psalm-assert null $this->session
+     * @param SessionHandler|SessionStorageInterface $session Session handler
+     * @return SessionHandler                                 Attached session
+     */
+    public function setSession($session): SessionHandler
+    {
+        if ($this->session !== null) {
+            throw new SessionException(
+                'attach',
+                'request already has attached session'
+            );
+        }
+
+        if ($session instanceof SessionStorageInterface) {
+            $session = new SessionHandler($session);
+        }
+
+        $session->attach($this);
+
+        return $this->session = $session;
     }
 
     /**

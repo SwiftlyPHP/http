@@ -7,7 +7,7 @@ use RuntimeException;
 use function sprintf;
 
 /**
- * Exception to indicate a failure occurred while parsing a URL string
+ * Exception used to indicate a failure occurred while parsing a URL string
  *
  * @api
  */
