@@ -45,7 +45,7 @@ class SessionHandler
     /**
      * Make sure session data is persisted if this object goes out of scope
      */
-    private function __destruct()
+    public function __destruct()
     {
         if ($this->isOpen()) {
             $this->close();
@@ -83,8 +83,12 @@ class SessionHandler
      */
     public function open(): void
     {
-        if ($this->state !== self::SESSION_UNOPENED) {
-            throw self::exception('open', 'session has already been started');
+        if ($this->state === self::SESSION_OPEN) {
+            throw self::exception('open', 'session is already open');
+        }
+
+        if ($this->state === self::SESSION_CLOSED) {
+            throw self::exception('open', 'session is already closed');
         }
 
         $this->storage->open();
@@ -98,8 +102,12 @@ class SessionHandler
      */
     public function close(): void
     {
-        if ($this->state !== self::SESSION_OPEN) {
+        if ($this->state === self::SESSION_UNOPENED) {
             throw new SessionException('close', 'session is not open');
+        }
+
+        if ($this->state === self::SESSION_CLOSED) {
+            throw new SessionException('close', 'session is already closed');
         }
 
         $this->storage->persist();
@@ -221,10 +229,7 @@ class SessionHandler
             case self::SESSION_OPEN:
                 return;
             case self::SESSION_CLOSED:
-                throw self::exception(
-                    $context,
-                    self::getStateError(self::SESSION_CLOSED)
-                );
+                throw self::exception($context, 'session is already closed');
         }
     }
 
@@ -252,20 +257,5 @@ class SessionHandler
             default:
                 return new SessionException($context, $message);
         }
-    }
-
-    /**
-     * Return the error message for the given state
-     *
-     * @php:8.0 Swap to match statement
-     * @param self::SESSION_UNOPENED|self::SESSION_CLOSED $state
-     * @return non-empty-string Error message
-     */
-    private static function getStateError(int $state): string
-    {
-        return [
-            self::SESSION_UNOPENED => 'session has not been opened',
-            self::SESSION_CLOSED => 'session has been closed'
-        ][$state];
     }
 }

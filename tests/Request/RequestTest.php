@@ -7,6 +7,10 @@ use Swiftly\Http\Request\Request;
 use Swiftly\Http\HeaderCollection;
 use Swiftly\Http\CookieCollection;
 use Swiftly\Http\ParameterCollection;
+use Swiftly\Http\SessionHandler;
+use Swiftly\Http\SessionStorageInterface;
+use Swiftly\Http\RequestAwareSessionInterface;
+use Swiftly\Http\Exception\SessionException;
 use Swiftly\Http\Exception\UrlParseException;
 use Swiftly\Http\Exception\EnvironmentException;
 
@@ -20,6 +24,7 @@ use function array_merge;
  * @uses \Swiftly\Http\ParameterCollection
  * @uses \Swiftly\Http\Helpers
  * @uses \Swiftly\Http\Method
+ * @uses \Swiftly\Http\SessionHandler
  */
 final class RequestTest extends TestCase
 {
@@ -55,9 +60,22 @@ final class RequestTest extends TestCase
         self::assertSame('http', $this->request->getProtocol());
     }
 
+    
     public function testCanGetRequestedPath(): void
     {
         self::assertSame('/resource/sub-resource', $this->request->getPath());
+    }
+
+    public function testCanGetSession(): void
+    {
+        $this->request->setSession($this->createMock(SessionHandler::class));
+
+        self::assertInstanceOf(SessionHandler::class, $this->request->getSession());
+    }
+
+    public function testCanCheckIfRequestHasSession(): void
+    {
+        self::assertFalse($this->request->hasSession());
     }
 
     public function testCanCheckIfRequestWasOverHttps(): void
@@ -78,6 +96,29 @@ final class RequestTest extends TestCase
     public function testCanCheckIfHttpMethodAllowsCaching(): void
     {
         self::assertTrue($this->request->allowsCachedResponses());
+    }
+
+    public function testCanAttachSessionHandler(): void
+    {
+        $session = $this->createMock(SessionHandler::class);
+        $session
+            ->expects(self::once())
+            ->method('attach')
+            ->with($this->request);
+
+        $this->request->setSession($session);
+    }
+
+    public function testCanAttachSessionStorage(): void
+    {
+        // https://github.com/sebastianbergmann/phpunit/issues/3955
+        $store = $this->createMock(RequestAwareSessionMock::class);
+        $store
+            ->expects(self::once())
+            ->method('setRequest')
+            ->with($this->request);
+
+        $this->request->setSession($store);
     }
 
     /** @backupGlobals enabled */
@@ -101,6 +142,28 @@ final class RequestTest extends TestCase
         self::assertFalse($request->allowsCachedResponses());
     }
 
+    /** @covers \Swiftly\Http\Exception\SessionException */
+    public function testThrowsIfSessionNotSet(): void
+    {
+        self::expectException(SessionException::class);
+        self::expectExceptionMessageMatches('/no attached session/');
+
+        $this->request->getSession();
+    }
+
+    /** @covers \Swiftly\Http\Exception\SessionException */
+    public function testThrowsIfSessionAlreadySet(): void
+    {
+        self::expectException(SessionException::class);
+        self::expectExceptionMessageMatches('/has attached session/');
+        
+        self::assertFalse($this->request->hasSession());
+        $this->request->setSession($this->createMock(SessionHandler::class));
+        
+        self::assertTrue($this->request->hasSession());
+        $this->request->setSession($this->createMock(SessionHandler::class));
+    }
+
     /** @covers \Swiftly\Http\Exception\UrlParseException */
     public function testThrowsIfInvalidUrlProvided(): void
     {
@@ -119,3 +182,8 @@ final class RequestTest extends TestCase
         Request::fromGlobals();
     }
 }
+
+// https://github.com/sebastianbergmann/phpunit/issues/3955
+abstract class RequestAwareSessionMock implements
+    SessionStorageInterface,
+    RequestAwareSessionInterface {}
