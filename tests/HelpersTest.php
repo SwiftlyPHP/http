@@ -7,6 +7,7 @@ use Swiftly\Http\Helpers;
 
 use function array_merge;
 use function array_keys;
+use function error_reporting;
 
 /**
  * @covers \Swiftly\Http\Helpers
@@ -54,5 +55,17 @@ final class HelpersTest extends TestCase
         // Make sure empty values are ignored
         self::assertArrayNotHasKey('', $this->headers);
         self::assertNotContains('should-not-appear', $this->headers);
+    }
+
+    public function testCanSuppressErrors(): void
+    {
+        $current_level = error_reporting();
+
+        Helpers::suppressErrors(function () {
+            self::assertSame(0, error_reporting());
+        });
+
+        // Level is restored
+        self::assertSame($current_level, error_reporting());
     }
 }

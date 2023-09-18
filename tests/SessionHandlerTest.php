@@ -135,7 +135,7 @@ final class SessionHandlerTest extends TestCase
         $this->session->set('foo', 'bar');
     }
 
-    public function testCanRemoveValueFromStorage(): void
+    public function testCanRemoveValueFromSession(): void
     {
         $this->session->open();
 
@@ -146,7 +146,7 @@ final class SessionHandlerTest extends TestCase
         $this->session->remove('foo');
     }
 
-    public function testCanClearValuesFromStorage(): void
+    public function testCanClearValuesFromSession(): void
     {
         $this->session->open();
 
