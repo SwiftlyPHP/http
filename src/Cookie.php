@@ -2,62 +2,59 @@
 
 namespace Swiftly\Http;
 
+use function time;
+
 /**
  * Class used to represent and manage a single HTTP cookie
  *
- * @internal
- * @author clvarley
+ * @api
  */
-Class Cookie
+class Cookie
 {
+    /** @var non-empty-string $name Cookie name */
+    public string $name;
+
+    /** @var string $value Cookie value */
+    public string $value;
+
+    /** Expiry time as unix timestamp */
+    public int $expires = 0;
+
+    /** Allowed (sub)path */
+    public string $path = '';
+
+    /** Allowed (sub)domain */
+    public string $domain = '';
+
+    /** Requires HTTPS connection? */
+    public bool $secure = true;
+
+    /** Only readable via HTTP (and not js) */
+    public bool $httponly = false;
 
     /**
-     * The name of this cookie
+     * Create a new cookie with the given name and value
      *
-     * @var string $name Cookie name
+     * @param non-empty-string $name Cookie name
+     * @param string $value          Cookie value
      */
-    public $name = '';
+    public function __construct(string $name, string $value)
+    {
+        $this->name = $name;
+        $this->value = $value;
+    }
 
     /**
-     * The value of this cookie
+     * Invalidate this cookie
      *
-     * @var string $value Cookie value
+     * We want to remove this from the client, so we clear the value and set the
+     * expiry date in the past. Most spec conforming browsers will then delete
+     * their local copy.
      */
-    public $value = '';
-
-    /**
-     * Expiry date of this cookie
-     *
-     * @var int $expires Unix timestamp
-     */
-    public $expires = 0;
-
-    /**
-     * Allowed URL path
-     *
-     * @var string $path URL path
-     */
-    public $path = '';
-
-    /**
-     * Allowed (sub)domains
-     *
-     * @var string $domain Allowed domains
-     */
-    public $domain = '';
-
-    /**
-     * Only transmitt over HTTPS
-     *
-     * @var bool $secure HTTPS only
-     */
-    public $secure = false;
-
-    /**
-     * Only readable via HTTP (and not js)
-     *
-     * @var bool $httponly HTTP only
-     */
-    public $httponly = false;
-
+    public function invalidate(): void
+    {
+        // Hopefully a day in the past should be enough
+        $this->value = '';
+        $this->expires = (time() - (60 * 60 * 24));
+    }
 }

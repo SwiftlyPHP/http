@@ -2,104 +2,165 @@
 
 namespace Swiftly\Http\Tests;
 
-use Swiftly\Http\Url;
 use PHPUnit\Framework\TestCase;
+use Swiftly\Http\Url;
+use Swiftly\Http\Exception\UrlParseException;
+use Swiftly\Http\Exception\EnvironmentException;
+
+use function array_merge;
 
 /**
- * @group Unit
- * @backupGlobals enabled
+ * @covers \Swiftly\Http\Url
  */
-Class UrlTest Extends TestCase
+final class UrlTest extends TestCase
 {
-
-    public static function setUpBeforeClass() : void
+    public function exampleUrlProvider(): array
     {
-        $_SERVER['HTTP_HOST'] = 'localhost';
-        $_SERVER['REQUEST_URI'] = '/';
+        /**
+         * [
+         *   Url:non-empty-string,
+         *   Protocol:non-empty-string,
+         *   Domain:non-empty-string,
+         *   Path:non-empty-string,
+         *   Query:string,
+         *   Fragment:string
+         * ]
+         */
+        return [
+            [
+                'https://example.com/resource?page=1#section',
+                'https', 'example.com', '/resource', 'page=1', 'section'
+            ],
+            [
+                'http://foo.com/content/articles?author=John',
+                'http', 'foo.com', '/content/articles', 'author=John', ''
+            ],
+            [
+                'https://example.co.uk/#heading',
+                'https', 'example.co.uk', '/', '', 'heading'
+            ],
+            [
+                'https://google.com/',
+                'https', 'google.com', '/', '', ''
+            ],
+            [
+                'http://localhost/?title=test&page=1',
+                'http', 'localhost', '/', 'title=test&page=1', ''
+            ]
+        ];
     }
 
-    public function testCanCreateUrlFromValidString() : void
-    {
-        $url = Url::fromString( 'http://test.co.uk/example?page=1#id' );
+    /** @dataProvider exampleUrlProvider */
+    public function testCanParseUrlFromString(
+        string $example,
+        string $protocol,
+        string $domain,
+        string $path,
+        string $query,
+        string $fragment
+    ): void {
+        $url = Url::fromString($example);
 
-        self::assertSame( 'http',       $url->scheme );
-        self::assertSame( 'test.co.uk', $url->domain );
-        self::assertSame( '/example',   $url->path );
-        self::assertSame( 'page=1',     $url->query );
-        self::assertSame( 'id',         $url->fragment );
+        self::assertSame($protocol, $url->protocol);
+        self::assertSame($domain, $url->domain);
+        self::assertSame($path, $url->path);
+        self::assertSame($query, $url->query);
+        self::assertSame($fragment, $url->fragment);
+        self::assertSame($example, (string)$url);
     }
 
-    public function testCanCreateUrlFromMalformedString() : void
-    {
-        $url = Url::fromString( 'i:///@bad' );
+    /** @dataProvider exampleUrlProvider */
+    public function testCanCastUrlIntoString(
+        string $example,
+        string $protocol,
+        string $domain,
+        string $path,
+        string $query,
+        string $fragment
+    ): void {
+        $url = new Url($protocol, $domain, $path, $query, $fragment);
 
-        self::assertSame( 'http', $url->scheme );
-        self::assertSame( '', $url->domain );
-        self::assertSame( '', $url->path );
-        self::assertSame( '', $url->query );
-        self::assertSame( '', $url->fragment );
+        self::assertSame($example, (string)$url);
     }
 
-    public function testCanCreateUrlFromGlobals() : void
+    /** @backupGlobals enabled */
+    public function testCanCreateUrlFromGlobals(): void
     {
+        $_SERVER = array_merge($_SERVER, [
+            'HTTP_HOST' => 'example.com', 
+            'REQUEST_URI' => '/resource/sub-resource?foo=bar#id'
+        ]);
+
         $url = Url::fromGlobals();
 
-        self::assertSame( 'http', $url->scheme );
-        self::assertSame( 'localhost', $url->domain );
-        self::assertSame( '/', $url->path );
-        self::assertSame( '', $url->query );
-        self::assertSame( '', $url->fragment );
+        self::assertSame('http', $url->protocol);
+        self::assertSame('example.com', $url->domain);
+        self::assertSame('/resource/sub-resource', $url->path);
+        self::assertSame('foo=bar', $url->query);
+        self::assertSame('id', $url->fragment);
     }
 
-    public function testCanCreateUrlFromGlobalsBehindProxy() : void
+    /** @backupGlobals enabled */
+    public function testCanTellIfHttpsFromGlobals(): void
     {
-        $_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+        $_SERVER = array_merge($_SERVER, [
+            'HTTP_HOST' => 'example.com', 
+            'REQUEST_URI' => '/resource/sub-resource?foo=bar#id',
+            'HTTPS' => true
+        ]);
 
         $url = Url::fromGlobals();
 
-        self::assertSame( 'https', $url->scheme );
-        self::assertSame( 'localhost', $url->domain );
-        self::assertSame( '/', $url->path );
-        self::assertSame( '', $url->query );
-        self::assertSame( '', $url->fragment );
+        self::assertSame('https', $url->protocol);
     }
 
-    public function testCanCreateUrlFromGlobalsOnIss() : void
+    /** @backupGlobals enabled */
+    public function testCanTellIfHttpsBehindProxyFromGlobals(): void
     {
-        $_SERVER['HTTPS'] = 'on';
+        $_SERVER = array_merge($_SERVER, [
+            'HTTP_HOST' => 'example.com', 
+            'REQUEST_URI' => '/resource/sub-resource?foo=bar#id',
+            'HTTP_X_FORWARDED_PROTO' => 'https'
+        ]);
 
         $url = Url::fromGlobals();
 
-        self::assertSame( 'https', $url->scheme );
-        self::assertSame( 'localhost', $url->domain );
-        self::assertSame( '/', $url->path );
-        self::assertSame( '', $url->query );
-        self::assertSame( '', $url->fragment );
+        self::assertSame('https', $url->protocol);
     }
 
-    public function testCanCastUrlIntoString() : void
+    /** @covers \Swiftly\Http\Exception\UrlParseException */
+    public function testThrowsIfInvalidStringProvided(): void
     {
-        $url = new Url;
-        $url->scheme = 'http';
-        $url->domain = 'test.co.uk';
-        $url->path = '/example';
-        $url->query = 'page=1';
-        $url->fragment = 'id';
+        self::expectException(UrlParseException::class);
+        self::expectExceptionMessageMatches('/invalid format/');
 
-        self::assertSame( 'http://test.co.uk/example?page=1#id', (string)$url );
+        Url::fromString('https://#@invalid?url');
     }
 
-    public function testValidUrlReturnsTrue() : void
+    /** @covers \Swiftly\Http\Exception\UrlParseException */
+    public function testThrowsIfHostnameMissing(): void
     {
-        $url = Url::fromString( 'http://test.co.uk/example?page=1#id' );
+        self::expectException(UrlParseException::class);
+        self::expectExceptionMessageMatches('/hostname/');
 
-        self::assertTrue( $url->valid() );
+        Url::fromString('/?missing=domain');
     }
 
-    public function testInvalidUrlReturnsFalse() : void
+    /** @covers \Swiftly\Http\Exception\UrlParseException */
+    public function testThrowsIfPathMissing(): void
     {
-        $url = Url::fromString( 'bad:/broken.co@url' );
+        self::expectException(UrlParseException::class);
+        self::expectExceptionMessageMatches('/path/');
 
-        self::assertFalse( $url->valid() );
+        Url::fromString('https://example.com#fragment');
+    }
+
+    /** @covers \Swiftly\Http\Exception\EnvironmentException */
+    public function testThrowsIfGlobalVariablesMissing(): void
+    {
+        self::expectException(EnvironmentException::class);
+        self::expectExceptionMessageMatches('/\$_SERVER/');
+
+        Url::fromGlobals();
     }
 }
