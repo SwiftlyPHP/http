@@ -8,6 +8,7 @@ use function substr;
 use function str_replace;
 use function strtolower;
 use function ucwords;
+use function error_reporting;
 
 /**
  * Utility class containing library specific helper functions
@@ -67,5 +68,22 @@ abstract class Helpers
         string $delimiters = " \t\r\n\f\v-_"
     ): string {
         return ucwords(strtolower($subject), $delimiters);
+    }
+
+    /**
+     * Execute the given function with all PHP error reporting disable
+     *
+     * @template T
+     * @psalm-param callable():T $callback
+     * @param callable $callback Function to execute
+     * @return T                 Function return value
+     */
+    final public static function suppressErrors(callable $callback) // : mixed
+    {
+        $error_level = error_reporting(0);
+        $ret_val = $callback();
+        error_reporting($error_level);
+
+        return $ret_val;
     }
 }

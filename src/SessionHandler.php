@@ -134,9 +134,8 @@ class SessionHandler
      *
      * @php:8.0 Add union return type
      * @psalm-assert self::SESSION_UNOPENED|self::SESSION_OPEN $this->state
-     * @psalm-return scalar|array
      * @param non-empty-string $key Data key
-     * @return scalar|array         Data value
+     * @return mixed                Data value
      */
     public function get(string $key)// : mixed
     {

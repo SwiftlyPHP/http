@@ -37,7 +37,7 @@ interface SessionStorageInterface
      * @php:8.0 Add union return type hint
      * @psalm-assert true $this->has()
      * @param non-empty-string $key Data key
-     * @return scalar|array
+     * @return mixed                Data value
      */
     public function read(string $key);
     /**

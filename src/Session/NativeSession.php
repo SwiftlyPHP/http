@@ -3,10 +3,12 @@
 namespace Swiftly\Http\Session;
 
 use Swiftly\Http\SessionStorageInterface;
-use Swiftly\Http\Exception\SessionException;
 use Swiftly\Http\RequestAwareSessionInterface;
 use Swiftly\Http\Request\Request;
+use Swiftly\Http\Helpers;
+use Swiftly\Http\Exception\SessionException;
 
+use function error_get_last;
 use function array_merge;
 use function session_start;
 use function session_name;
@@ -44,16 +46,36 @@ class NativeSession implements
             'use_trans_sid' => false,
             'sid_length' => 64,
             'lazy_write' => true,
-            'gc_maxlifetime' => (60 * 24)
+            'gc_maxlifetime' => (60 * 30) // Half hour
         ], $options);
         $this->request = null;
     }
 
-    /** {@inheritDoc} */
+    /**
+     * {@inheritDoc}
+     * 
+     * PHP does not reliably return false for failures from `session_start` so
+     * we have to do a bit of wrangling with regard to error notices.
+     * 
+     * When testing across both PHP 7.4 and 8.0 it became apparent that
+     * `session_start` will often return true even if it has emitted an error
+     * or warning, meaning that we can't just wrap this in an `if` statement as
+     * we had previously. Instead, we disable error reporting and compare the
+     * error stack before/after starting the session to see if we need to throw.
+     */
     public function open(): void
     {
-        if (session_start($this->options) === false) {
-            throw new SessionException('open', 'internal PHP error');
+        $previous_error = error_get_last();
+
+        Helpers::suppressErrors(function (): void {
+            session_start($this->options);
+        });
+
+        $current_error = error_get_last();
+
+        if ($current_error && $current_error !== $previous_error) {
+            /** @var array{message:non-empty-string} $current_error */
+            throw new SessionException('open', $current_error['message']);
         }
     }
 
@@ -76,25 +98,25 @@ class NativeSession implements
      */
     public function has(string $key): bool
     {
-        return isset($_SERVER[$key]);
+        return isset($_SESSION[$key]);
     }
 
     /** {@inheritDoc} */
     public function read(string $key)
     {
-        return $_SERVER[$key];
+        return $_SESSION[$key];
     }
 
     /** {@inheritDoc} */
     public function write(string $key, $value): void
     {
-        $_SERVER[$key] = $value;
+        $_SESSION[$key] = $value;
     }
 
     /** {@inheritDoc} */
     public function remove(string $key): void
     {
-        unset($_SERVER[$key]);
+        unset($_SESSION[$key]);
     }
 
     /** {@inheritDoc} */
