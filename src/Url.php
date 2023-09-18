@@ -79,6 +79,7 @@ final class Url implements Stringable
      *
      * @throws UrlParseException If the given string cannot be parsed
      *
+     * @psalm-mutation-free
      * @param string $url URL like string
      * @return Url        URL object
      */
@@ -113,6 +114,7 @@ final class Url implements Stringable
      * @throws EnvironmentException
      *          If PHP global `HTTP_HOST` or `REQUEST_URI` values are undefined
      *
+     * @psalm-mutation-free
      * @return self Url object
      */
     public static function fromGlobals(): self

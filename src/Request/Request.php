@@ -214,6 +214,7 @@ class Request
      * @throws SessionException
      *          If no session has been attached to this request
      *
+     * @psalm-mutation-free
      * @psalm-assert SessionHandler $this->session
      * @return SessionHandler Session handler
      */
@@ -264,6 +265,7 @@ class Request
      * @throws UrlParseException
      *          If the value given for `$url` cannot be parsed
      *
+     * @psalm-mutation-free
      * @param non-empty-string $method                HTTP verb
      * @param non-empty-string $url                   Requested URL
      * @param array<non-empty-string,string> $headers HTTP header values
@@ -294,6 +296,7 @@ class Request
      * @throws EnvironmentException
      *          If PHP global `REQUEST_METHOD` value is undefined
      *
+     * @psalm-mutation-free
      * @return self Request instance
      */
     public static function fromGlobals(): self
