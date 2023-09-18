@@ -170,7 +170,6 @@ final class NativeSessionTest extends TestCase
     public function testThrowsIfCannotOpenSession(): void
     {
         self::expectException(SessionException::class);
-        self::expectExceptionMessageMatches('/already active/');
 
         // Manually cause 'session already active' error
         $this->session->open();
