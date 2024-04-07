@@ -42,11 +42,11 @@ abstract class Helpers
 
             $name = substr($name, 5);
             $name = str_replace('_', '-', $name);
-            
+
             if (empty($name)) {
                 continue;
             }
-            
+
             $headers[self::pascalCase($name)] = $value;
         }
 
@@ -59,9 +59,9 @@ abstract class Helpers
      * @psalm-pure
      * @psalm-return ($subject is non-empty-string ? non-empty-string : string)
      *
-     * @param string $subject   Subject string
-     * @param string $delimiter Word delimiters
-     * @return string           Pascal case'd string
+     * @param string $subject    Subject string
+     * @param string $delimiters Word delimiters
+     * @return string            Pascal cased string
      */
     final public static function pascalCase(
         string $subject,

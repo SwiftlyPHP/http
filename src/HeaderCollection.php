@@ -71,7 +71,7 @@ class HeaderCollection
      * If multiple headers with the same name have been set, the most recent
      * value will be returned. This in practice means that the last header to be
      * sent takes precedence.
-     * 
+     *
      * So for a request with the following headers:
      *
      * ```
@@ -79,15 +79,15 @@ class HeaderCollection
      * X-Some-Header: foo;
      * X-Some-Header: bar;
      * ```
-     * 
+     *
      * Fetching the value of `X-Some-Header` will return `bar`.
      *
      * ```php
      * <?php
-     * 
+     *
      * $header->get('X-Some-Header') === 'bar';
      * ```
-     * 
+     *
      * If you need every value set for a header use the {@see self::all()}
      * method instead.
      *

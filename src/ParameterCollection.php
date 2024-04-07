@@ -61,19 +61,19 @@ class ParameterCollection
      * PHP allows nested query/post data to be sent in the form
      * `key[subkey]=value`, which is normally surfaced inside the `$_GET` and
      * `$_POST` globals as nested arrays.
-     * 
+     *
      * ```php
      * <?php // http://localhost?data[name]=value
-     * 
+     *
      * $_GET['data]['name] === 'value';
      * ```
-     * 
+     *
      * This method allows you to access these nested values by using a delimited
      * key.
-     * 
+     *
      * ```php
      * <?php // http://localhost?data[name]=value
-     * 
+     *
      * $parameters->getNested('data.name') === 'value';
      * ```
      *
@@ -81,12 +81,14 @@ class ParameterCollection
      * @param non-empty-string $delimiter Key delimiter
      * @return null|string|array          Nested value
      */
-    public function getNested(string $key, string $delimiter = ".") // :null|string|array
+    public function getNested(string $key, string $delimiter = '.') // :null|string|array
     {
         $values = $this->values;
 
         foreach (explode($delimiter, $key) as $subkey) {
-            if (!isset($values[$subkey])) return null;
+            if (!isset($values[$subkey])) {
+                return null;
+            }
 
             $values = $values[$subkey];
         }
