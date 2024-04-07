@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http\Session;
 
@@ -53,10 +53,10 @@ class NativeSession implements
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * PHP does not reliably return false for failures from `session_start` so
      * we have to do a bit of wrangling with regard to error notices.
-     * 
+     *
      * When testing across both PHP 7.4 and 8.0 it became apparent that
      * `session_start` will often return true even if it has emitted an error
      * or warning, meaning that we can't just wrap this in an `if` statement as

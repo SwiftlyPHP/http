@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http\Exception;
 
@@ -23,7 +23,7 @@ class EnvironmentException extends LogicException
     {
         parent::__construct(
             sprintf(
-                "Failed due to a problem with the environment: %s",
+                'Failed due to a problem with the environment: %s',
                 $reason
             )
         );

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http\Response;
 
@@ -40,7 +40,7 @@ class RedirectResponse extends Response
             "Redirecting to: {$location}",
             $headers
         );
-        
+
         $this->location = $location;
         $this->headers->set('Location', $location);
         $this->setContentType('text/plain');

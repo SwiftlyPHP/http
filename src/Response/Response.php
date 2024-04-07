@@ -1,14 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http\Response;
 
 use Swiftly\Http\HeaderCollection;
 use Swiftly\Http\CookieCollection;
 use Swiftly\Http\Status;
-
-use function http_response_code;
-use function header;
-use function setcookie;
 
 /**
  * Class used to send HTTP responses to the client

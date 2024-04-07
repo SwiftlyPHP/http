@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http\Exception;
 
@@ -24,7 +24,7 @@ class SessionException extends LogicException
     {
         parent::__construct(
             sprintf(
-                "Failure to %s session: %s",
+                'Failure to %s session: %s',
                 $context,
                 $reason
             )

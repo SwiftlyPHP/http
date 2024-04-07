@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http;
 
@@ -182,7 +182,7 @@ class SessionHandler
 
         $this->storage->clear();
     }
-    
+
     /**
      * Completely destroy a session and all its associated data
      */
@@ -225,6 +225,7 @@ class SessionHandler
         switch ($this->state) {
             case self::SESSION_UNOPENED:
                 $this->open();
+                return;
             case self::SESSION_OPEN:
                 return;
             case self::SESSION_CLOSED:

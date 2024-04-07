@@ -16,4 +16,12 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
+    <issueHandlers>
+        <RiskyTruthyFalsyComparison>
+            <errorLevel type="suppress">
+                <file name="src/Url.php" />
+                <file name="src/Session/NativeSession.php" />
+            </errorLevel>
+        </RiskyTruthyFalsyComparison>
+    </issueHandlers>
 </psalm>

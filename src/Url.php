@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http;
 
@@ -120,13 +120,13 @@ final class Url implements Stringable
     public static function fromGlobals(): self
     {
         if (empty($_SERVER['HTTP_HOST']) || empty($_SERVER['REQUEST_URI'])) {
-            throw new EnvironmentException("required \$_SERVER values missing");
+            throw new EnvironmentException('required $_SERVER values missing');
         }
 
         // Connection protocol
         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
             $scheme = 'https';
-        } else if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
+        } elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
             && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https'
         ) {
             $scheme = 'https';
