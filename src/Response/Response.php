@@ -6,10 +6,6 @@ use Swiftly\Http\HeaderCollection;
 use Swiftly\Http\CookieCollection;
 use Swiftly\Http\Status;
 
-use function http_response_code;
-use function header;
-use function setcookie;
-
 /**
  * Class used to send HTTP responses to the client
  *
