@@ -33,4 +33,13 @@ final class CookieTest extends TestCase
     {
         self::assertTrue($this->cookie->secure);
     }
+
+    public function testCanDetermineIfModified(): void
+    {
+        self::assertFalse($this->cookie->isModified());
+
+        $this->cookie->touch();
+
+        self::assertTrue($this->cookie->isModified());
+    }
 }

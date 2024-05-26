@@ -34,6 +34,7 @@ class CookieCollection
     public function set(Cookie $cookie): void
     {
         $this->cookies[$cookie->name] = $cookie;
+        $this->cookies[$cookie->name]->touch();
     }
 
     /**
@@ -63,6 +64,7 @@ class CookieCollection
         $cookie->domain = $domain;
         $cookie->secure = $secure;
         $cookie->httponly = $httponly;
+        $cookie->touch();
 
         return $this->cookies[$name] = $cookie;
     }

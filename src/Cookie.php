@@ -32,6 +32,9 @@ class Cookie
     /** Only readable via HTTP (and not js) */
     public bool $httponly = false;
 
+    /** @internal */
+    private bool $isModified = false;
+
     /**
      * Create a new cookie with the given name and value
      *
@@ -56,5 +59,24 @@ class Cookie
         // Hopefully a day in the past should be enough
         $this->value = '';
         $this->expires = (time() - (60 * 60 * 24));
+        $this->isModified = true;
+    }
+
+    /**
+     * Flag this cookie as modified, indicating it should be sent to the client.
+     */
+    public function touch(): void
+    {
+        $this->isModified = true;
+    }
+
+    /**
+     * Determine if this cookie has been modified and thus should be sent.
+     *
+     * @return bool  Has been modified?
+     */
+    public function isModified(): bool
+    {
+        return $this->isModified;
     }
 }

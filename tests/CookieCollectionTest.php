@@ -36,8 +36,10 @@ final class CookieCollectionTest extends TestCase
     {
         self::assertInstanceOf(Cookie::class, $this->cookies->get('user'));
         self::assertSame('user', $this->cookies->get('user')->name);
+        self::assertFalse($this->cookies->get('user')->isModified());
         self::assertInstanceOf(Cookie::class, $this->cookies->get('theme'));
         self::assertSame('theme', $this->cookies->get('theme')->name);
+        self::assertFalse($this->cookies->get('theme')->isModified());
         self::assertNull($this->cookies->get('language'));
         self::assertNull($this->cookies->get('bookmarks'));
     }
@@ -59,6 +61,7 @@ final class CookieCollectionTest extends TestCase
         $this->cookies->set(new Cookie('last_login', 'yesterday'));
 
         self::assertTrue($this->cookies->has('last_login'));
+        self::assertTrue($this->cookies->get('last_login')->isModified());
     }
 
     public function testCanCreateCookieInCollection(): void
@@ -84,6 +87,7 @@ final class CookieCollectionTest extends TestCase
         self::assertSame('example.com', $this->cookies->get('notice')->domain);
         self::assertTrue($this->cookies->get('notice')->secure);
         self::assertTrue($this->cookies->get('notice')->httponly);
+        self::assertTrue($this->cookies->get('notice')->isModified());
     }
 
     public function testCanRemoveCookieFromCollection(): void
@@ -91,6 +95,7 @@ final class CookieCollectionTest extends TestCase
         self::assertTrue($this->cookies->has('theme'));
         self::assertSame('light', $this->cookies->get('theme')->value);
         self::assertSame(0, $this->cookies->get('theme')->expires);
+        self::assertFalse($this->cookies->get('theme')->isModified());
 
         $this->cookies->remove('theme');
 
@@ -101,6 +106,7 @@ final class CookieCollectionTest extends TestCase
             self::yesterday(),
             $this->cookies->get('theme')->expires
         );
+        self::assertTrue($this->cookies->get('theme')->isModified());
     }
 
     private static function yesterday(): int
