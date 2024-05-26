@@ -17,6 +17,8 @@ class CookieCollection
     /**
      * Create a cookie collection from the `$_COOKIE` super-global.
      *
+     * @psalm-mutation-free
+     *
      * @return CookieCollection
      */
     public static function fromGlobals(): self
