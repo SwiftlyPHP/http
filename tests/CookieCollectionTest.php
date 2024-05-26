@@ -109,6 +109,19 @@ final class CookieCollectionTest extends TestCase
         self::assertTrue($this->cookies->get('theme')->isModified());
     }
 
+    /** @backupGlobals enabled */
+    public function testCanCreateCookieCollectionFromGlobals(): void
+    {
+        $_COOKIE = ['user' => 'test.user'];
+
+        $collection = CookieCollection::fromGlobals();
+
+        self::assertTrue($collection->has('user'));
+        self::assertSame('test.user', $collection->get('user')->value);
+        self::assertSame(0, $collection->get('user')->expires);
+        self::assertFalse($collection->get('user')->isModified());
+    }
+
     private static function yesterday(): int
     {
         return time() * (60 * 60 * 24);
