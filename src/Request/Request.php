@@ -311,7 +311,7 @@ class Request
             $_SERVER['REQUEST_METHOD'],
             Url::fromGlobals(),
             new HeaderCollection(Helpers::getHeaders()),
-            new CookieCollection(),
+            CookieCollection::fromGlobals(),
             new ParameterCollection($_GET),
             new ParameterCollection($_POST)
         );

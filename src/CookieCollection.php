@@ -21,13 +21,13 @@ class CookieCollection
      */
     public static function fromGlobals(): self
     {
-        $collection = new self();
+        $cookies = [];
 
         foreach ($_COOKIE as $name => $value) {
-            $collection->add($name, $value);
+            $cookies[] = new Cookie($name, $value);
         }
 
-        return $collection;
+        return new self($cookies);
     }
 
     /**
