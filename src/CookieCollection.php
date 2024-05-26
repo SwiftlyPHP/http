@@ -38,7 +38,7 @@ class CookieCollection
     public function __construct(array $cookies = [])
     {
         foreach ($cookies as $cookie) {
-            $this->set($cookie);
+            $this->cookies[$cookie->name] = $cookie;
         }
     }
 
