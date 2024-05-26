@@ -15,6 +15,22 @@ class CookieCollection
     protected $cookies = [];
 
     /**
+     * Create a cookie collection from the `$_COOKIE` super-global.
+     *
+     * @return CookieCollection
+     */
+    public static function fromGlobals(): self
+    {
+        $collection = new self();
+
+        foreach ($_COOKIE as $name => $value) {
+            $collection->add($name, $value);
+        }
+
+        return $collection;
+    }
+
+    /**
      * Creates a new collection around the given cookies
      *
      * @param Cookie[] $cookies HTTP cookies

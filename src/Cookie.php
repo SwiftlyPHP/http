@@ -14,7 +14,7 @@ class Cookie
     /** @var non-empty-string $name Cookie name */
     public string $name;
 
-    /** @var string $value Cookie value */
+    /** Cookie value */
     public string $value;
 
     /** Expiry time as unix timestamp */
