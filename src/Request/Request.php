@@ -131,6 +131,18 @@ class Request
     }
 
     /**
+     * Returns the host requested by the client
+     *
+     * @psalm-mutation-free
+     *
+     * @return non-empty-string Requested host
+     */
+    public function getHost(): string
+    {
+        return $this->url->domain;
+    }
+
+    /**
      * Returns the URL path of this request
      *
      * @psalm-mutation-free

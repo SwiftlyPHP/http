@@ -60,7 +60,11 @@ final class RequestTest extends TestCase
         self::assertSame('http', $this->request->getProtocol());
     }
 
-    
+    public function testCanGetHost(): void
+    {
+        self::assertSame('localhost', $this->request->getHost());
+    }
+
     public function testCanGetRequestedPath(): void
     {
         self::assertSame('/resource/sub-resource', $this->request->getPath());
@@ -135,6 +139,7 @@ final class RequestTest extends TestCase
 
         self::assertSame('POST', $request->getMethod());
         self::assertSame('https', $request->getProtocol());
+        self::assertSame('example.com', $request->getHost());
         self::assertSame('/account/delete', $request->getPath());
         self::assertTrue($request->isSecure());
         self::assertTrue($request->isKnownMethod());
