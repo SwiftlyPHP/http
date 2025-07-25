@@ -2,6 +2,7 @@
 
 namespace Swiftly\Http\Request;
 
+use Swiftly\Http\Header\Accept;
 use Swiftly\Http\HeaderCollection;
 use Swiftly\Http\CookieCollection;
 use Swiftly\Http\SessionHandler;
@@ -206,6 +207,24 @@ class Request
     public function allowsCachedResponses(): bool
     {
         return Method::isCacheableMethod($this->method);
+    }
+
+    /**
+     * Determine if the client would accept the given mime type.
+     *
+     * @psalm-mutation-free
+     *
+     * @param string $mimeType The mime type in question.
+     */
+    public function willAccept(string $mimeType): bool
+    {
+        $acceptHeader = $this->headers->get(Accept::NAME);
+
+        if (null === $acceptHeader) {
+            return true; // rfc2616
+        }
+
+        return Accept::fromValue($acceptHeader)->allows($mimeType);
     }
 
     /**
