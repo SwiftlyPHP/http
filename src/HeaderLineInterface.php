@@ -8,7 +8,6 @@ use Swiftly\Http\Response\Response;
 
 /**
  * @upgrade:php8.1 Use interface constant instead of static ::name()
- * @upgrade:php8.3 Type NAME constant as string
  */
 interface HeaderLineInterface extends Stringable
 {

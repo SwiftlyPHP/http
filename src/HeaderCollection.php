@@ -6,9 +6,10 @@ use function end;
 use function strtolower;
 
 /**
- * Stores HTTP header values sent with the current request
+ * Stores HTTP header values sent with the current request.
  *
  * @api
+ *
  * @psalm-type HeaderValues = non-empty-list<string>
  * @psalm-type HeaderArray = array<non-empty-string,HeaderValues>
  */
@@ -18,9 +19,9 @@ class HeaderCollection
     private array $values = [];
 
     /**
-     * Create a new collection containing the given headers
+     * Create a new collection containing the given headers.
      *
-     * @param array<non-empty-string,string> $headers HTTP header values
+     * @param array<non-empty-string,string> $headers
      */
     public function __construct(array $headers = [])
     {
@@ -30,16 +31,16 @@ class HeaderCollection
     }
 
     /**
-     * Set the value of a HTTP header
+     * Set the value of a HTTP header.
      *
-     * @param non-empty-string $header Header name
-     * @param string $value            Header value
-     * @param bool $replace            Replace existing value?
+     * @psalm-external-mutation-free
+     *
+     * @param non-empty-string $header
      */
     public function set(
         string $header,
         string $value,
-        bool $replace = true
+        bool $replace = true,
     ): void {
         $key = $this->key($header);
 
@@ -51,12 +52,12 @@ class HeaderCollection
     }
 
     /**
-     * Check if a named HTTP header is present
+     * Check if a named HTTP header is present.
      *
+     * @psalm-mutation-free
      * @psalm-assert-if-true !null $this->get($header)
      *
-     * @param non-empty-string $header Header name
-     * @return bool                    Header is set?
+     * @param non-empty-string $header
      */
     public function has(string $header): bool
     {
@@ -66,7 +67,7 @@ class HeaderCollection
     }
 
     /**
-     * Retrieve the value of a HTTP header
+     * Retrieve the value of a HTTP header.
      *
      * If multiple headers with the same name have been set, the most recent
      * value will be returned. This in practice means that the last header to be
@@ -91,8 +92,9 @@ class HeaderCollection
      * If you need every value set for a header use the {@see self::all()}
      * method instead.
      *
-     * @param non-empty-string $header Header name
-     * @return null|string             Header value
+     * @psalm-mutation-free
+     *
+     * @param non-empty-string $header
      */
     public function get(string $header): ?string
     {
@@ -106,16 +108,19 @@ class HeaderCollection
     }
 
     /**
-     * Return all values for a given header OR all headers in the collection
+     * Return all values for a given header OR all headers in the collection.
      *
      * If no argument (or `null`) is provided, this method returns all HTTP
      * headers stored in the collection. However, if a header name is provided
      * either all values for that header will be returned or null if it has not
      * been set.
      *
+     * @psalm-mutation-free
      * @psalm-return ($header is null ? HeaderArray : ?HeaderValues)
-     * @param null|non-empty-string $header  Header name
-     * @return null|array<non-empty-string,non-empty-list<string>>|non-empty-list<string>
+     *
+     * @param null|non-empty-string $header
+     *
+     * @return null|HeaderArray|HeaderValues
      */
     public function all(?string $header = null): ?array
     {
@@ -127,10 +132,13 @@ class HeaderCollection
     }
 
     /**
-     * Prepare the given subject to be used as a header key
+     * Prepare the given subject to be used as a header key.
      *
-     * @param non-empty-string $key Header name
-     * @return non-empty-string     Encoded header name
+     * @pure
+     *
+     * @param non-empty-string $key
+     *
+     * @return non-empty-string
      */
     private function key(string $key): string
     {

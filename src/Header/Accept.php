@@ -20,6 +20,7 @@ use const CASE_LOWER;
  * @upgrade:php8.3 Add #[Override] attribute
  *
  * @readonly
+ * @psalm-immutable
  */
 final class Accept implements HeaderLineInterface
 {
@@ -47,6 +48,8 @@ final class Accept implements HeaderLineInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @pure
      */
     public static function fromValue(string $value): static
     {

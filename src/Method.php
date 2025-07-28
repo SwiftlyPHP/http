@@ -5,10 +5,10 @@ namespace Swiftly\Http;
 use function in_array;
 
 /**
- * Provides helpers for dealing with HTTP methods
+ * Provides helpers for dealing with HTTP methods.
  *
  * @api
- * @php:8.1 Possibly swap to using an enum
+ *
  * @psalm-immutable
  * @psalm-type SafeMethod = "GET"|"HEAD"|"OPTIONS"|"TRACE"
  * @psalm-type UnsafeMethod = "POST"|"PUT"|"DELETE"|"CONNECT"
@@ -49,50 +49,47 @@ abstract class Method
     ];
 
     /**
-     * Determine if the given string is a known HTTP method
+     * Determine if the given string is a known HTTP method.
      *
-     * @see https://www.rfc-editor.org/rfc/rfc9110.html#name-methods
+     * @link https://www.rfc-editor.org/rfc/rfc9110.html#name-methods
      *
      * @psalm-pure
-     * @psalm-assert-if-true HttpMethod $subject
+     * @psalm-assert-if-true HttpMethod $method
      *
-     * @param non-empty-string $subject Subject string
-     * @return bool                     Is known HTTP method
+     * @param non-empty-string $method
      */
-    final public static function isKnownMethod(string $subject): bool
+    final public static function isKnownMethod(string $method): bool
     {
-        return in_array($subject, self::KNOWN_METHODS, true);
+        return in_array($method, self::KNOWN_METHODS, true);
     }
 
     /**
-     * Determine if the given string is a known, safe HTTP method
+     * Determine if the given string is a known, safe HTTP method.
      *
-     * @see https://www.rfc-editor.org/rfc/rfc9110.html#name-safe-methods
+     * @link https://www.rfc-editor.org/rfc/rfc9110.html#name-safe-methods
      *
      * @psalm-pure
      * @psalm-assert-if-true "GET"|"HEAD"|"OPTIONS"|"TRACE" $subject
      *
-     * @param non-empty-string $subject Subject string
-     * @return bool                     Is safe HTTP method
+     * @param non-empty-string $method
      */
-    final public static function isSafeMethod(string $subject): bool
+    final public static function isSafeMethod(string $method): bool
     {
-        return in_array($subject, self::SAFE_METHODS, true);
+        return in_array($method, self::SAFE_METHODS, true);
     }
 
     /**
-     * Determine if the given string is a known, cacheable HTTP method
+     * Determine if the given string is a known, cacheable HTTP method.
      *
-     * @see https://www.rfc-editor.org/rfc/rfc9110.html#name-methods-and-caching
+     * @link https://www.rfc-editor.org/rfc/rfc9110.html#name-methods-and-caching
      *
      * @psalm-pure
      * @psalm-assert-if-true "GET"|"HEAD" $subject
      *
-     * @param non-empty-string $subject Subject string
-     * @return bool                     Is cacheable method
+     * @param non-empty-string $method
      */
-    final public static function isCacheableMethod(string $subject): bool
+    final public static function isCacheableMethod(string $method): bool
     {
-        return in_array($subject, self::CACHEABLE_METHODS, true);
+        return in_array($method, self::CACHEABLE_METHODS, true);
     }
 }

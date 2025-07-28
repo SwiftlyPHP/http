@@ -2,8 +2,6 @@
 
 namespace Swiftly\Http\Exception;
 
-use Swiftly\Http\Exception\SessionException;
-
 /**
  * Exception used to indicate a failure occured when writing to a session
  *

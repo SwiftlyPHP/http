@@ -15,7 +15,7 @@ use function session_name;
 use function session_write_close;
 
 /**
- * Session backed by PHP's native `$_SESSION` store
+ * Session backed by PHP's native `$_SESSION` store.
  *
  * @api
  */
@@ -28,7 +28,7 @@ class NativeSession implements
     private ?Request $request;
 
     /**
-     * Create a new native session adapter
+     * Create a new native session adapter.
      *
      * Provided options will be passed directly to PHP's {@see session_start()}
      * function.
@@ -102,7 +102,7 @@ class NativeSession implements
     }
 
     /** {@inheritDoc} */
-    public function read(string $key)
+    public function read(string $key): mixed
     {
         return $_SESSION[$key];
     }

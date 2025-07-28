@@ -16,78 +16,51 @@ use Swiftly\Http\Exception\EnvironmentException;
 use Swiftly\Http\Helpers;
 
 /**
- * Class used to represent HTTP requests coming into the server
+ * Class used to represent HTTP requests coming into the server.
  *
  * @api
- * @php:8.1 Swap to readonly properties
+ * @upgrade:php8.1 Swap to readonly properties
  * @psalm-import-type ParameterArray from ParameterCollection
  * @psalm-import-type HttpMethod from Method
  */
 class Request
 {
-    /**
-     * Client provided HTTP headers
-     *
-     * @readonly
-     */
+    /** @readonly */
     public HeaderCollection $headers;
 
-    /**
-     * Client provided HTTP cookies
-     *
-     * @readonly
-     */
+    /** @readonly */
     public CookieCollection $cookies;
 
-    /** Current user session */
     protected ?SessionHandler $session;
 
-    /**
-     * HTTP query string parameters
-     *
-     * @readonly
-     */
+    /** @readonly */
     public ParameterCollection $query;
 
-    /**
-     * HTTP POST parameters
-     *
-     * @readonly
-     */
+    /** @readonly */
     public ParameterCollection $post;
 
     /**
-     * HTTP method used
-     *
      * @readonly
-     * @var non-empty-string $method HTTP verb
+     * @var non-empty-string
      */
     protected string $method;
 
-    /**
-     * URL used to generate this request
-     *
-     * @readonly
-     */
+    /** @readonly */
     protected URL $url;
 
     /** Request payload */
     protected ?string $content;
 
     /**
-     * Creates a new Request object from the provided values
+     * Creates a new Request object from the provided values.
      *
      * The API for the constructor is not part of the backwards compatibility
      * guarantee, please use the {@see self::create()} or
      * {@see self::fromGlobals()} methods instead.
      *
      * @internal
-     * @param non-empty-string $method   HTTP verb
-     * @param Url $url                   Request URL
-     * @param HeaderCollection $headers  HTTP headers
-     * @param CookieCollection $cookies  Http cookies
-     * @param ParameterCollection $query Query parameters
-     * @param ParameterCollection $post  Post parameters
+     *
+     * @param non-empty-string $method
      */
     public function __construct(
         string $method,
@@ -95,7 +68,7 @@ class Request
         HeaderCollection $headers,
         CookieCollection $cookies,
         ParameterCollection $query,
-        ParameterCollection $post
+        ParameterCollection $post,
     ) {
         $this->method  = $method;
         $this->url     = $url;
@@ -108,11 +81,11 @@ class Request
     }
 
     /**
-     * Returns the HTTP method used for this request
+     * Returns the HTTP method used for this request.
      *
      * @psalm-mutation-free
      *
-     * @return non-empty-string HTTP verb
+     * @return non-empty-string
      */
     public function getMethod(): string
     {
@@ -120,11 +93,11 @@ class Request
     }
 
     /**
-     * Returns the protocol of this request
+     * Returns the protocol of this request.
      *
      * @psalm-mutation-free
      *
-     * @return non-empty-string Request protocol
+     * @return non-empty-string
      */
     public function getProtocol(): string
     {
@@ -132,11 +105,11 @@ class Request
     }
 
     /**
-     * Returns the host requested by the client
+     * Returns the host requested by the client.
      *
      * @psalm-mutation-free
      *
-     * @return non-empty-string Requested host
+     * @return non-empty-string
      */
     public function getHost(): string
     {
@@ -144,11 +117,11 @@ class Request
     }
 
     /**
-     * Returns the URL path of this request
+     * Returns the URL path of this request.
      *
      * @psalm-mutation-free
      *
-     * @return non-empty-string Request path
+     * @return non-empty-string
      */
     public function getPath(): string
     {
@@ -156,11 +129,9 @@ class Request
     }
 
     /**
-     * Checks if this request was made via a secure protocol
+     * Checks if this request was made via a secure protocol.
      *
      * @psalm-mutation-free
-     *
-     * @return bool Secure protocol
      */
     public function isSecure(): bool
     {
@@ -168,13 +139,11 @@ class Request
     }
 
     /**
-     * Checks if this request was made using a known HTTP method
+     * Checks if this request was made using a known HTTP method.
      *
      * @psalm-mutation-free
      * @psalm-assert-if-true HttpMethod $this->method
      * @psalm-assert-if-true HttpMethod $this->getMethod()
-     *
-     * @return bool Known HTTP method
      */
     public function isKnownMethod(): bool
     {
@@ -182,13 +151,11 @@ class Request
     }
 
     /**
-     * Checks if this request was made using a safe HTTP method
+     * Checks if this request was made using a safe HTTP method.
      *
      * @psalm-mutation-free
      * @psalm-assert-if-true "GET"|"HEAD"|"OPTIONS"|"TRACE" $this->method
      * @psalm-assert-if-true "GET"|"HEAD"|"OPTIONS"|"TRACE" $this->getMethod()
-     *
-     * @return bool Safe HTTP method
      */
     public function isSafeMethod(): bool
     {
@@ -196,13 +163,11 @@ class Request
     }
 
     /**
-     * Check if cached responses are allowed to be returned for this request
+     * Check if cached responses are allowed to be returned for this request.
      *
      * @psalm-mutation-free
      * @psalm-assert-if-true "GET"|"HEAD" $this->method
      * @psalm-assert-if-true "GET"|"HEAD" $this->getMethod()
-     *
-     * @return bool Allows cached responses
      */
     public function allowsCachedResponses(): bool
     {
@@ -228,7 +193,7 @@ class Request
     }
 
     /**
-     * Checks to see is a user session is attached to this request
+     * Checks to see is a user session is attached to this request.
      *
      * @psalm-mutation-free
      * @psalm-assert-if-true SessionHandler $this->session
@@ -240,14 +205,13 @@ class Request
     }
 
     /**
-     * Get the current session handler
+     * Get the current session handler.
      *
      * @throws SessionException
-     *          If no session has been attached to this request
+     *          If no session has been attached to this request.
      *
      * @psalm-mutation-free
      * @psalm-assert SessionHandler $this->session
-     * @return SessionHandler Session handler
      */
     public function getSession(): SessionHandler
     {
@@ -262,18 +226,16 @@ class Request
     }
 
     /**
-     * Attach a session to this request
+     * Attach a session to this request.
      *
      * @throws SessionException
-     *          If a session has already been attached to this request
+     *          If a session has already been attached to this request,
      *
-     * @php:8.0 Use union type hint
      * @psalm-assert null $this->session
-     * @param SessionHandler|SessionStorageInterface $session Session handler
-     * @return SessionHandler                                 Attached session
      */
-    public function setSession($session): SessionHandler
-    {
+    public function setSession(
+        SessionHandler|SessionStorageInterface $session,
+    ): SessionHandler {
         if ($this->session !== null) {
             throw new SessionException(
                 'attach',
@@ -291,10 +253,10 @@ class Request
     }
 
     /**
-     * Create a new HTTP request with the provided details
+     * Create a new HTTP request with the provided details.
      *
      * @throws UrlParseException
-     *          If the value given for `$url` cannot be parsed
+     *          If the value given for `$url` cannot be parsed.
      *
      * @psalm-mutation-free
      * @param non-empty-string $method                HTTP verb
@@ -309,7 +271,7 @@ class Request
         string $url,
         array $headers = [],
         array $query = [],
-        array $post = []
+        array $post = [],
     ): self {
         return new self(
             $method,
@@ -322,13 +284,12 @@ class Request
     }
 
     /**
-     * Create a new HTTP request using the current PHP globals
+     * Create a new HTTP request using the current PHP globals.
      *
      * @throws EnvironmentException
-     *          If PHP global `REQUEST_METHOD` value is undefined
+     *          If PHP global `REQUEST_METHOD` value is undefined.
      *
      * @psalm-mutation-free
-     * @return self Request instance
      */
     public static function fromGlobals(): self
     {

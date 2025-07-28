@@ -2,18 +2,16 @@
 
 namespace Swiftly\Http;
 
-use Swiftly\Http\SessionStorageInterface;
 use Swiftly\Http\Exception\SessionException;
 use Swiftly\Http\Exception\SessionReadException;
 use Swiftly\Http\Exception\SessionWriteException;
 use Swiftly\Http\Request\Request;
-use Swiftly\Http\RequestAwareSessionInterface;
 
 /**
- * Handler used to manage the lifecycle of a user session
+ * Handler used to manage the lifecycle of a user session.
  *
- * @php:8.1 Use readonly properties
  * @api
+ * @upgrade:php8.1 Use readonly properties
  */
 class SessionHandler
 {
@@ -21,20 +19,14 @@ class SessionHandler
     private const SESSION_OPEN = 1;
     private const SESSION_CLOSED = 2;
 
-    /**
-     * Backing storage adapter
-     *
-     * @readonly
-     */
+    /** @readonly */
     private SessionStorageInterface $storage;
 
-    /** @var self::* $state Current session status */
+    /** @var self::* */
     private int $state;
 
     /**
-     * Create a new session handler using the underlying storage mechanism
-     *
-     * @param SessionStorageInterface $storage Session storage adapter
+     * Create a new session handler using the underlying storage mechanism.
      */
     public function __construct(SessionStorageInterface $storage)
     {
@@ -43,7 +35,7 @@ class SessionHandler
     }
 
     /**
-     * Make sure session data is persisted if this object goes out of scope
+     * Make sure session data is persisted if this object goes out of scope.
      */
     public function __destruct()
     {
@@ -53,11 +45,10 @@ class SessionHandler
     }
 
     /**
-     * Check whether this session is currently open
+     * Check whether this session is currently open.
      *
      * @psalm-mutation-free
      * @psalm-assert-if-true self::SESSION_OPEN $this->state
-     * @return bool Session is open
      */
     public function isOpen(): bool
     {
@@ -65,11 +56,10 @@ class SessionHandler
     }
 
     /**
-     * Check whether this session has been closed
+     * Check whether this session has been closed.
      *
      * @psalm-mutation-free
      * @psalm-assert-if-true self::SESSION_CLOSED $this->state
-     * @return bool Session is closed
      */
     public function isClosed(): bool
     {
@@ -77,7 +67,7 @@ class SessionHandler
     }
 
     /**
-     * Opens the session for reading and writing
+     * Opens the session for reading and writing.
      *
      * @psalm-assert self::SESSION_UNOPENED $this->state
      */
@@ -96,7 +86,7 @@ class SessionHandler
     }
 
     /**
-     * Closes the session, persisting to storage stopping future read/writes
+     * Closes the session, persisting to storage stopping future read/writes.
      *
      * @psalm-assert self::SESSION_OPEN $this->state
      */
@@ -116,11 +106,10 @@ class SessionHandler
     }
 
     /**
-     * Check if data has been set for a given key
+     * Check if data has been set for a given key.
      *
      * @psalm-assert self::SESSION_UNOPENED|self::SESSION_OPEN $this->state
-     * @param non-empty-string $key Data key
-     * @return bool                 Key has data
+     * @param non-empty-string $key
      */
     public function has(string $key): bool
     {
@@ -130,14 +119,13 @@ class SessionHandler
     }
 
     /**
-     * Read data from the session with the given key
+     * Read data from the session with the given key.
      *
-     * @php:8.0 Add union return type
      * @psalm-assert self::SESSION_UNOPENED|self::SESSION_OPEN $this->state
-     * @param non-empty-string $key Data key
-     * @return mixed                Data value
+     *
+     * @param non-empty-string $key
      */
-    public function get(string $key)// : mixed
+    public function get(string $key): mixed
     {
         $this->prepare('read');
 
@@ -145,13 +133,14 @@ class SessionHandler
     }
 
     /**
-     * Write data to the session with the given key
+     * Write data to the session with the given key.
      *
      * @psalm-assert self::SESSION_OPEN $this->state
-     * @param non-empty-string $key Data key
-     * @param scalar|array $value   Data value
+     *
+     * @param non-empty-string $key
+     * @param scalar|array $value
      */
-    public function set(string $key, $value): void
+    public function set(string $key, mixed $value): void
     {
         $this->prepare('write');
 
@@ -159,10 +148,11 @@ class SessionHandler
     }
 
     /**
-     * Removed data associated with a given key
+     * Removed data associated with a given key.
      *
      * @psalm-assert self::SESSION_OPEN $this->state
-     * @param non-empty-string $key Data key
+     *
+     * @param non-empty-string $key
      */
     public function remove(string $key): void
     {
@@ -172,7 +162,7 @@ class SessionHandler
     }
 
     /**
-     * Clears all data in the session - effectively deleting it
+     * Clears all data in the session - effectively deleting it.
      *
      * @psalm-assert self::SESSION_OPEN $this->state
      */
@@ -184,7 +174,7 @@ class SessionHandler
     }
 
     /**
-     * Completely destroy a session and all its associated data
+     * Completely destroy a session and all its associated data.
      */
     public function destroy(): void
     {
@@ -192,12 +182,10 @@ class SessionHandler
     }
 
     /**
-     * Attach this session to the given request
+     * Attach this session to the given request.
      *
      * @throws SessionException
-     *          If the session adapter encounters an error while attaching
-     *
-     * @param Request $request User request
+     *          If the session adapter encounters an error while attaching.
      */
     public function attach(Request $request): void
     {
@@ -207,55 +195,52 @@ class SessionHandler
     }
 
     /**
-     * Performs setup, preparing session for reading and writing
+     * Performs setup, preparing session for reading and writing.
      *
      * @throws SessionReadException
-     *          If an error occurred while attempting to read
+     *          If an error occurred while attempting to read.
      * @throws SessionWriteException
-     *          If an error occurred while attempt to write
+     *          If an error occurred while attempt to write.
      * @throws SessionException
-     *          If a more general error occurred
+     *          If a more general error occurred.
      *
-     * @php:8.0 Swap to match statement
      * @psalm-assert self::SESSION_OPEN $this->state
-     * @param non-empty-string $context Context message (for error reporting)
+     *
+     * @param non-empty-string $context Context message (for error reporting).
      */
     private function prepare(string $context): void
     {
-        switch ($this->state) {
-            case self::SESSION_UNOPENED:
-                $this->open();
-                return;
-            case self::SESSION_OPEN:
-                return;
-            case self::SESSION_CLOSED:
-                throw self::exception($context, 'session is already closed');
-        }
+        match ($this->state) {
+            self::SESSION_UNOPENED => $this->open(),
+            self::SESSION_OPEN => null,
+            self::SESSION_CLOSED => throw self::exception(
+                $context,
+                'session is already closed',
+            ),
+        };
     }
 
     /**
-     * Return the appropriate exception class for the given context
+     * Return the appropriate exception class for the given context.
      *
-     * @php:8.0 Swap to match statement
      * @psalm-assert self::SESSION_UNOPENED|self::SESSION_OPEN $this->state
-     * @psalm-return ($context is 'read' ? SessionReadException
-     *          : ($context is 'write' ? SessionWriteException
-     *              : SessionException))
+     * @psalm-return ($context is 'read'
+     *     ? SessionReadException
+     *     : ($context is 'write'
+     *         ? SessionWriteException
+     *         : SessionException))
+     *
      * @param non-empty-string $context Error context
      * @param non-empty-string $message Error message
-     * @return SessionException         Session exception
      */
     private static function exception(
         string $context,
         string $message
     ): SessionException {
-        switch ($context) {
-            case 'read':
-                return new SessionReadException($message);
-            case 'write':
-                return new SessionWriteException($message);
-            default:
-                return new SessionException($context, $message);
-        }
+        return match($context) {
+            'read'  => new SessionReadException($message),
+            'write' => new SessionWriteException($message),
+            default => new SessionException($context, $message),
+        };
     }
 }

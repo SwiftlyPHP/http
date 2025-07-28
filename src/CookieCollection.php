@@ -2,8 +2,6 @@
 
 namespace Swiftly\Http;
 
-use Swiftly\Http\Cookie;
-
 /**
  * Utility container for managing HTTP cookies
  *

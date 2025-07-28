@@ -6,25 +6,24 @@ use function explode;
 use function is_numeric;
 
 /**
- * Stores HTTP parameters passed via query string or POST payload
+ * Stores HTTP parameters passed via query string or POST payload.
  *
  * @api
- * @php:8.0 Add union type hints
- * @php:8.0 Add readonly attribute
+ * @upgrade:php8.1 Mark properties readonly
+ *
  * @psalm-immutable
- * @psalm-type ParameterKey = int|non-empty-string
- * @psalm-type ParameterValue = string|array<ParameterKey,string|array>
- * @psalm-type ParameterArray = array<ParameterKey,ParameterValue>
+ * @psalm-type ParameterValue = string|array<string, string|array>
+ * @psalm-type ParameterArray = array<string, ParameterValue>
  */
 class ParameterCollection
 {
-    /** @var ParameterArray $values */
+    /** @var ParameterArray */
     private array $values;
 
     /**
-     * Create a new collection around the given parameters
+     * Create a new collection around the given parameters.
      *
-     * @param ParameterArray $values Parameter values
+     * @param ParameterArray $values Parameter values.
      */
     public function __construct(array $values)
     {
@@ -32,31 +31,27 @@ class ParameterCollection
     }
 
     /**
-     * Check to see if the given parameter is set
+     * Check to see if the given parameter is set.
      *
      * @psalm-assert-if-true !null $this->get($key)
-     *
-     * @param ParameterKey $key Parameter key
-     * @return bool             Parameter is set?
      */
-    public function has($key): bool
+    public function has(int|string $key): bool
     {
         return isset($this->values[$key]);
     }
 
     /**
-     * Returns the value of a named parameter or null if not set
+     * Returns the value of a named parameter.
      *
-     * @param ParameterKey $key Parameter key
-     * @return ?ParameterValue  Parameter value or null
+     * @return ParameterValue|null
      */
-    public function get($key) // :string|array|null
+    public function get(int|string $key): array|string|null
     {
         return $this->values[$key] ?? null;
     }
 
     /**
-     * Return the value of a nested parameter
+     * Return the value of a nested parameter.
      *
      * PHP allows nested query/post data to be sent in the form
      * `key[subkey]=value`, which is normally surfaced inside the `$_GET` and
@@ -65,7 +60,7 @@ class ParameterCollection
      * ```php
      * <?php // http://localhost?data[name]=value
      *
-     * $_GET['data]['name] === 'value';
+     * $_GET['data']['name'] === 'value';
      * ```
      *
      * This method allows you to access these nested values by using a delimited
@@ -77,11 +72,9 @@ class ParameterCollection
      * $parameters->getNested('data.name') === 'value';
      * ```
      *
-     * @param non-empty-string $key       Parameter key
-     * @param non-empty-string $delimiter Key delimiter
-     * @return null|string|array          Nested value
+     * @return ParameterValue|null
      */
-    public function getNested(string $key, string $delimiter = '.') // :null|string|array
+    public function getNested(string $key, string $delimiter = '.'): array|string|null
     {
         $values = $this->values;
 
@@ -97,32 +90,40 @@ class ParameterCollection
     }
 
     /**
-     * Returns the value of a named parameter as a integer
-     *
-     * @param ParameterKey $key Parameter key
-     * @return ?int             Integer value
+     * Returns the value of a named parameter as a integer.
      */
-    public function getInt($key): ?int
+    public function getInt(int|string $key): ?int
     {
-        if (($value = $this->get($key)) === null) {
+        if (null === ($value = $this->get($key))) {
             return null;
         }
 
-        return (is_numeric($value) ? (int)$value : null);
+        return is_numeric($value) ? (int) $value : null;
     }
 
     /**
-     * Returns the value of a named parameter as a float
-     *
-     * @param ParameterKey $key Parameter key
-     * @return ?float           Floating point value
+     * Returns the value of a named parameter as a float.
      */
-    public function getFloat($key): ?float
+    public function getFloat(int|string $key): ?float
     {
-        if (($value = $this->get($key)) === null) {
+        if (null === ($value = $this->get($key))) {
             return null;
         }
 
-        return (is_numeric($value) ? (float)$value : null);
+        return is_numeric($value) ? (float) $value : null;
+    }
+
+    /**
+     * Returns the value of a named parameter as a string.
+     */
+    public function getString(int|string $key): ?string
+    {
+        $value = $this->get($key);
+
+        if (null === $value || is_array($value)) {
+            return null;
+        }
+
+        return (string) $value;
     }
 }

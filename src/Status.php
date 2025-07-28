@@ -6,7 +6,6 @@ namespace Swiftly\Http;
  * Used to provide readable public constants for known HTTP status codes
  *
  * @api
- * @php:8.1 Possibly swap to using an enum
  * @psalm-immutable
  */
 abstract class Status

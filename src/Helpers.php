@@ -11,7 +11,7 @@ use function ucwords;
 use function error_reporting;
 
 /**
- * Utility class containing library specific helper functions
+ * Utility class containing library specific helper functions.
  *
  * @internal
  * @psalm-immutable
@@ -19,7 +19,7 @@ use function error_reporting;
 abstract class Helpers
 {
     /**
-     * Return an array containing all headers sent with the current request
+     * Return an array containing all headers sent with the current request.
      *
      * Not all installations of PHP have access to the `getallheaders` function
      * and Psalm does not correctly type its return value. This helper is
@@ -54,14 +54,13 @@ abstract class Helpers
     }
 
     /**
-     * Convert the subject string to `PascalCase`
+     * Convert the subject string to `PascalCase`.
      *
      * @psalm-pure
      * @psalm-return ($subject is non-empty-string ? non-empty-string : string)
      *
-     * @param string $subject    Subject string
-     * @param string $delimiters Word delimiters
-     * @return string            Pascal cased string
+     * @param string $subject
+     * @param string $delimiters Word delimiters.
      */
     final public static function pascalCase(
         string $subject,
@@ -71,12 +70,13 @@ abstract class Helpers
     }
 
     /**
-     * Execute the given function with all PHP error reporting disable
+     * Execute the given function with all PHP error reporting disable.
      *
      * @template T
      * @psalm-param callable():T $callback
      * @param callable $callback Function to execute
-     * @return T                 Function return value
+     *
+     * @return T Function return value
      */
     final public static function suppressErrors(callable $callback) // : mixed
     {

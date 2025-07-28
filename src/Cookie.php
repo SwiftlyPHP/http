@@ -11,10 +11,11 @@ use function time;
  */
 class Cookie
 {
-    /** @var non-empty-string $name Cookie name */
+    private const DAY_IN_SECONDS = 60 * 60 * 24;
+
+    /** @var non-empty-string */
     public string $name;
 
-    /** Cookie value */
     public string $value;
 
     /** Expiry time as unix timestamp */
@@ -26,20 +27,17 @@ class Cookie
     /** Allowed (sub)domain */
     public string $domain = '';
 
-    /** Requires HTTPS connection? */
     public bool $secure = true;
 
-    /** Only readable via HTTP (and not js) */
     public bool $httponly = false;
 
     /** @internal */
     private bool $isModified = false;
 
     /**
-     * Create a new cookie with the given name and value
+     * Create a new cookie with the given name and value.
      *
-     * @param non-empty-string $name Cookie name
-     * @param string $value          Cookie value
+     * @param non-empty-string $name
      */
     public function __construct(string $name, string $value)
     {
@@ -48,7 +46,7 @@ class Cookie
     }
 
     /**
-     * Invalidate this cookie
+     * Invalidate this cookie.
      *
      * We want to remove this from the client, so we clear the value and set the
      * expiry date in the past. Most spec conforming browsers will then delete
@@ -56,9 +54,8 @@ class Cookie
      */
     public function invalidate(): void
     {
-        // Hopefully a day in the past should be enough
         $this->value = '';
-        $this->expires = (time() - (60 * 60 * 24));
+        $this->expires = time() - self::DAY_IN_SECONDS;
         $this->isModified = true;
     }
 
@@ -72,8 +69,6 @@ class Cookie
 
     /**
      * Determine if this cookie has been modified and thus should be sent.
-     *
-     * @return bool  Has been modified?
      */
     public function isModified(): bool
     {

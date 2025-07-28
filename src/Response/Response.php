@@ -10,47 +10,32 @@ use Swiftly\Http\Status;
  * Class used to send HTTP responses to the client
  *
  * @api
- * @php:8.1 Swap to readonly properties
+ * @upgradephp8.1 Swap to readonly properties
  */
 class Response
 {
-    /**
-     * Response HTTP headers
-     *
-     * @readonly
-     */
+    /** @readonly */
     public HeaderCollection $headers;
 
-    /**
-     * Response HTTP cookie
-     *
-     * @readonly
-     */
+    /** @readonly */
     public CookieCollection $cookies;
 
-    /**
-     * Response status code
-     *
-     * @psalm-var Status::* $status
-     */
+    /** @var Status::* */
     protected int $status;
 
     /** Response payload */
     protected string $content;
 
     /**
-     * Creates a new HTTP response using the values provided
+     * Creates a new HTTP response using the values provided.
      *
-     * @psalm-param Status::* $status
-     *
-     * @param int $status                             Status code
-     * @param string $content                         Response body
-     * @param array<non-empty-string,string> $headers HTTP header values
+     * @param Status::* $status
+     * @param array<non-empty-string,string> $headers
      */
     public function __construct(
         int $status = Status::OK,
         string $content = '',
-        array $headers = []
+        array $headers = [],
     ) {
         $this->status  = $status;
         $this->content = $content;
@@ -59,11 +44,9 @@ class Response
     }
 
     /**
-     * Gets the status code of this response
+     * Get the HTTP status code of this response.
      *
      * @psalm-return Status::*
-     *
-     * @return int Status code
      */
     public function getStatus(): int
     {
@@ -71,11 +54,9 @@ class Response
     }
 
     /**
-     * Sets the status code of this response
+     * Set the HTTP status code of this response.
      *
      * @psalm-param Status::* $status
-     *
-     * @param int $status Status code
      */
     public function setStatus(int $status): void
     {
@@ -83,9 +64,7 @@ class Response
     }
 
     /**
-     * Gets the content of this response
-     *
-     * @return string Response body
+     * Get the content of this response.
      */
     public function getContent(): string
     {
@@ -93,9 +72,7 @@ class Response
     }
 
     /**
-     * Sets the content of this response
-     *
-     * @param string $content Response body
+     * Set the content of this response.
      */
     public function setContent(string $content): void
     {
@@ -103,9 +80,7 @@ class Response
     }
 
     /**
-     * Sets the content type of this response
-     *
-     * @param string $type Content type
+     * Set the content type of this response.
      */
     public function setContentType(string $type): void
     {
@@ -113,9 +88,7 @@ class Response
     }
 
     /**
-     * Returns the content type of this response
-     *
-     * @return string $type Content type
+     * Returns the content type of this response.
      */
     public function getContentType(): string
     {

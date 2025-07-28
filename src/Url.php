@@ -9,43 +9,41 @@ use Swiftly\Http\Exception\EnvironmentException;
 use function parse_url;
 
 /**
- * Utility class for representing URLs
+ * Utility class for representing URLs.
  *
  * @internal
  * @psalm-immutable
+ *
+ * @upgrade:php8.1 Add readonly attribute
  */
 final class Url implements Stringable
 {
-    /** @var non-empty-string $protocol The protocol being used */
+    /** @var non-empty-string */
     public string $protocol;
 
-    /** @var non-empty-string $domain The requested domain */
+    /** @var non-empty-string */
     public string $domain;
 
-    /** @var non-empty-string $path Path component */
+    /** @var non-empty-string */
     public string $path;
 
-    /** Optional query parameters */
     public string $query;
 
-    /** Resource fragment */
     public string $fragment;
 
     /**
-     * Create a new URL with the given components
+     * Create a new URL with the given components.
      *
-     * @param non-empty-string $protocol URL protocol/scheme
-     * @param non-empty-string $domain   Target domain
-     * @param non-empty-string $path     Requested path
-     * @param string $query              Query component
-     * @param string $fragment           Fragment identifier
+     * @param non-empty-string $protocol
+     * @param non-empty-string $domain
+     * @param non-empty-string $path
      */
     public function __construct(
         string $protocol,
         string $domain,
         string $path,
         string $query = '',
-        string $fragment = ''
+        string $fragment = '',
     ) {
         $this->protocol = $protocol;
         $this->domain = $domain;
@@ -55,9 +53,9 @@ final class Url implements Stringable
     }
 
     /**
-     * Returns the string representation of this URL
+     * Returns the string representation of this URL.
      *
-     * @return non-empty-string URL string
+     * @return non-empty-string
      */
     public function __toString(): string
     {
@@ -75,13 +73,11 @@ final class Url implements Stringable
     }
 
     /**
-     * Attempt to parse URL information from the given string
+     * Attempt to parse URL information from the given string.
      *
-     * @throws UrlParseException If the given string cannot be parsed
+     * @throws UrlParseException If the given string cannot be parsed.
      *
      * @psalm-mutation-free
-     * @param string $url URL like string
-     * @return Url        URL object
      */
     public static function fromString(string $url): Url
     {
@@ -89,7 +85,6 @@ final class Url implements Stringable
             throw new UrlParseException($url);
         }
 
-        // Check required components
         if (empty($parts['host'])) {
             throw new UrlParseException($url, 'lacks hostname');
         }
@@ -98,24 +93,23 @@ final class Url implements Stringable
             throw new UrlParseException($url, 'lacks path component');
         }
 
-        // Never assume HTTPS (has to be explicitly set)
+        // Assume insecure, HTTPS has to be explicitly set
         return new self(
             !empty($parts['scheme']) ? $parts['scheme'] : 'http',
             $parts['host'],
             $parts['path'],
             $parts['query'] ?? '',
-            $parts['fragment'] ?? ''
+            $parts['fragment'] ?? '',
         );
     }
 
     /**
-     * Creates a URL object from the current PHP globals
+     * Creates a URL object from the current PHP globals.
      *
      * @throws EnvironmentException
-     *          If PHP global `HTTP_HOST` or `REQUEST_URI` values are undefined
+     *          If PHP global `HTTP_HOST` or `REQUEST_URI` values are undefined.
      *
      * @psalm-mutation-free
-     * @return self Url object
      */
     public static function fromGlobals(): self
     {
@@ -123,7 +117,6 @@ final class Url implements Stringable
             throw new EnvironmentException('required $_SERVER values missing');
         }
 
-        // Connection protocol
         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
             $scheme = 'https';
         } elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
@@ -135,7 +128,7 @@ final class Url implements Stringable
         }
 
         return self::fromString(
-            "$scheme://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}"
+            "$scheme://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}",
         );
     }
 }
