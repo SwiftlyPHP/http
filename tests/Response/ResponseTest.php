@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http\Tests\Response;
 
 use PHPUnit\Framework\TestCase;
+use Swiftly\Http\CookieCollection;
+use Swiftly\Http\HeaderCollection;
 use Swiftly\Http\Response\Response;
 use Swiftly\Http\Status;
-use Swiftly\Http\HeaderCollection;
-use Swiftly\Http\CookieCollection;
 
 /**
  * @covers \Swiftly\Http\Response\Response

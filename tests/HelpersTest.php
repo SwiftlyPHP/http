@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Swiftly\Http\Helpers;
 
-use function array_merge;
 use function array_keys;
+use function array_merge;
 use function error_reporting;
 
 /**
@@ -45,7 +45,7 @@ final class HelpersTest extends TestCase
         self::assertArrayHasKey('Connection', $this->headers);
         self::assertArrayHasKey('Dnt', $this->headers);
         self::assertArrayHasKey('X-Powered-By', $this->headers);
-        
+
         self::assertSame('text/html,text/plain', $this->headers['Accept']);
         self::assertSame('en-GB', $this->headers['Accept-Language']);
         self::assertSame('keep-alive', $this->headers['Connection']);

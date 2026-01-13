@@ -9,9 +9,9 @@ use Swiftly\Http\Response\Response;
 use function array_change_key_case;
 use function array_shift;
 use function explode;
+use function implode;
 use function str_replace;
 use function strtolower;
-use function implode;
 
 use const CASE_LOWER;
 

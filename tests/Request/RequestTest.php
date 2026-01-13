@@ -1,18 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http\Tests\Request;
 
 use PHPUnit\Framework\TestCase;
-use Swiftly\Http\Request\Request;
-use Swiftly\Http\HeaderCollection;
 use Swiftly\Http\CookieCollection;
-use Swiftly\Http\ParameterCollection;
-use Swiftly\Http\SessionHandler;
-use Swiftly\Http\SessionStorageInterface;
-use Swiftly\Http\RequestAwareSessionInterface;
+use Swiftly\Http\Exception\EnvironmentException;
 use Swiftly\Http\Exception\SessionException;
 use Swiftly\Http\Exception\UrlParseException;
-use Swiftly\Http\Exception\EnvironmentException;
+use Swiftly\Http\HeaderCollection;
+use Swiftly\Http\ParameterCollection;
+use Swiftly\Http\Request\Request;
+use Swiftly\Http\RequestAwareSessionInterface;
+use Swiftly\Http\SessionHandler;
+use Swiftly\Http\SessionStorageInterface;
 
 use function array_merge;
 
@@ -161,10 +161,10 @@ final class RequestTest extends TestCase
     {
         self::expectException(SessionException::class);
         self::expectExceptionMessageMatches('/already has an open session/');
-        
+
         self::assertFalse($this->request->hasSession());
         $this->request->setSession($this->createMock(SessionHandler::class));
-        
+
         self::assertTrue($this->request->hasSession());
         $this->request->setSession($this->createMock(SessionHandler::class));
     }
@@ -191,4 +191,6 @@ final class RequestTest extends TestCase
 // https://github.com/sebastianbergmann/phpunit/issues/3955
 abstract class RequestAwareSessionMock implements
     SessionStorageInterface,
-    RequestAwareSessionInterface {}
+    RequestAwareSessionInterface
+{
+}

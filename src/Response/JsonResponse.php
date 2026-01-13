@@ -7,9 +7,9 @@ use Swiftly\Http\Status;
 use function json_encode;
 
 use const JSON_HEX_AMP;
-use const JSON_HEX_TAG;
 use const JSON_HEX_APOS;
 use const JSON_HEX_QUOT;
+use const JSON_HEX_TAG;
 
 /**
  * Class used to send JSON responses to the client

@@ -2,8 +2,8 @@
 
 namespace Swiftly\Http\Exception;
 
-use Swiftly\Http\Helpers;
 use LogicException;
+use Swiftly\Http\Helpers;
 
 use function sprintf;
 

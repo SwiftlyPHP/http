@@ -3,8 +3,8 @@
 namespace Swiftly\Http;
 
 use Stringable;
-use Swiftly\Http\Exception\UrlParseException;
 use Swiftly\Http\Exception\EnvironmentException;
+use Swiftly\Http\Exception\UrlParseException;
 
 use function parse_url;
 

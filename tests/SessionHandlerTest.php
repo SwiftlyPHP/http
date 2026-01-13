@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http\Tests;
 
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
+use Swiftly\Http\Exception\SessionException;
+use Swiftly\Http\Request\Request;
+use Swiftly\Http\RequestAwareSessionInterface;
 use Swiftly\Http\SessionHandler;
 use Swiftly\Http\SessionStorageInterface;
-use Swiftly\Http\RequestAwareSessionInterface;
-use Swiftly\Http\Request\Request;
-use Swiftly\Http\Exception\SessionException;
 
 /**
  * @covers \Swiftly\Http\SessionHandler
@@ -42,7 +42,7 @@ final class SessionHandlerTest extends TestCase
         self::assertFalse($this->session->isOpen());
 
         $this->session->get('foo');
-        
+
         self::assertTrue($this->session->isOpen());
     }
 
@@ -52,7 +52,7 @@ final class SessionHandlerTest extends TestCase
         self::assertFalse($this->session->isOpen());
 
         $this->session->set('foo', 'bar');
-        
+
         self::assertTrue($this->session->isOpen());
     }
 
@@ -62,7 +62,7 @@ final class SessionHandlerTest extends TestCase
         self::assertFalse($this->session->isOpen());
 
         $this->session->remove('foo');
-        
+
         self::assertTrue($this->session->isOpen());
     }
 
@@ -72,7 +72,7 @@ final class SessionHandlerTest extends TestCase
         self::assertFalse($this->session->isOpen());
 
         $this->session->clear();
-        
+
         self::assertTrue($this->session->isOpen());
     }
 
@@ -258,4 +258,6 @@ final class SessionHandlerTest extends TestCase
 // https://github.com/sebastianbergmann/phpunit/issues/3955
 abstract class RequestAwareSessionMock implements
     SessionStorageInterface,
-    RequestAwareSessionInterface {}
+    RequestAwareSessionInterface
+{
+}

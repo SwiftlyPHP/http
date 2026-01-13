@@ -1,20 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http\Tests\Session;
 
 use PHPUnit\Framework\TestCase;
-use Swiftly\Http\Session\NativeSession;
-use Swiftly\Http\RequestAwareSessionInterface;
-use Swiftly\Http\Request\Request;
 use Swiftly\Http\CookieCollection;
 use Swiftly\Http\Exception\SessionException;
+use Swiftly\Http\Request\Request;
+use Swiftly\Http\RequestAwareSessionInterface;
+use Swiftly\Http\Session\NativeSession;
 
-use function session_status;
 use function array_merge;
 use function error_reporting;
+use function session_status;
 
-use const PHP_SESSION_NONE;
 use const PHP_SESSION_ACTIVE;
+use const PHP_SESSION_NONE;
 
 /**
  * @covers \Swiftly\Http\Session\NativeSession
@@ -47,7 +47,7 @@ final class NativeSessionTest extends TestCase
     public function testCanCloseSession(): void
     {
         $this->session->open();
-        
+
         self::assertSame(PHP_SESSION_ACTIVE, session_status());
 
         $this->session->close();
@@ -155,7 +155,7 @@ final class NativeSessionTest extends TestCase
     public function testCanDeleteSessionCookieFromRequest(): void
     {
         $this->session->open();
-        
+
         $cookies = $this->createMock(CookieCollection::class);
         $cookies->expects(self::once())
             ->method('remove')

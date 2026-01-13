@@ -2,8 +2,8 @@
 
 namespace Swiftly\Http\Response;
 
-use Swiftly\Http\HeaderCollection;
 use Swiftly\Http\CookieCollection;
+use Swiftly\Http\HeaderCollection;
 use Swiftly\Http\Status;
 
 /**

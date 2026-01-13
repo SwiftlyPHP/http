@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Swiftly\Http\Url;
-use Swiftly\Http\Exception\UrlParseException;
 use Swiftly\Http\Exception\EnvironmentException;
+use Swiftly\Http\Exception\UrlParseException;
+use Swiftly\Http\Url;
 
 use function array_merge;
 
@@ -87,7 +87,7 @@ final class UrlTest extends TestCase
     public function testCanCreateUrlFromGlobals(): void
     {
         $_SERVER = array_merge($_SERVER, [
-            'HTTP_HOST' => 'example.com', 
+            'HTTP_HOST' => 'example.com',
             'REQUEST_URI' => '/resource/sub-resource?foo=bar#id'
         ]);
 
@@ -104,7 +104,7 @@ final class UrlTest extends TestCase
     public function testCanTellIfHttpsFromGlobals(): void
     {
         $_SERVER = array_merge($_SERVER, [
-            'HTTP_HOST' => 'example.com', 
+            'HTTP_HOST' => 'example.com',
             'REQUEST_URI' => '/resource/sub-resource?foo=bar#id',
             'HTTPS' => true
         ]);
@@ -118,7 +118,7 @@ final class UrlTest extends TestCase
     public function testCanTellIfHttpsBehindProxyFromGlobals(): void
     {
         $_SERVER = array_merge($_SERVER, [
-            'HTTP_HOST' => 'example.com', 
+            'HTTP_HOST' => 'example.com',
             'REQUEST_URI' => '/resource/sub-resource?foo=bar#id',
             'HTTP_X_FORWARDED_PROTO' => 'https'
         ]);

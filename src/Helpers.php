@@ -2,13 +2,13 @@
 
 namespace Swiftly\Http;
 
-use function is_string;
-use function strpos;
-use function substr;
-use function str_replace;
-use function strtolower;
-use function ucwords;
 use function error_reporting;
+use function is_string;
+use function str_replace;
+use function strpos;
+use function strtolower;
+use function substr;
+use function ucwords;
 
 /**
  * Utility class containing library specific helper functions.

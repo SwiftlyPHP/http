@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Swiftly\Http\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Swiftly\Http\CookieCollection;
 use Swiftly\Http\Cookie;
+use Swiftly\Http\CookieCollection;
 
 use function time;
 

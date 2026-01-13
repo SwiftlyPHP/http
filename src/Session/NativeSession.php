@@ -2,16 +2,16 @@
 
 namespace Swiftly\Http\Session;
 
-use Swiftly\Http\SessionStorageInterface;
-use Swiftly\Http\RequestAwareSessionInterface;
-use Swiftly\Http\Request\Request;
-use Swiftly\Http\Helpers;
 use Swiftly\Http\Exception\SessionException;
+use Swiftly\Http\Helpers;
+use Swiftly\Http\Request\Request;
+use Swiftly\Http\RequestAwareSessionInterface;
+use Swiftly\Http\SessionStorageInterface;
 
-use function error_get_last;
 use function array_merge;
-use function session_start;
+use function error_get_last;
 use function session_name;
+use function session_start;
 use function session_write_close;
 
 /**

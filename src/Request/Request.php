@@ -2,18 +2,18 @@
 
 namespace Swiftly\Http\Request;
 
-use Swiftly\Http\Header\Accept;
-use Swiftly\Http\HeaderCollection;
 use Swiftly\Http\CookieCollection;
-use Swiftly\Http\SessionHandler;
-use Swiftly\Http\SessionStorageInterface;
-use Swiftly\Http\ParameterCollection;
-use Swiftly\Http\Url;
-use Swiftly\Http\Method;
+use Swiftly\Http\Exception\EnvironmentException;
 use Swiftly\Http\Exception\SessionException;
 use Swiftly\Http\Exception\UrlParseException;
-use Swiftly\Http\Exception\EnvironmentException;
+use Swiftly\Http\Header\Accept;
+use Swiftly\Http\HeaderCollection;
 use Swiftly\Http\Helpers;
+use Swiftly\Http\Method;
+use Swiftly\Http\ParameterCollection;
+use Swiftly\Http\SessionHandler;
+use Swiftly\Http\SessionStorageInterface;
+use Swiftly\Http\Url;
 
 /**
  * Class used to represent HTTP requests coming into the server.

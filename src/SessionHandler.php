@@ -109,6 +109,7 @@ class SessionHandler
      * Check if data has been set for a given key.
      *
      * @psalm-assert self::SESSION_UNOPENED|self::SESSION_OPEN $this->state
+     *
      * @param non-empty-string $key
      */
     public function has(string $key): bool
