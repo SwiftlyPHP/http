@@ -45,7 +45,7 @@ class NativeSession implements
             'cookie_samesite' => 'Strict',
             'use_trans_sid' => false,
             'lazy_write' => true,
-            'gc_maxlifetime' => (60 * 30) // Half hour
+            'gc_maxlifetime' => (60 * 30), // Half hour
         ], $options);
         $this->request = null;
     }

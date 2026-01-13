@@ -72,7 +72,7 @@ class CookieCollection
         string $path = '',
         string $domain = '',
         bool $secure = true,
-        bool $httponly = false
+        bool $httponly = false,
     ): Cookie {
         $cookie = new Cookie($name, $value);
         $cookie->expires = $expires;

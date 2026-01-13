@@ -5,7 +5,7 @@ namespace Swiftly\Http;
 use function error_reporting;
 use function is_string;
 use function str_replace;
-use function strpos;
+use function str_starts_with;
 use function strtolower;
 use function substr;
 use function ucwords;
@@ -36,11 +36,11 @@ abstract class Helpers
         $headers = [];
 
         foreach ($_SERVER as $name => $value) {
-            if (!is_string($value) || strpos($name, 'HTTP_') !== 0) {
+            if (!is_string($value) || !str_starts_with($name, 'HTTP_')) {
                 continue;
             }
 
-            $name = substr($name, 5);
+            $name = substr($name, 5); // Skip 'HTTP_'
             $name = str_replace('_', '-', $name);
 
             if (empty($name)) {
@@ -64,13 +64,13 @@ abstract class Helpers
      */
     final public static function pascalCase(
         string $subject,
-        string $delimiters = " \t\r\n\f\v-_"
+        string $delimiters = " \t\r\n\f\v-_",
     ): string {
         return ucwords(strtolower($subject), $delimiters);
     }
 
     /**
-     * Execute the given function with all PHP error reporting disable.
+     * Execute the given function with all PHP error reporting disabled.
      *
      * @template T
      * @psalm-param callable():T $callback
@@ -78,12 +78,12 @@ abstract class Helpers
      *
      * @return T Function return value
      */
-    final public static function suppressErrors(callable $callback) // : mixed
+    final public static function suppressErrors(callable $callback): mixed
     {
-        $error_level = error_reporting(0);
-        $ret_val = $callback();
-        error_reporting($error_level);
+        $errorLevel = error_reporting(0);
+        $value = $callback();
+        error_reporting($errorLevel);
 
-        return $ret_val;
+        return $value;
     }
 }

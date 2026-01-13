@@ -273,7 +273,7 @@ class Request
             new HeaderCollection($headers),
             new CookieCollection(),
             new ParameterCollection($query),
-            new ParameterCollection($post)
+            new ParameterCollection($post),
         );
     }
 

@@ -42,7 +42,7 @@ class HeaderCollection
         string $value,
         bool $replace = true,
     ): void {
-        $key = $this->key($header);
+        $key = self::key($header);
 
         if ($replace || !isset($this->values[$key])) {
             $this->values[$key] = [];
@@ -61,7 +61,7 @@ class HeaderCollection
      */
     public function has(string $header): bool
     {
-        $key = $this->key($header);
+        $key = self::key($header);
 
         return isset($this->values[$key]);
     }
@@ -98,7 +98,7 @@ class HeaderCollection
      */
     public function get(string $header): ?string
     {
-        $key = $this->key($header);
+        $key = self::key($header);
 
         if (!isset($this->values[$key])) {
             return null;
@@ -128,7 +128,7 @@ class HeaderCollection
             return $this->values;
         }
 
-        return $this->values[$this->key($header)] ?? null;
+        return $this->values[self::key($header)] ?? null;
     }
 
     /**
@@ -140,7 +140,7 @@ class HeaderCollection
      *
      * @return non-empty-string
      */
-    private function key(string $key): string
+    private static function key(string $key): string
     {
         return strtolower($key);
     }

@@ -107,7 +107,7 @@ final class Url implements Stringable
      * Creates a URL object from the current PHP globals.
      *
      * @throws EnvironmentException
-     *          If PHP global `HTTP_HOST` or `REQUEST_URI` values are undefined.
+     *          If $_SERVER `HTTP_HOST` or `REQUEST_URI` values are undefined.
      *
      * @psalm-mutation-free
      */
@@ -131,7 +131,7 @@ final class Url implements Stringable
         }
 
         return self::fromString(
-            "$scheme://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}",
+            "{$scheme}://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}",
         );
     }
 }

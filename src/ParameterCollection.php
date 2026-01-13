@@ -2,7 +2,9 @@
 
 namespace Swiftly\Http;
 
+use function assert;
 use function explode;
+use function is_array;
 use function is_numeric;
 
 /**
@@ -94,11 +96,13 @@ class ParameterCollection
      */
     public function getInt(int|string $key): ?int
     {
-        if (null === ($value = $this->get($key))) {
+        $value = $this->get($key);
+
+        if (null === $value || !is_numeric($value)) {
             return null;
         }
 
-        return is_numeric($value) ? (int) $value : null;
+        return (int) $value;
     }
 
     /**
@@ -106,11 +110,13 @@ class ParameterCollection
      */
     public function getFloat(int|string $key): ?float
     {
-        if (null === ($value = $this->get($key))) {
+        $value = $this->get($key);
+
+        if (null === $value || !is_numeric($value)) {
             return null;
         }
 
-        return is_numeric($value) ? (float) $value : null;
+        return (float) $value;
     }
 
     /**
@@ -124,6 +130,6 @@ class ParameterCollection
             return null;
         }
 
-        return (string) $value;
+        return $value;
     }
 }

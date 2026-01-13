@@ -23,7 +23,7 @@ final class EnvironmentException extends LogicException
     {
         return new self(sprintf(
             'The environment variable $_SERVER[\'%s\'] is required but is not'
-            . ' defined, please update your server configuration to make it]'
+            . ' defined, please update your server configuration to make it'
             . ' available to PHP',
             $variable,
         ));

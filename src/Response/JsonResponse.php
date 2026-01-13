@@ -44,12 +44,12 @@ class JsonResponse extends Response
     public function __construct(
         array $json = [],
         int $status = Status::OK,
-        array $headers = []
+        array $headers = [],
     ) {
         parent::__construct(
             $status,
             json_encode($json, $this->encoding),
-            $headers
+            $headers,
         );
 
         $this->json = $json;

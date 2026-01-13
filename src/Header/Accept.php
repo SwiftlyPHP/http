@@ -32,9 +32,8 @@ final class Accept implements HeaderLineInterface
     /**
      * @param array<string, true|string[]> $values
      */
-    public function __construct(
-        array $values = [],
-    ) {
+    public function __construct(array $values = [])
+    {
         $this->values = array_change_key_case($values, CASE_LOWER);
     }
 
