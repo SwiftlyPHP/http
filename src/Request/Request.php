@@ -216,10 +216,7 @@ class Request
     public function getSession(): SessionHandler
     {
         if ($this->session === null) {
-            throw new SessionException(
-                'fetch',
-                'request has no attached session'
-            );
+            throw SessionException::missingFromRequest();
         }
 
         return $this->session;
@@ -237,10 +234,7 @@ class Request
         SessionHandler|SessionStorageInterface $session,
     ): SessionHandler {
         if ($this->session !== null) {
-            throw new SessionException(
-                'attach',
-                'request already has attached session'
-            );
+            throw SessionException::alreadyAssignedToRequest();
         }
 
         if ($session instanceof SessionStorageInterface) {
@@ -294,9 +288,7 @@ class Request
     public static function fromGlobals(): self
     {
         if (!isset($_SERVER['REQUEST_METHOD'])) {
-            throw new EnvironmentException(
-                "\$_SERVER['REQUEST_METHOD'] is undefined"
-            );
+            throw EnvironmentException::missingServerVar('REQUEST_METHOD');
         }
 
         return new self(
@@ -305,7 +297,7 @@ class Request
             new HeaderCollection(Helpers::getHeaders()),
             CookieCollection::fromGlobals(),
             new ParameterCollection($_GET),
-            new ParameterCollection($_POST)
+            new ParameterCollection($_POST),
         );
     }
 }

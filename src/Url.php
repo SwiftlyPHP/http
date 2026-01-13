@@ -82,15 +82,15 @@ final class Url implements Stringable
     public static function fromString(string $url): Url
     {
         if (($parts = parse_url($url)) === false) {
-            throw new UrlParseException($url);
+            throw UrlParseException::forMalformedUrl($url);
         }
 
         if (empty($parts['host'])) {
-            throw new UrlParseException($url, 'lacks hostname');
+            throw UrlParseException::forMissingComponent($url, 'hostname');
         }
 
         if (empty($parts['path'])) {
-            throw new UrlParseException($url, 'lacks path component');
+            throw UrlParseException::forMissingComponent($url, 'path');
         }
 
         // Assume insecure, HTTPS has to be explicitly set
@@ -113,8 +113,11 @@ final class Url implements Stringable
      */
     public static function fromGlobals(): self
     {
-        if (empty($_SERVER['HTTP_HOST']) || empty($_SERVER['REQUEST_URI'])) {
-            throw new EnvironmentException('required $_SERVER values missing');
+        if (empty($_SERVER['HTTP_HOST'])) {
+            throw EnvironmentException::missingServerVar('HTTP_HOST');
+        }
+        if (empty($_SERVER['REQUEST_URI'])) {
+            throw EnvironmentException::missingServerVar('REQUEST_URI');
         }
 
         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {

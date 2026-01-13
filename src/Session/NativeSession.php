@@ -75,7 +75,7 @@ class NativeSession implements
 
         if ($current_error && $current_error !== $previous_error) {
             /** @var array{message:non-empty-string} $current_error */
-            throw new SessionException('open', $current_error['message']);
+            throw SessionException::errorOnOpen($current_error['message']);
         }
     }
 

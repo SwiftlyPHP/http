@@ -14,18 +14,18 @@ use function sprintf;
  *
  * @api
  */
-class EnvironmentException extends LogicException
+final class EnvironmentException extends LogicException
 {
     /**
-     * @param non-empty-string $reason Failure reason
+     * @param non-empty-string $variable
      */
-    public function __construct(string $reason)
+    public static function missingServerVar(string $variable): self
     {
-        parent::__construct(
-            sprintf(
-                'Failed due to a problem with the environment: %s',
-                $reason
-            )
-        );
+        return new self(sprintf(
+            'The environment variable $_SERVER[\'%s\'] is required but is not'
+            . ' defined, please update your server configuration to make it]'
+            . ' available to PHP',
+            $variable,
+        ));
     }
 }

@@ -13,20 +13,26 @@ use function sprintf;
  */
 final class UrlParseException extends RuntimeException
 {
+    public static function forMalformedUrl(string $url): self
+    {
+        return new self(sprintf(
+            'Failed to parse string "%s" as a URL because it is too badly'
+            . ' malformed or in an invalid format',
+            $url,
+        ));
+    }
+
     /**
-     * @param string $subject          Subject string
-     * @param non-empty-string $reason Failure reason
+     * @param non-empty-string $component
      */
-    public function __construct(
-        string $subject,
-        string $reason = 'is an invalid format'
-    ) {
-        parent::__construct(
-            sprintf(
-                "Failed to parse string '%s' as a URL because it %s",
-                $subject,
-                $reason
-            )
-        );
+    public static function forMissingComponent(
+        string $url,
+        string $component,
+    ): self {
+        return new self(sprintf(
+            'Failed to fully parse URL "%s" as it lacks a %s component',
+            $url,
+            $component,
+        ));
     }
 }
