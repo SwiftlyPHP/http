@@ -69,6 +69,14 @@ final class ParameterCollectionTest extends TestCase
         self::assertNull($this->parameters->getFloat('eyesight'));
     }
 
+    public function testCanGetParameterValueAsString(): void
+    {
+        self::assertSame('42', $this->parameters->getString('age'));
+        self::assertSame('1.82', $this->parameters->getString('height'));
+        self::assertNull($this->parameters->getString('address'));
+        self::assertNull($this->parameters->getString('email'));
+    }
+
     public function testCanGetNestedParameterValue(): void
     {
         self::assertSame('Exampleville', $this->parameters->getNested('address.city'));

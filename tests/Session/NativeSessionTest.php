@@ -10,7 +10,6 @@ use Swiftly\Http\RequestAwareSessionInterface;
 use Swiftly\Http\Session\NativeSession;
 
 use function array_merge;
-use function error_reporting;
 use function session_status;
 
 use const PHP_SESSION_ACTIVE;
@@ -167,7 +166,8 @@ final class NativeSessionTest extends TestCase
         $this->session->destroy();
     }
 
-    public function testThrowsIfCannotOpenSession(): void
+    /** @covers \Swiftly\Http\Exception\SessionException */
+    public function testThrowsIfSessionOpenedTwice(): void
     {
         self::expectException(SessionException::class);
 

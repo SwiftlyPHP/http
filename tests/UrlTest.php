@@ -8,6 +8,7 @@ use Swiftly\Http\Exception\UrlParseException;
 use Swiftly\Http\Url;
 
 use function array_merge;
+use function preg_quote;
 
 /**
  * @covers \Swiftly\Http\Url
@@ -80,7 +81,7 @@ final class UrlTest extends TestCase
     ): void {
         $url = new Url($protocol, $domain, $path, $query, $fragment);
 
-        self::assertSame($example, (string)$url);
+        self::assertSame($example, (string) $url);
     }
 
     /** @backupGlobals enabled */
@@ -156,10 +157,28 @@ final class UrlTest extends TestCase
     }
 
     /** @covers \Swiftly\Http\Exception\EnvironmentException */
-    public function testThrowsIfGlobalVariablesMissing(): void
+    public function testThrowsIfGlobalHostNameMissing(): void
     {
         self::expectException(EnvironmentException::class);
-        self::expectExceptionMessageMatches('/\$_SERVER/');
+        self::expectExceptionMessageMatches(
+            '/' . preg_quote("\$_SERVER['HTTP_HOST'] is required") . '/',
+        );
+
+        Url::fromGlobals();
+    }
+
+    /**
+     * @backupGlobals enabled
+     * @covers \Swiftly\Http\Exception\EnvironmentException
+     */
+    public function testThrowsIfGlobalRequestUriMissing(): void
+    {
+        $_SERVER = array_merge($_SERVER, ['HTTP_HOST' => 'example.com']);
+
+        self::expectException(EnvironmentException::class);
+        self::expectExceptionMessageMatches(
+            '/' . preg_quote("\$_SERVER['REQUEST_URI'] is required") . '/',
+        );
 
         Url::fromGlobals();
     }
