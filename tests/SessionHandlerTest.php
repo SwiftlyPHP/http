@@ -191,7 +191,7 @@ final class SessionHandlerTest extends TestCase
         $this->session->close();
 
         self::expectException(SessionException::class);
-        self::expectExceptionMessageMatches('/is already closed/');
+        self::expectExceptionMessageMatches('/has already been closed/');
 
         $this->session->get('foo');
     }
@@ -205,7 +205,7 @@ final class SessionHandlerTest extends TestCase
         $this->session->close();
 
         self::expectException(SessionException::class);
-        self::expectExceptionMessageMatches('/is already closed/');
+        self::expectExceptionMessageMatches('/has already been closed/');
 
         $this->session->set('foo', 'bar');
     }

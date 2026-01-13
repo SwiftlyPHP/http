@@ -113,9 +113,9 @@ class SessionHandler
      */
     public function has(string $key): bool
     {
-        $this->prepare(self::OP_READ);
-
-        return $this->storage->has($key);
+        return $this
+            ->getOpenSession(self::OP_READ)
+            ->has($key);
     }
 
     /**
@@ -127,9 +127,9 @@ class SessionHandler
      */
     public function get(string $key): mixed
     {
-        $this->prepare(self::OP_READ);
-
-        return $this->storage->read($key);
+        return $this
+            ->getOpenSession(self::OP_READ)
+            ->read($key);
     }
 
     /**
@@ -142,9 +142,9 @@ class SessionHandler
      */
     public function set(string $key, mixed $value): void
     {
-        $this->prepare(self::OP_WRITE);
-
-        $this->storage->write($key, $value);
+        $this
+            ->getOpenSession(self::OP_WRITE)
+            ->write($key, $value);
     }
 
     /**
@@ -156,9 +156,9 @@ class SessionHandler
      */
     public function remove(string $key): void
     {
-        $this->prepare(self::OP_DELETE);
-
-        $this->storage->remove($key);
+        $this
+            ->getOpenSession(self::OP_DELETE)
+            ->remove($key);
     }
 
     /**
@@ -168,9 +168,9 @@ class SessionHandler
      */
     public function clear(): void
     {
-        $this->prepare(self::OP_DELETE);
-
-        $this->storage->clear();
+        $this
+            ->getOpenSession(self::OP_DELETE)
+            ->clear();
     }
 
     /**
@@ -178,7 +178,9 @@ class SessionHandler
      */
     public function destroy(): void
     {
-        $this->storage->destroy();
+        $this
+            ->getOpenSession(self::OP_DELETE)
+            ->destroy();
     }
 
     /**
@@ -195,42 +197,25 @@ class SessionHandler
     }
 
     /**
-     * Performs setup, preparing session for reading and writing.
-     *
      * @throws SessionException
      *
      * @psalm-assert self::SESSION_OPEN $this->state
+     * @psalm-assert true $this->isOpen()
+     * @psalm-assert false $this->isClosed()
      *
-     * @param self::OP_* $operation Operation to be performed
+     * @param self::OP_* $operation
      */
-    private function prepare(string $operation): void
+    private function getOpenSession(string $operation): SessionStorageInterface
     {
-        match ($this->state) {
-            self::SESSION_UNOPENED => $this->open(),
-            self::SESSION_OPEN => null,
-            self::SESSION_CLOSED => throw self::exception(
-                $operation,
-                'session is already closed',
-            ),
+        switch ($this->state) {
+            case self::SESSION_CLOSED:
+                throw SessionException::alreadyClosed($operation);
+            case self::SESSION_UNOPENED:
+                $this->open();
+                // no break
+            case self::SESSION_OPEN:
         };
-    }
 
-    /**
-     * Return the appropriate exception class for the given context.
-     *
-     * @psalm-assert self::SESSION_UNOPENED|self::SESSION_OPEN $this->state
-     *
-     * @param self::OP_* $operation Error context
-     * @param non-empty-string $message Error message
-     */
-    private static function exception(
-        string $operation,
-        string $message,
-    ): SessionException {
-        return match($operation) {
-            self::OP_READ  => SessionException::errorOnRead($message),
-            self::OP_WRITE => SessionException::errorOnWrite($message),
-            self::OP_DELETE => SessionException::errorOnDelete($message),
-        };
+        return $this->storage;
     }
 }

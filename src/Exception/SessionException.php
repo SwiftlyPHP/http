@@ -61,45 +61,22 @@ class SessionException extends LogicException
         );
     }
 
+    /**
+     * @param "read"|"write"|"delete" $operation
+     */
+    final public static function alreadyClosed(string $operation): self
+    {
+        return new self(sprintf(
+            'Failed to %s user session data; the session has already been'
+            . ' closed and persisted so is now locked from further changes',
+            $operation,
+        ));
+    }
+
     final public static function errorOnOpen(string $error): self
     {
         return new self(sprintf(
             'Failed to open the user session due to unexpected error: %s',
-            $error,
-        ));
-    }
-
-    final public static function errorOnClose(string $error): self
-    {
-        return new self(sprintf(
-            'Failed to close the user session due to unexpected error: %s',
-            $error,
-        ));
-    }
-
-    final public static function errorOnRead(string $error): self
-    {
-        return new self(sprintf(
-            'Failed to read data from the user session due to an unexpected'
-            . ' error: %s',
-            $error,
-        ));
-    }
-
-    final public static function errorOnWrite(string $error): self
-    {
-        return new self(sprintf(
-            'Failed to write data to the user session due to an unexpected'
-            . ' error: %s',
-            $error,
-        ));
-    }
-
-    final public static function errorOnDelete(string $error): self
-    {
-        return new self(sprintf(
-            'Failed to remove data from the user session due to an unexpected'
-            . ' error: %s',
             $error,
         ));
     }
