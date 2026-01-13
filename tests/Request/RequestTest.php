@@ -151,7 +151,7 @@ final class RequestTest extends TestCase
     public function testThrowsIfSessionNotSet(): void
     {
         self::expectException(SessionException::class);
-        self::expectExceptionMessageMatches('/no attached session/');
+        self::expectExceptionMessageMatches('/yet to be assigned/');
 
         $this->request->getSession();
     }
@@ -160,7 +160,7 @@ final class RequestTest extends TestCase
     public function testThrowsIfSessionAlreadySet(): void
     {
         self::expectException(SessionException::class);
-        self::expectExceptionMessageMatches('/has attached session/');
+        self::expectExceptionMessageMatches('/already has an open session/');
         
         self::assertFalse($this->request->hasSession());
         $this->request->setSession($this->createMock(SessionHandler::class));
@@ -173,7 +173,7 @@ final class RequestTest extends TestCase
     public function testThrowsIfInvalidUrlProvided(): void
     {
         self::expectException(UrlParseException::class);
-        self::expectExceptionMessageMatches('/Failed to parse/');
+        self::expectExceptionMessageMatches('/Failed to fully parse/');
 
         Request::create('GET', 'http:\\my@url');
     }

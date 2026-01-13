@@ -9,8 +9,6 @@ use Swiftly\Http\SessionStorageInterface;
 use Swiftly\Http\RequestAwareSessionInterface;
 use Swiftly\Http\Request\Request;
 use Swiftly\Http\Exception\SessionException;
-use Swiftly\Http\Exception\SessionReadException;
-use Swiftly\Http\Exception\SessionWriteException;
 
 /**
  * @covers \Swiftly\Http\SessionHandler
@@ -185,7 +183,6 @@ final class SessionHandlerTest extends TestCase
     }
 
     /**
-     * @covers \Swiftly\Http\Exception\SessionReadException 
      * @covers \Swiftly\Http\Exception\SessionException
      */
     public function testThrowsReadExceptionWhenAlreadyClosed(): void
@@ -193,14 +190,13 @@ final class SessionHandlerTest extends TestCase
         $this->session->open();
         $this->session->close();
 
-        self::expectException(SessionReadException::class);
+        self::expectException(SessionException::class);
         self::expectExceptionMessageMatches('/is already closed/');
 
         $this->session->get('foo');
     }
 
     /**
-     * @covers \Swiftly\Http\Exception\SessionWriteException 
      * @covers \Swiftly\Http\Exception\SessionException
      */
     public function testThrowsWriteExceptionWhenAlreadyClosed(): void
@@ -208,7 +204,7 @@ final class SessionHandlerTest extends TestCase
         $this->session->open();
         $this->session->close();
 
-        self::expectException(SessionWriteException::class);
+        self::expectException(SessionException::class);
         self::expectExceptionMessageMatches('/is already closed/');
 
         $this->session->set('foo', 'bar');
@@ -232,7 +228,7 @@ final class SessionHandlerTest extends TestCase
         $this->session->close();
 
         self::expectException(SessionException::class);
-        self::expectExceptionMessageMatches('/is already closed/');
+        self::expectExceptionMessageMatches('/has already been closed/');
 
         $this->session->open();
     }
@@ -241,7 +237,7 @@ final class SessionHandlerTest extends TestCase
     public function testThrowsIfTryingToCloseWhenUnopened(): void
     {
         self::expectException(SessionException::class);
-        self::expectExceptionMessageMatches('/is not open/');
+        self::expectExceptionMessageMatches('/was never opened/');
 
         $this->session->close();
     }
